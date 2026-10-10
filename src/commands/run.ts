@@ -21,7 +21,14 @@ import { openqodexRelease } from "../suites/openqodex";
 
 const defaultModel = "claude-opus-5-5";
 
-const reviewLinterNames = ["shellcheck", "hadolint", "actionlint", "zizmor", "squawk", "trivy"] as const;
+const reviewLinterNames = [
+  "shellcheck",
+  "hadolint",
+  "actionlint",
+  "zizmor",
+  "squawk",
+  "trivy",
+] as const;
 
 async function versionLine(command: readonly string[]): Promise<string> {
   const result = await runProcess({
