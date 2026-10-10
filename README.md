@@ -4,10 +4,12 @@ This benchmark compares AI code reviewers on known defects. Clone it, install th
 
 It runs each reviewer through its public CLI or its pull request bot. It has no code from any reviewer.
 
-| Suite       | Cases                                                                           | Known defects                                              |
-| ----------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `real`      | Merged vite pull requests. The `dev` split tunes, and the `scored` split scores | One defect for each defect case, confirmed by two judges   |
-| `planted`   | A large pull request with a private manifest                                    | The manifest lists them, and its sha256 is published first |
+| Suite     | Cases                                                                                   | Known defects                                              |
+| --------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `real`    | Merged vite pull requests. The `dev` split is for development, and `scored` is the test | One defect for each defect case, confirmed by two judges   |
+| `planted` | A large pull request with a private manifest                                            | The manifest lists them, and its sha256 is published first |
+
+`data/vite` has the mined pull requests, the judge checks, and the selected cases for each split, so a clone builds the same cases.
 
 [`docs/method.md`](docs/method.md) explains the case format, the arms, the graders, and the rules that keep the comparison fair.
 
@@ -33,23 +35,30 @@ Use a private work folder outside every repository. Each command that calls a mo
 
 1. Install the dependencies: `bun install`.
 2. Install the OpenQodex scanners, so that no review runs without them: `npx -y openqodex@0.11.0 doctor --install --all-scanners`.
-3. Build the cases:
+3. Clone vite: `git clone https://github.com/vitejs/vite <vite>`.
+4. Build the cases:
 
    ```bash
-   bun src/cli.ts mine --repo vitejs/vite --clone <vite> --since 2025-07-01 --until 2026-02-28 --introduced-before 2026-01-29 --mined <dev-mined>
-   bun src/cli.ts validate --mined <dev-mined> --clone <vite> --yes --max-calls 40
-   bun src/cli.ts cases --work <work> --suite real --split dev --mined <dev-mined> --clone <vite> --clean 12
+   bun src/cli.ts cases --work <work> --suite real --split dev --mined data/vite/dev --clone <vite>
+   bun src/cli.ts cases --work <work> --suite real --split scored --mined data/vite/scored --clone <vite>
    bun src/cli.ts cases --work <work> --suite planted --manifest <private manifest>
    ```
 
-4. Run each arm. `--repeats` sets the runs for each case, and `--limit` sets the reviews that run at the same time:
+   To mine a new window instead, run `mine` and `validate` into a new folder, and pass that folder to `--mined`:
+
+   ```bash
+   bun src/cli.ts mine --repo vitejs/vite --clone <vite> --since 2025-07-01 --until 2026-02-28 --introduced-before 2026-01-29 --mined <mined>
+   bun src/cli.ts validate --mined <mined> --clone <vite> --yes --max-calls 40
+   ```
+
+5. Run each arm. `--repeats` sets the runs for each case, and `--limit` sets the reviews that run at the same time:
 
    ```bash
    bun src/cli.ts run --work <work> --suite real --split scored --arm shadowclone --shadowclone <shadowclone checkout> --run <name> --repeats 3 --limit 4 --yes --max-calls 120
    bun src/cli.ts run --work <work> --suite real --split scored --arm openqodex --run <name> --repeats 3 --limit 4 --yes --max-calls 120
    ```
 
-5. Grade and report:
+6. Grade and report:
 
    ```bash
    bun src/cli.ts judge --work <work> --suite real --split scored --run <name> --yes --max-calls 80

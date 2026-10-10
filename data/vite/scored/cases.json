@@ -1,0 +1,550 @@
+{
+  "repository": "vitejs/vite",
+  "since": "2026-03-01",
+  "until": "2026-10-08",
+  "introducedBefore": "2026-09-08",
+  "defects": [
+    {
+      "kind": "defect",
+      "introducing": 23333,
+      "fix": 23654,
+      "fixCommit": "22fd1d5238cce2ee9db0eb4122f9e8feb6b06097",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 23387,
+      "fix": 23609,
+      "fixCommit": "53f1ce7bfe38426861f6da572ef0e3359f6a80cd",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22886,
+      "fix": 23586,
+      "fixCommit": "744269e5b2a155074910ddd275aecf2b83938496",
+      "blamedLines": 7
+    },
+    {
+      "kind": "defect",
+      "introducing": 22967,
+      "fix": 23568,
+      "fixCommit": "bc598a6a8a6b7d6e157e9f19c16911cff8d2360c",
+      "blamedLines": 16
+    },
+    {
+      "kind": "defect",
+      "introducing": 22888,
+      "fix": 23422,
+      "fixCommit": "e8d6a4d3399c739772080d70c7f3c4d548a637c9",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 23239,
+      "fix": 23256,
+      "fixCommit": "6bacc956df5a76cc5653b9de4493453b953439fd",
+      "blamedLines": 2
+    },
+    {
+      "kind": "defect",
+      "introducing": 22832,
+      "fix": 23198,
+      "fixCommit": "8413052731836d4aaf3eb94a0f25788dd35d2888",
+      "blamedLines": 3
+    },
+    {
+      "kind": "defect",
+      "introducing": 21580,
+      "fix": 23184,
+      "fixCommit": "15f03073c915d6ffb9a1fda447ef66b02bf5cde8",
+      "blamedLines": 9
+    },
+    {
+      "kind": "defect",
+      "introducing": 23101,
+      "fix": 23171,
+      "fixCommit": "616296895bd135386d35069a479a5f188c7de298",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22642,
+      "fix": 23135,
+      "fixCommit": "b4bf59686a7ac238929e91a6e1708c739b843a2f",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22717,
+      "fix": 23038,
+      "fixCommit": "17f7b2f193a110d0b47742ad296d182cb4666ce7",
+      "blamedLines": 4
+    },
+    {
+      "kind": "defect",
+      "introducing": 22638,
+      "fix": 23015,
+      "fixCommit": "428d8af8135626d783f963e3ba9b2378b64f680b",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22468,
+      "fix": 23013,
+      "fixCommit": "989a42ec52b527846bf43a8281fefd0a3aab7358",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22850,
+      "fix": 22979,
+      "fixCommit": "2ced1fe4e4e480ed78cb7aa5c78319e57bfa7783",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22841,
+      "fix": 22947,
+      "fixCommit": "e16ff3a1199293ac9cdfa6132c08fdea162215f3",
+      "blamedLines": 2
+    },
+    {
+      "kind": "defect",
+      "introducing": 22587,
+      "fix": 22931,
+      "fixCommit": "810032097079be1a7da0e2b09ec9d92dd07ec13f",
+      "blamedLines": 3
+    },
+    {
+      "kind": "defect",
+      "introducing": 22827,
+      "fix": 22838,
+      "fixCommit": "7103c3af795396e2ad87e1125eb3fc20d60d9430",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 21357,
+      "fix": 22825,
+      "fixCommit": "efb98cce73f3f89c4f03936ab7741cd5b0636f5c",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22453,
+      "fix": 22800,
+      "fixCommit": "043a81096ddf8c6f9077c8e3e12362c83f9ed089",
+      "blamedLines": 4
+    },
+    {
+      "kind": "defect",
+      "introducing": 22415,
+      "fix": 22757,
+      "fixCommit": "2531ac7ccd1d581df5febe4a3814226ba8939a20",
+      "blamedLines": 2
+    },
+    {
+      "kind": "defect",
+      "introducing": 18389,
+      "fix": 22718,
+      "fixCommit": "9fa7ab4990f4fe74597d0a37a16d84af1c1e3544",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22306,
+      "fix": 22711,
+      "fixCommit": "65f525e643ba31faeaeafbc5d888b61465e6b48d",
+      "blamedLines": 2
+    },
+    {
+      "kind": "defect",
+      "introducing": 22592,
+      "fix": 22643,
+      "fixCommit": "689a0669ad926461f3f1b81701cb6c01f7b2bd4a",
+      "blamedLines": 6
+    },
+    {
+      "kind": "defect",
+      "introducing": 22528,
+      "fix": 22428,
+      "fixCommit": "1298951ebc5e5a94164c21f142fe748ca37eea68",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 22404,
+      "fix": 22408,
+      "fixCommit": "d4838a0358d9f04a980d4d2ac7263f21a6b28ee2",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 21902,
+      "fix": 22269,
+      "fixCommit": "868f1411a6f474baa4417f2d6524692dd452f760",
+      "blamedLines": 8
+    },
+    {
+      "kind": "defect",
+      "introducing": 21829,
+      "fix": 22257,
+      "fixCommit": "a5763266170f8606836da5c6f987b4b2fd6ddc55",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 20916,
+      "fix": 22158,
+      "fixCommit": "f05f50173461789e0f1323fe06b51f18ca41c132",
+      "blamedLines": 3
+    },
+    {
+      "kind": "defect",
+      "introducing": 21535,
+      "fix": 22156,
+      "fixCommit": "17a8f9edfcd3b9344668120a84e3328aeada3c97",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 21744,
+      "fix": 22039,
+      "fixCommit": "374bb5d597fcd0485e929565c698d8ed219136f8",
+      "blamedLines": 1
+    },
+    {
+      "kind": "defect",
+      "introducing": 21830,
+      "fix": 21831,
+      "fixCommit": "1527f358182de0dfde1eea905edb0f87a9b808b9",
+      "blamedLines": 2
+    },
+    {
+      "kind": "defect",
+      "introducing": 21932,
+      "fix": 21829,
+      "fixCommit": "d323ed7a824c232597c2b4ef2a4f3494e5231c3d",
+      "blamedLines": 1
+    }
+  ],
+  "clean": [
+    {
+      "kind": "clean",
+      "introducing": 23381
+    },
+    {
+      "kind": "clean",
+      "introducing": 23378
+    },
+    {
+      "kind": "clean",
+      "introducing": 23310
+    },
+    {
+      "kind": "clean",
+      "introducing": 23258
+    },
+    {
+      "kind": "clean",
+      "introducing": 23191
+    },
+    {
+      "kind": "clean",
+      "introducing": 23185
+    },
+    {
+      "kind": "clean",
+      "introducing": 23183
+    },
+    {
+      "kind": "clean",
+      "introducing": 23172
+    },
+    {
+      "kind": "clean",
+      "introducing": 23133
+    },
+    {
+      "kind": "clean",
+      "introducing": 23129
+    },
+    {
+      "kind": "clean",
+      "introducing": 23110
+    },
+    {
+      "kind": "clean",
+      "introducing": 23106
+    },
+    {
+      "kind": "clean",
+      "introducing": 23068
+    },
+    {
+      "kind": "clean",
+      "introducing": 23064
+    },
+    {
+      "kind": "clean",
+      "introducing": 23042
+    },
+    {
+      "kind": "clean",
+      "introducing": 23035
+    },
+    {
+      "kind": "clean",
+      "introducing": 23019
+    },
+    {
+      "kind": "clean",
+      "introducing": 23000
+    },
+    {
+      "kind": "clean",
+      "introducing": 22965
+    },
+    {
+      "kind": "clean",
+      "introducing": 22964
+    },
+    {
+      "kind": "clean",
+      "introducing": 22962
+    },
+    {
+      "kind": "clean",
+      "introducing": 22909
+    },
+    {
+      "kind": "clean",
+      "introducing": 22894
+    },
+    {
+      "kind": "clean",
+      "introducing": 22891
+    },
+    {
+      "kind": "clean",
+      "introducing": 22883
+    },
+    {
+      "kind": "clean",
+      "introducing": 22876
+    },
+    {
+      "kind": "clean",
+      "introducing": 22874
+    },
+    {
+      "kind": "clean",
+      "introducing": 22830
+    },
+    {
+      "kind": "clean",
+      "introducing": 22813
+    },
+    {
+      "kind": "clean",
+      "introducing": 22792
+    },
+    {
+      "kind": "clean",
+      "introducing": 22736
+    },
+    {
+      "kind": "clean",
+      "introducing": 22707
+    },
+    {
+      "kind": "clean",
+      "introducing": 22695
+    },
+    {
+      "kind": "clean",
+      "introducing": 22693
+    },
+    {
+      "kind": "clean",
+      "introducing": 22674
+    },
+    {
+      "kind": "clean",
+      "introducing": 22602
+    },
+    {
+      "kind": "clean",
+      "introducing": 22593
+    },
+    {
+      "kind": "clean",
+      "introducing": 22562
+    },
+    {
+      "kind": "clean",
+      "introducing": 22558
+    },
+    {
+      "kind": "clean",
+      "introducing": 22538
+    },
+    {
+      "kind": "clean",
+      "introducing": 22484
+    },
+    {
+      "kind": "clean",
+      "introducing": 22476
+    },
+    {
+      "kind": "clean",
+      "introducing": 22473
+    },
+    {
+      "kind": "clean",
+      "introducing": 22444
+    },
+    {
+      "kind": "clean",
+      "introducing": 22401
+    },
+    {
+      "kind": "clean",
+      "introducing": 22360
+    },
+    {
+      "kind": "clean",
+      "introducing": 22357
+    },
+    {
+      "kind": "clean",
+      "introducing": 22339
+    },
+    {
+      "kind": "clean",
+      "introducing": 22312
+    },
+    {
+      "kind": "clean",
+      "introducing": 22310
+    },
+    {
+      "kind": "clean",
+      "introducing": 22299
+    },
+    {
+      "kind": "clean",
+      "introducing": 22296
+    },
+    {
+      "kind": "clean",
+      "introducing": 22284
+    },
+    {
+      "kind": "clean",
+      "introducing": 22280
+    },
+    {
+      "kind": "clean",
+      "introducing": 22278
+    },
+    {
+      "kind": "clean",
+      "introducing": 22266
+    },
+    {
+      "kind": "clean",
+      "introducing": 22248
+    },
+    {
+      "kind": "clean",
+      "introducing": 22201
+    },
+    {
+      "kind": "clean",
+      "introducing": 22174
+    },
+    {
+      "kind": "clean",
+      "introducing": 22097
+    },
+    {
+      "kind": "clean",
+      "introducing": 22024
+    },
+    {
+      "kind": "clean",
+      "introducing": 21998
+    },
+    {
+      "kind": "clean",
+      "introducing": 21906
+    },
+    {
+      "kind": "clean",
+      "introducing": 21863
+    },
+    {
+      "kind": "clean",
+      "introducing": 21832
+    },
+    {
+      "kind": "clean",
+      "introducing": 21813
+    },
+    {
+      "kind": "clean",
+      "introducing": 21797
+    },
+    {
+      "kind": "clean",
+      "introducing": 21794
+    },
+    {
+      "kind": "clean",
+      "introducing": 21790
+    },
+    {
+      "kind": "clean",
+      "introducing": 21782
+    },
+    {
+      "kind": "clean",
+      "introducing": 21781
+    },
+    {
+      "kind": "clean",
+      "introducing": 21779
+    },
+    {
+      "kind": "clean",
+      "introducing": 21769
+    },
+    {
+      "kind": "clean",
+      "introducing": 21748
+    },
+    {
+      "kind": "clean",
+      "introducing": 21742
+    },
+    {
+      "kind": "clean",
+      "introducing": 21707
+    },
+    {
+      "kind": "clean",
+      "introducing": 21501
+    },
+    {
+      "kind": "clean",
+      "introducing": 21412
+    },
+    {
+      "kind": "clean",
+      "introducing": 21406
+    }
+  ]
+}

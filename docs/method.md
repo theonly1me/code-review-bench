@@ -4,7 +4,7 @@
 
 A case is a local repository with `main` at the base and `case` at the head. The case also lists its known defects. Each defect has a summary, a fix, and its locations when they are known. A case with no known defect is a clean case.
 
-Each case belongs to the `dev` split or the `scored` split. Tune a reviewer on `dev` cases only. The case repository has a neutral path, so no reviewer sees the case name.
+Each case belongs to the `dev` split or the `scored` split. Fix reviewer bugs with `dev` cases only. The case repository has a neutral path, so no reviewer sees the case name.
 
 ## Suites
 

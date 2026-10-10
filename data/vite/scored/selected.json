@@ -1,0 +1,322 @@
+[
+  {
+    "kind": "clean",
+    "upstream": 22284,
+    "fix": null,
+    "defect": null,
+    "id": "c01",
+    "title": "refactor: typecheck client directory"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22888,
+    "fix": 23422,
+    "defect": "The new `resolveFileUrl` hook runs every file name through `encodeURIPath`. For chunks emitted by other plugins, this percent-encodes the braces in the hash placeholder (`!~{001}~`), so Rolldown never swaps in the final hash and the URL points to a file that doesn't exist.",
+    "id": "c02",
+    "title": "feat: use `import.meta.ROLLDOWN_FILE_URL_*` for assets in JS"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21769,
+    "fix": null,
+    "defect": null,
+    "id": "c03",
+    "title": "feat(css): support es2025 build target for lightningcss"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22468,
+    "fix": 23013,
+    "defect": "Legacy chunks are now minified by Oxc with a plain `minify: true` and no syntax target. The minifier's default (esnext) target can bring back syntax that Babel had lowered for legacy browsers, such as optional catch binding (`catch {}`) or optional chaining.",
+    "id": "c04",
+    "title": "feat(legacy): prefer oxc as minifier (fix #21973)"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23183,
+    "fix": null,
+    "defect": null,
+    "id": "c05",
+    "title": "feat(css): minify style tag"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22792,
+    "fix": null,
+    "defect": null,
+    "id": "c06",
+    "title": "feat(css): export PostCSS config type for type-safe configs"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22707,
+    "fix": null,
+    "defect": null,
+    "id": "c07",
+    "title": "feat: extend `server.fs.deny` list with common files"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22894,
+    "fix": null,
+    "defect": null,
+    "id": "c08",
+    "title": "feat: use `import.meta.ROLLDOWN_FILE_URL_*` for other plugins"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22562,
+    "fix": null,
+    "defect": null,
+    "id": "c09",
+    "title": "refactor: correct logic in `collectAllModules` function"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23191,
+    "fix": null,
+    "defect": null,
+    "id": "c10",
+    "title": "feat: add warning for unsupported hooks in plugin returned from `applyToEnvironment` hook"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22453,
+    "fix": 22800,
+    "defect": "The Vite Task integration tells the runner to ignore only the individual temp config file. The `node_modules/.vite-temp` directory is created (mkdir) before any ignore call and is never itself ignored, so that directory access still ends up in the build's cache fingerprint as an input/output.",
+    "id": "c11",
+    "title": "feat: integrate with Vite Task for zero-config build caching"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22850,
+    "fix": 22979,
+    "defect": "The new native-compat transform plugin's id filter (`/\\.[cm]?[jt]sx?$/`) also matches Rolldown's virtual runtime module (`\\0rolldown/runtime.js`). That module then goes through `isFilePathESM`, which resolves package.json from the current working directory, so a `type: commonjs` package can get a false \"ESM syntax in a file loaded as CommonJS\" warning even when the config is `.mts`.",
+    "id": "c12",
+    "title": "feat(config): warn features incompatible with native loader in bundle loader"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22097,
+    "fix": null,
+    "defect": null,
+    "id": "c13",
+    "title": "feat: update rolldown to 1.0.0-rc.13"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23185,
+    "fix": null,
+    "defect": null,
+    "id": "c14",
+    "title": "feat: support subpath imports in dynamic import statements"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22736,
+    "fix": null,
+    "defect": null,
+    "id": "c15",
+    "title": "refactor(client): inline dev-id value in CSS selector"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23129,
+    "fix": null,
+    "defect": null,
+    "id": "c16",
+    "title": "refactor(bundled-dev): remove rolldown lazy stub module workaround"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23064,
+    "fix": null,
+    "defect": null,
+    "id": "c17",
+    "title": "feat(config): include column in config incompatibility location"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22415,
+    "fix": 22757,
+    "defect": "The new pnpm GVS logic looks for node_modules/.modules.yaml under the nearest package root. In a pnpm monorepo that file only exists in the workspace root's node_modules, so for nested workspace packages the file is never found and the virtual store directory is never added to fs.allow.",
+    "id": "c18",
+    "title": "fix: apply correct fs restrictions for pnpm gvs"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22813,
+    "fix": null,
+    "defect": null,
+    "id": "c19",
+    "title": "feat(optimizer): support aube lockfile"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22592,
+    "fix": 22643,
+    "defect": "Setting \"moduleResolution\": \"nodenext\" while leaving \"module\": \"esnext\" is an invalid combination. Since TypeScript 5.2, tsc fails with TS5110 (\"Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'\"), so every generated TS template's tsconfig.node.json fails to type-check.",
+    "id": "c20",
+    "title": "feat(create-vite): use `\"moduleResolution\": \"nodenext\"` for `tsconfig.node.json`"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23378,
+    "fix": null,
+    "defect": null,
+    "id": "c21",
+    "title": "feat(config): warn on named imports from JSON modules"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21790,
+    "fix": null,
+    "defect": null,
+    "id": "c22",
+    "title": "feat: update rolldown to 1.0.0-rc.8"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22642,
+    "fix": 23135,
+    "defect": "When `build.lib.entry` is left out, `resolveBuildEnvironmentOptions` fills it in with `merged.lib.entry = input`. That writes the default straight into the user's own `build.lib` object, so their config gets changed while it is being resolved.",
+    "id": "c23",
+    "title": "feat: add `input` option"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23000,
+    "fix": null,
+    "defect": null,
+    "id": "c24",
+    "title": "perf(config): skip native config compat check when warning is ignored"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23035,
+    "fix": null,
+    "defect": null,
+    "id": "c25",
+    "title": "feat: add `input` to `server.fs.allow`"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23172,
+    "fix": null,
+    "defect": null,
+    "id": "c26",
+    "title": "refactor: remove HmrUrl concept"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22967,
+    "fix": 23568,
+    "defect": "The client now imports `DevRuntime` from 'rolldown/experimental/runtime', and rolldown's runtime injection is turned off (`skipCommonRuntimeInjection`). As a result, the runtime is bundled into vite's prebuilt client when vite itself is built. In the browser it can differ from the installed rolldown that generates the dev bundle, which can break HMR when the versions differ.",
+    "id": "c27",
+    "title": "refactor(bundled-dev): avoid injecting server values in the bundle"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22874,
+    "fix": null,
+    "defect": null,
+    "id": "c28",
+    "title": "refactor(legacy): use `babel-plugin-polyfill-*` consistently"
+  },
+  {
+    "kind": "defect",
+    "upstream": 18389,
+    "fix": 22718,
+    "defect": "The new 'import' case uses `css.replace(dep.placeholder, dep.url)` with a string replacement. Because of that, any `$` sequences in an external @import URL (such as `$&`) are read as replacement patterns, and the URL in the output is corrupted.",
+    "id": "c29",
+    "title": "fix(css): support external CSS with lightningcss"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21501,
+    "fix": null,
+    "defect": null,
+    "id": "c30",
+    "title": "feat(server): support multiple hosts in __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21707,
+    "fix": null,
+    "defect": null,
+    "id": "c31",
+    "title": "feat: `import.meta.glob` support `caseSensitive` option"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22886,
+    "fix": 23586,
+    "defect": "The postfix (query/hash) was moved out of the `__VITE_ASSET__` placeholder. JS and CSS asset URLs now pass only the bare filename to `toOutputFilePathInJS`/`toOutputFilePathInCss`, so the user's `renderBuiltUrl` hook no longer receives the asset's query string and can't include it in the URL it builds.",
+    "id": "c32",
+    "title": "refactor: exclude postfix from `__VITE_ASSET__`"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22299,
+    "fix": null,
+    "defect": null,
+    "id": "c33",
+    "title": "feat: update rolldown to 1.0.0-rc.17"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21580,
+    "fix": 23184,
+    "defect": "The new chunk import map code reads the top-level `config.build.chunkImportMap`, base and import-map filename instead of the current environment's config. With `sharedPlugins: true` or per-environment settings, the client's import map is skipped, or the code reads an import map that doesn't exist in another environment's bundle.",
+    "id": "c34",
+    "title": "feat(build): chunk importmap"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22832,
+    "fix": 23198,
+    "defect": "The root is now always resolved to its realpath, even when `resolve.preserveSymlinks` is true. So users who rely on preserved symlinks get their symlinked project root replaced by the target path, which breaks how paths resolve inside the root.",
+    "id": "c35",
+    "title": "fix: resolve root to real path"
+  },
+  {
+    "kind": "clean",
+    "upstream": 23310,
+    "fix": null,
+    "defect": null,
+    "id": "c36",
+    "title": "feat: add top-level `tsconfig` option"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22278,
+    "fix": null,
+    "defect": null,
+    "id": "c37",
+    "title": "refactor: enable some typecheck rules"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22965,
+    "fix": null,
+    "defect": null,
+    "id": "c38",
+    "title": "feat(dev): resolve interface name for explicit host in network URLs"
+  },
+  {
+    "kind": "defect",
+    "upstream": 22638,
+    "fix": 23015,
+    "defect": "Passing `--eslint` with a non-React template (for example `--template vue --eslint`) still calls `setupEslint`. That function runs `fs.rmSync` on `.oxlintrc.json`, which doesn't exist in that template, so scaffolding crashes with ENOENT.",
+    "id": "c39",
+    "title": "feat(create-vite): use Oxlint for react templates and add ESLint option"
+  },
+  {
+    "kind": "clean",
+    "upstream": 22891,
+    "fix": null,
+    "defect": null,
+    "id": "c40",
+    "title": "feat(optimizer): support nub lockfile"
+  }
+]

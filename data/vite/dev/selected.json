@@ -1,0 +1,202 @@
+[
+  {
+    "kind": "defect",
+    "upstream": 19057,
+    "fix": 20595,
+    "defect": "The SharedWorker ping code logs console.debug messages like 'connected from window' and 'ping successful' without the usual '[vite]' prefix. In the browser console, users can't tell these messages come from Vite.",
+    "id": "c01",
+    "title": "feat(client): ping from SharedWorker"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20433,
+    "fix": null,
+    "defect": null,
+    "id": "c02",
+    "title": "feat: implement `removePluginHookSsrArgument` future deprecation"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21267,
+    "fix": null,
+    "defect": null,
+    "id": "c03",
+    "title": "feat: update rolldown to 1.0.0-beta.54"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20837,
+    "fix": 20885,
+    "defect": "When stdin is not a TTY, the first PR attaches a no-op 'data' listener, which switches stdin into flowing mode and reads everything sent to it. That steals input from other consumers. Removing the listener at teardown does not pause the stream, so the open stdin handle can keep the process from exiting.",
+    "id": "c04",
+    "title": "fix(server): drain stdin when not interactive"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20924,
+    "fix": 21029,
+    "defect": "The new `getBuiltins` invoke handler returns `config.resolve.builtins` as is, and that list contains RegExp objects. When the result is JSON-serialized over the transport (WebSocket or worker), each RegExp turns into `{}`. The runner then calls `regexp.test` on plain objects, which throws, or it misses regex-matched builtins such as `node:`-prefixed ids.",
+    "id": "c05",
+    "title": "perf(module-runner): add client-side builtin module check"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20351,
+    "fix": 20378,
+    "defect": "The new degit command points to the repo `vitejs/plugin-react`, but that repo doesn't exist. The real repo is `vitejs/vite-plugin-react`, so scaffolding the RSC template fails.",
+    "id": "c06",
+    "title": "feat(create-vite): update rsc template to use `@vitejs/plugin-rsc`"
+  },
+  {
+    "kind": "defect",
+    "upstream": 19981,
+    "fix": 20496,
+    "defect": "`resolveServerUrls` now reads the hostname from `config.server.hostname` and ignores the `options.host` passed in. Preview calls it with `config.preview`, so its `resolvedUrls` are built from the dev server's host instead of `preview.host`.",
+    "id": "c07",
+    "title": "feat: resolve server URLs before calling other listeners"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20734,
+    "fix": null,
+    "defect": null,
+    "id": "c08",
+    "title": "refactor(create-vite): migrate `tseslint.config` to ESLint core's `defineConfig`"
+  },
+  {
+    "kind": "clean",
+    "upstream": 18642,
+    "fix": null,
+    "defect": null,
+    "id": "c09",
+    "title": "feat(create-vite): add @types/node to typescript templates"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20797,
+    "fix": null,
+    "defect": null,
+    "id": "c10",
+    "title": "feat(create-vite): add `--interactive` / `--no-interactive`"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21443,
+    "fix": 21472,
+    "defect": "The wrappers now mutate the plugin's shared hook object by setting `hook.handler = handler`. When there are several build environments, each wrap replaces the handler set by the one before, so every environment ends up running the handler bound to the last environment that was wrapped.",
+    "id": "c11",
+    "title": "fix: lazy hook filter should work"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20394,
+    "fix": null,
+    "defect": null,
+    "id": "c12",
+    "title": "feat(create-vite): bump vite-plugin-svelte to new major for vite7"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21269,
+    "fix": null,
+    "defect": null,
+    "id": "c13",
+    "title": "feat(ssr): avoid errors when rewriting already rewritten stacktrace"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20437,
+    "fix": null,
+    "defect": null,
+    "id": "c14",
+    "title": "feat: add `removeServerPluginContainer` future deprecation"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21300,
+    "fix": null,
+    "defect": null,
+    "id": "c15",
+    "title": "feat: update rolldown to 1.0.0-beta.55"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21381,
+    "fix": 21642,
+    "defect": "The new wildcard pre-check in `tryListen` resolves `false` on any listen error, not only EADDRINUSE. So an error like EACCES or EADDRNOTAVAIL on 0.0.0.0 or :: marks every port as in use. Vite then skips every port up to 65535, or throws under strictPort, even when the requested host is free.",
+    "id": "c16",
+    "title": "feat(dev): detect port conflicts on wildcard hosts"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21019,
+    "fix": 21081,
+    "defect": "Replacing the custom copyDir with fs.cpSync triggers Node.js bugs (nodejs/node#58768, #59168), so copying the public dir or templates can fail. It also no longer dereferences symlinks the way the old statSync/copyFileSync code did, and the srcFile === destDir skip is gone, which breaks the case where outDir sits inside publicDir.",
+    "id": "c17",
+    "title": "refactor: use `fs.cpSync`"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20918,
+    "fix": 20989,
+    "defect": "When a preprocessor or terser is not installed, the fallback lookup from Vite's own directory goes through `tryNodeResolve`'s optional-peer-dependency handling. That returns a fake `__vite-optional-peer-dep:...` id instead of `undefined`, so the \"not found, please install\" error is skipped and a later dynamic import fails with a confusing error.",
+    "id": "c18",
+    "title": "fix: use esm entrypoint for css preprocessors and terser"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21103,
+    "fix": 21211,
+    "defect": "The new merge gives the caller's options priority, but on restart `restartServer` passes the old saved `_shortcutsOptions` back in. So stale shortcut actions from the old server (e.g. a plugin's) override the ones a plugin just registered on the new server. The per-server `_rl` also leaks or duplicates readlines when a plugin binds during server recreation.",
+    "id": "c19",
+    "title": "fix: allow multiple `bindCLIShortcuts` calls with shortcut merging"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21403,
+    "fix": null,
+    "defect": null,
+    "id": "c20",
+    "title": "feat(create-vite): show links for meta-framework variants"
+  },
+  {
+    "kind": "defect",
+    "upstream": 21402,
+    "fix": 21518,
+    "defect": "Removing `importMetaResolverCache` means `createNodeImportMeta` calls `createImportMetaResolver()` for every module, and each call registers another Node module resolve hook. The hooks chain up and eventually throw \"Maximum call stack size exceeded\".",
+    "id": "c21",
+    "title": "fix(module-runner): use `process.getBuiltinModule` instead of `import('node:module')`"
+  },
+  {
+    "kind": "clean",
+    "upstream": 20335,
+    "fix": null,
+    "defect": null,
+    "id": "c22",
+    "title": "refactor(legacy): use Rollup type export from Vite"
+  },
+  {
+    "kind": "clean",
+    "upstream": 21342,
+    "fix": null,
+    "defect": null,
+    "id": "c23",
+    "title": "feat: add ios to default esbuild targets"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20821,
+    "fix": 20826,
+    "defect": "The new getInstallCommand and getRunCommand helpers return arrays that already start with the agent name, but install() and start() still pass the agent as the command too. The spawned command becomes `npm npm install` or `pnpm pnpm dev`, so installing dependencies and starting the dev server both break.",
+    "id": "c24",
+    "title": "fix(create-vite): use shorter command name for `run dev` for each package manager"
+  },
+  {
+    "kind": "defect",
+    "upstream": 20373,
+    "fix": 20556,
+    "defect": "The new prepareOutDirPlugin is added to every build plugin pipeline, including the one used to bundle web workers. When a worker bundle renders, the plugin empties the outDir and copies the public dir again, partway through the main build.",
+    "id": "c25",
+    "title": "refactor: extract prepareOutDir as a plugin"
+  }
+]

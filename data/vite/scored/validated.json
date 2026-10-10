@@ -1,0 +1,866 @@
+[
+  {
+    "introducing": 23333,
+    "fix": 23654,
+    "fixCommit": "22fd1d5238cce2ee9db0eb4122f9e8feb6b06097",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "None. The second PR is a routine dependency bump of launch-editor-middleware and launch-editor, which have nothing to do with the DevTools integration changes in the first PR.",
+          "reason": "The first PR changed how DevTools is wired into config resolution and upgraded @vitejs/devtools. The second PR only bumps launch-editor (and with it shell-quote) and adds release-age exclusions. It touches the minimumReleaseAgeExclude list next to the devtools entries, but that is just a nearby line. No code the first PR introduced is being fixed."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The second pull request updates the existing editor-launching dependencies; the supplied diffs do not identify the underlying defect.",
+          "reason": "The first pull request changes DevTools integration but does not introduce or modify launch-editor, launch-editor-middleware, or shell-quote. The dependency update therefore does not repair a defect introduced by the first pull request."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 23387,
+    "fix": 23609,
+    "fixCommit": "53f1ce7bfe38426861f6da572ef0e3359f6a80cd",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "In the srcset rewrite branch, `processAssetUrl` gets the raw, percent-encoded `url` instead of `decodedUrl`. Assets like `%E3%83%86...white%20space.png` therefore don't resolve or inline correctly, and the result is compared against `decodedUrl`.",
+          "reason": "Before the first pull request, the srcset branch already called `processAssetUrl(url)` with the encoded URL. The first pull request only added the `getLinkShouldInline(...)` second argument and left the `url` argument as it was. The second pull request swaps `url` for `decodedUrl`, which fixes a bug that was already there. The first pull request only touched the same call."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Percent-encoded URLs in srcset are passed to asset resolution without decoding, so builds cannot resolve filenames containing spaces or non-ASCII characters.",
+          "reason": "The first pull request already called processAssetUrl(url) before its changes; it only added the no-inline argument. The second fixes this pre-existing problem by passing decodedUrl instead."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22886,
+    "fix": 23586,
+    "fixCommit": "744269e5b2a155074910ddd275aecf2b83938496",
+    "blamedLines": 7,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The postfix (query/hash) was moved out of the `__VITE_ASSET__` placeholder. JS and CSS asset URLs now pass only the bare filename to `toOutputFilePathInJS`/`toOutputFilePathInCss`, so the user's `renderBuiltUrl` hook no longer receives the asset's query string and can't include it in the URL it builds.",
+          "reason": "Before the first PR, `renderAssetUrlInJS` and the CSS plugin passed `file + postfix` into the functions that call `renderBuiltUrl`; the first PR removed the postfix from that path. The second PR, titled \"pass queries to renderBuiltUrl\", puts the postfix back on the filename passed to `toOutputFilePathInJS`/`toOutputFilePathInCss` by storing it in metadata keyed by a `urlId` in the placeholder. Its test checks that `renderBuiltUrl` sees the postfixes in JS and CSS, which is the regression the first PR caused."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Asset query strings and fragments no longer reach `renderBuiltUrl` in JavaScript and CSS builds. A hook that adds its own query can consequently produce malformed URLs such as `asset.txt?dpl=id?marker=value`.",
+          "reason": "The first PR stops passing the postfix to the JS and CSS output-path helpers, leaving it outside the replaced placeholder. The second PR restores the postfix through URL metadata before calling those helpers."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22967,
+    "fix": 23568,
+    "fixCommit": "bc598a6a8a6b7d6e157e9f19c16911cff8d2360c",
+    "blamedLines": 16,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The client now imports `DevRuntime` from 'rolldown/experimental/runtime', and rolldown's runtime injection is turned off (`skipCommonRuntimeInjection`). As a result, the runtime is bundled into vite's prebuilt client when vite itself is built. In the browser it can differ from the installed rolldown that generates the dev bundle, which can break HMR when the versions differ.",
+          "reason": "Before the first PR, rolldown's HMR plugin put the runtime into the bundle, so it always came from the installed rolldown. The first PR switched to a static import and disabled that injection. Because rolldown.config.ts did not mark the module external, the runtime is copied into dist/client/bundledDevClient.mjs at vite build time. The second PR marks it external, rewrites the import, and serves the runtime files from the installed rolldown. That directly fixes the version mismatch the first PR created."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new DevRuntime import embeds Vite’s build-time Rolldown runtime in the client. When the installed Rolldown version differs, its generated bundles and HMR updates can be incompatible with that embedded runtime.",
+          "reason": "The first PR disables runtime injection and imports the runtime into the client bundle. The second externalizes that import and serves the installed Rolldown runtime, ensuring it matches the version generating bundles."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22888,
+    "fix": 23422,
+    "fixCommit": "e8d6a4d3399c739772080d70c7f3c4d548a637c9",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new `resolveFileUrl` hook runs every file name through `encodeURIPath`. For chunks emitted by other plugins, this percent-encodes the braces in the hash placeholder (`!~{001}~`), so Rolldown never swaps in the final hash and the URL points to a file that doesn't exist.",
+          "reason": "The first PR added the `resolveFileUrl` hook (it enabled it in ROLLUP_HOOKS and wrote the implementation that returns `JSON.stringify(encodeURIPath(replacement))`). The second PR changes that exact line to decode the escaped hash placeholders. Its new tests cover a worker chunk emitted by an external plugin through `import.meta.ROLLUP_FILE_URL_*`, which goes through the new hook and was broken by the encoding."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new resolveFileUrl hook URI-encodes preliminary hash placeholders in emitted chunk URLs, preventing the bundler from replacing them with final hashes. This produces invalid URLs and stops externally emitted workers from loading.",
+          "reason": "The first PR introduced the hook and its encodeURIPath call; the second preserves hash placeholders while encoding the URL, directly fixing that failure."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 23239,
+    "fix": 23256,
+    "fixCommit": "6bacc956df5a76cc5653b9de4493453b953439fd",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "In bundleConfigFile, if bundle.generate() throws, bundle.close() is never called, so the rolldown bundle leaks. This was already true before the first PR.",
+          "reason": "The first PR only changed the sourcemapPathTransform callback, to resolve paths against the sourcemap's directory, and exported the function. The leak comes from the generate-then-close sequence, which predates that PR. The second PR wraps generate in try/finally and keeps the first PR's transform unchanged, so it fixes an older resource-cleanup problem, not one the first PR caused."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "If bundle.generate() throws, bundle.close() is skipped, leaving the bundle’s resources open.",
+          "reason": "The unguarded generate-then-close sequence already existed before the first PR. That PR changed sourcemap path resolution; the second PR fixes the older cleanup failure by closing the bundle in a finally block."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22832,
+    "fix": 23198,
+    "fixCommit": "8413052731836d4aaf3eb94a0f25788dd35d2888",
+    "blamedLines": 3,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The root is now always resolved to its realpath, even when `resolve.preserveSymlinks` is true. So users who rely on preserved symlinks get their symlinked project root replaced by the target path, which breaks how paths resolve inside the root.",
+          "reason": "The first PR added an unconditional `safeRealpathSync` call on the root. The second PR wraps that call in `!config.resolve?.preserveSymlinks` and adds a test that a symlinked root is kept when the option is on. This directly fixes a regression the first PR introduced (issue #23197)."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Resolving the project root unconditionally through safeRealpathSync discards a symlinked root even when resolve.preserveSymlinks is true. This breaks the configured behavior of preserving symlink paths.",
+          "reason": "The first pull request introduced unconditional real-path resolution; the second guards that same code so it runs only when preserveSymlinks is disabled."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 21580,
+    "fix": 23184,
+    "fixCommit": "15f03073c915d6ffb9a1fda447ef66b02bf5cde8",
+    "blamedLines": 8,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new chunk import map code reads the top-level `config.build.chunkImportMap`, base and import-map filename instead of the current environment's config. With `sharedPlugins: true` or per-environment settings, the client's import map is skipped, or the code reads an import map that doesn't exist in another environment's bundle.",
+          "reason": "The first PR added `config.build.chunkImportMap`, `getImportMapFilename(config)` and `config.base` slicing to importAnalysisBuild's generateBundle, html.ts's postImportMapHook and plugin-legacy. All use the top-level config. The second PR switches those same places to `this.environment.config` or `config.environments.client`, and tests a client-only chunkImportMap with shared plugins. The css.ts edits touch later code and the emitAssets change is minor. The main fix repairs the per-environment lookup bug the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When chunkImportMap is enabled for the client environment with shared plugins, the new hooks read top-level build options instead of the relevant environment’s options. This can skip import-map injection and dependency rewriting, breaking client chunk loading.",
+          "reason": "The first PR introduced these top-level configuration checks in the HTML and import-analysis hooks. The second PR fixes them by reading client or active-environment configuration."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 23101,
+    "fix": 23171,
+    "fixCommit": "616296895bd135386d35069a479a5f188c7de298",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The first PR introduced no defect related to this fix. The second PR fixes `import.meta.hot.invalidate` for virtual modules: the client sends a wrapped path (`/@id/__x00__...`) that has to be unwrapped before looking up the module.",
+          "reason": "The first PR changed how top-level `input` is resolved and added `_registerInputsAsSafeModules` in environment.ts. It never touched the `vite:invalidate` handler or HMR path handling. The second PR wraps the invalidate path in `unwrapId`, which fixes an older HMR bug. The only overlap is the shared-utils import line, so it just touches nearby lines."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "When a virtual module calls import.meta.hot.invalidate(), the server fails to unwrap its client-side module path, preventing invalidation from propagating to importers.",
+          "reason": "The faulty HMR handler already existed and was unchanged by the first pull request. That pull request changed input resolution and safe-module registration; the second repairs an older HMR problem."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22642,
+    "fix": 23135,
+    "fixCommit": "b4bf59686a7ac238929e91a6e1708c739b843a2f",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When `build.lib.entry` is left out, `resolveBuildEnvironmentOptions` fills it in with `merged.lib.entry = input`. That writes the default straight into the user's own `build.lib` object, so their config gets changed while it is being resolved.",
+          "reason": "The first PR added the `merged.lib.entry = input` assignment so the lib entry could fall back to the top-level `input`. `merged.lib` points to the same `lib` object the user passed in, so the assignment changes the user's config. The second PR replaces that line with a copy, `merged.lib = { ...merged.lib, entry: input }`. Its new test checks that the user's `lib.entry` stays undefined. So the second PR fixes a bug that the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When top-level `input` supplies a missing library entry, config resolution writes that entry into the user's original `build.lib` object. Reusing the object can then preserve a stale entry instead of using a new input.",
+          "reason": "The first PR introduced `merged.lib.entry = input`, which mutates the shared options object. The second PR replaces that assignment with a copied object and adds a regression test verifying the user's object remains unchanged."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22717,
+    "fix": 23038,
+    "fixCommit": "17f7b2f193a110d0b47742ad296d182cb4666ce7",
+    "blamedLines": 4,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Shebang handling looks only for '\\n' to find the end of the first line, so a shebang ending in a bare '\\r', U+2028 or U+2029 isn't recognised and injected code lands in the wrong place.",
+          "reason": "The '\\n'-only assumption predates the first PR: the old CSS code already used code.indexOf('\\n'), and the first PR only moved the injection point to after the newline. The second PR is a cross-cutting fix that also replaces the same assumption in config.ts, importAnalysisBuild.ts, the SSR transform and the shared hashbangRE, none of which the first PR touched. So it repairs a long-standing problem, not one the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Shebang handling recognizes only LF, so shebangs ending with CR, U+2028, or U+2029 can cause injected code to be placed incorrectly.",
+          "reason": "The LF-only lookup already existed before the first PR. The second PR fixes that older limitation across several injection paths; the first PR fixed ordinary LF shebangs but left uncommon terminators unsupported."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22638,
+    "fix": 23015,
+    "fixCommit": "428d8af8135626d783f963e3ba9b2378b64f680b",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Passing `--eslint` with a non-React template (for example `--template vue --eslint`) still calls `setupEslint`. That function runs `fs.rmSync` on `.oxlintrc.json`, which doesn't exist in that template, so scaffolding crashes with ENOENT.",
+          "reason": "The first PR added the `--eslint` flag and `setupEslint`, and it calls `setupEslint` whenever `eslint` is truthy. The React-only check only covers prompting when the flag is undefined. An explicit `--eslint` on a vue or other non-React template therefore reaches `fs.rmSync` on a missing file and crashes. The second PR adds a guard that warns and sets `eslint = false` for non-React templates, and a test checking there is no ENOENT. That fixes the crash the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Passing --eslint with a non-React template such as Vue crashes scaffolding because setupEslint tries to remove a .oxlintrc.json file that the template does not contain.",
+          "reason": "The first pull request added an unconditional setupEslint call whenever --eslint is true. The second prevents that call for non-React templates by warning and clearing the flag."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22468,
+    "fix": 23013,
+    "fixCommit": "989a42ec52b527846bf43a8281fefd0a3aab7358",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Legacy chunks are now minified by Oxc with a plain `minify: true` and no syntax target. The minifier's default (esnext) target can bring back syntax that Babel had lowered for legacy browsers, such as optional catch binding (`catch {}`) or optional chaining.",
+          "reason": "Before the first PR, legacy output had `minify: false` and was minified by Terser. The first PR switched legacy chunk output to Oxc minification through `resolveLegacyOutputMinify`, which returns `true` with no target. Oxc's compressor can therefore emit ES2019+ syntax into chunks meant for IE11 and similar browsers. The second PR passes an `es2015` target into that same `resolveLegacyOutputMinify` call and adds a test that legacy chunks contain no `catch {}` or `?.`. It fixes a regression that the first PR's new Oxc path caused."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Enabling Oxc minification for legacy chunks without a compression target allows it to reintroduce newer syntax after Babel has lowered the code. Optional catch binding or optional chaining can then make those chunks fail to parse in legacy browsers such as IE 11.",
+          "reason": "The first PR enabled Oxc for legacy output without constraining its syntax target; the second adds an es2015 compression target to repair that regression."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22850,
+    "fix": 22979,
+    "fixCommit": "2ced1fe4e4e480ed78cb7aa5c78319e57bfa7783",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new native-compat transform plugin's id filter (`/\\.[cm]?[jt]sx?$/`) also matches Rolldown's virtual runtime module (`\\0rolldown/runtime.js`). That module then goes through `isFilePathESM`, which resolves package.json from the current working directory, so a `type: commonjs` package can get a false \"ESM syntax in a file loaded as CommonJS\" warning even when the config is `.mts`.",
+          "reason": "The first PR added `createNativeConfigCompatPlugin` with a filter that does not exclude `\\0`-prefixed virtual ids. It runs `isFilePathESM`/`findEsmSyntaxInCjs` on every module that matches. The second PR adds `exclude: /^\\0/` to that exact filter. It also makes `isFilePathESM` treat virtual or relative ids as ESM or non-ESM instead of looking them up from cwd. Its new test fixture is a `.mts` config inside a commonjs package, which is the false warning the first PR's plugin produces."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new compatibility check also scans Rolldown’s virtual runtime module as though it were a config file. Its module format can be inferred from the working directory, producing a false warning about ESM syntax in CommonJS.",
+          "reason": "The first PR introduced the transform filter and module-format check that admit virtual modules. The second excludes null-prefixed module IDs and handles them explicitly in the format helpers."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22841,
+    "fix": 22947,
+    "fixCommit": "e16ff3a1199293ac9cdfa6132c08fdea162215f3",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect from the first PR is repaired. The second PR fixes an older gap in chunkImportMap: extracted CSS files were referenced by their content-hashed names outside the import map. So a CSS-only change altered the importing JS chunk's code while its stable import-map name stayed the same.",
+          "reason": "The first PR only refactored import-map parsing into getImportMap and used it to strip imports of pure-CSS chunks. The second PR adds import-map entries for per-chunk CSS sidecars so JS chunks stay stable when CSS changes. That gap predates the first PR, which never touched CSS sidecar naming. The second PR just reuses and extends the helper (adding `content`). This is a separate, older issue, not a regression."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "With chunkImportMap enabled, CSS changes can alter a JavaScript chunk’s CSS references without changing its filename. Browsers caching that chunk can then load stale CSS that no longer matches the current JavaScript.",
+          "reason": "The second PR fixes an existing lack of stable CSS import-map entries. The first PR only removes imports of deleted pure CSS chunks and extracts existing import-map parsing; it did not introduce the unstable CSS references."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22587,
+    "fix": 22931,
+    "fixCommit": "810032097079be1a7da0e2b09ec9d92dd07ec13f",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "In full bundle dev mode, plugins get `buildEnd` twice when the server closes. Both the plugin container close and the Rolldown dev engine close fire it.",
+          "reason": "This was already broken before the first PR: `FullBundleDevEnvironment.close()` called both `super.close()` (which closes `pluginContainer`) and `devEngine.close()`, so `buildEnd` ran twice. The first PR only moved this into `DevEnvironment.close()` (`pluginContainer.close()` plus `bundledDev.close()`) without changing the behavior. The `_closed` guards in the second PR deal with the initial-build wait loop, which the first PR also left unchanged."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Closing a bundled-dev server can call plugins’ buildEnd hooks twice because both the plugin container and Rolldown’s dev engine invoke them during shutdown.",
+          "reason": "The duplication already existed: FullBundleDevEnvironment.close() called both super.close(), which closed the plugin container, and devEngine.close(). The first PR preserved that behavior when moving it into DevEnvironment."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22827,
+    "fix": 22838,
+    "fixCommit": "7103c3af795396e2ad87e1125eb3fc20d60d9430",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect introduced. The first PR deliberately pinned es-module-lexer to 2.1.0 to step back from a problem in 2.2.0. It did not add a failure of its own.",
+          "reason": "The second PR moves forward to the newer upstream release 2.3.0, which presumably fixes the 2.2.0 regression. It also adds 2.3.0 to the minimumReleaseAge exclusion list so the new release can be installed right away. This is a planned dependency upgrade that ends a temporary pin. It does not repair a bug caused by the pin, and nothing shows that 2.1.0 itself broke anything."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The supplied diffs show no failure introduced by pinning es-module-lexer to 2.1.0.",
+          "reason": "The first PR intentionally reverts a dependency upgrade. The second upgrades to 2.3.0, but provides no evidence that it repairs a defect caused by that revert."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21357,
+    "fix": 22825,
+    "fixCommit": "efb98cce73f3f89c4f03936ab7741cd5b0636f5c",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect from the first PR is repaired here. The second PR fixes an unrelated issue: Vite looked for pnpm's node_modules/.modules.yaml in the cwd/package root instead of the workspace root, so in monorepos the virtual store directory was never added to fs.allow.",
+          "reason": "The first PR renames the server.hmr websocket options to server.ws and adds a compat layer for the old names. The second PR only changes how the pnpm .modules.yaml path is resolved and reuses the workspaceRoot it computes. The only overlap is that its diff context includes the setupHmrWsOptionCompat call, which it leaves unchanged. The pnpm path logic it fixes was not added by the first PR."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "When Vite starts inside a nested pnpm workspace package, it searches for .modules.yaml under the current working directory instead of the workspace root. This can prevent it from allowing access to an external pnpm virtual store.",
+          "reason": "The first PR renames WebSocket options and adds compatibility handling; it does not introduce or modify the pnpm metadata lookup or virtual-store path resolution repaired by the second PR."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22453,
+    "fix": 22800,
+    "fixCommit": "043a81096ddf8c6f9077c8e3e12362c83f9ed089",
+    "blamedLines": 4,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The Vite Task integration tells the runner to ignore only the individual temp config file. The `node_modules/.vite-temp` directory is created (mkdir) before any ignore call and is never itself ignored, so that directory access still ends up in the build's cache fingerprint as an input/output.",
+          "reason": "The first PR added the `ignoreInput`/`ignoreOutput` calls in `loadConfigFromBundledFile`, but only for `tempFileName`. The `mkdir` of `.vite-temp` (and its directory entries) was left visible to Vite Task, which can disturb cache fingerprints or trip the read-write overlap check. The second PR fixes this gap in the first PR's integration by ignoring the whole `.vite-temp` directory. Before the first PR there was no Vite Task tracking, so the failure didn't exist."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The Vite Task integration ignores only the bundled config’s temporary file, leaving activity in node_modules/.vite-temp tracked. Those transient directory reads and writes can affect cache fingerprints or trigger input/output overlap errors.",
+          "reason": "The first PR introduced the incomplete cache exclusions. The second expands them to cover the entire temporary directory, while preserving file-level exclusions for the fallback path."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22415,
+    "fix": 22757,
+    "fixCommit": "2531ac7ccd1d581df5febe4a3814226ba8939a20",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new pnpm GVS logic looks for node_modules/.modules.yaml under the nearest package root. In a pnpm monorepo that file only exists in the workspace root's node_modules, so for nested workspace packages the file is never found and the virtual store directory is never added to fs.allow.",
+          "reason": "The first PR added the code that reads .modules.yaml from searchForPackageRoot(root). The second PR changes exactly that lookup, and the matching relative-path resolution, to use the workspace root. That fixes the missed detection in monorepos, a gap the first PR's new logic introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When Vite runs in a nested pnpm workspace package, this code looks for .modules.yaml under the package root instead of the workspace root. It therefore misses the global virtual store directory and can block access to dependencies stored there.",
+          "reason": "The first PR introduced the package-root lookup and relative-path resolution. The second PR changes both to use the workspace root, repairing that failure."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 18389,
+    "fix": 22718,
+    "fixCommit": "9fa7ab4990f4fe74597d0a37a16d84af1c1e3544",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new 'import' case uses `css.replace(dep.placeholder, dep.url)` with a string replacement. Because of that, any `$` sequences in an external @import URL (such as `$&`) are read as replacement patterns, and the URL in the output is corrupted.",
+          "reason": "The first PR added the `case 'import'` branch with a string replacer. The second PR changes that exact line to a function replacer so `$` in URLs is kept as-is. The bug came directly from code the first PR added."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "External CSS @import URLs containing dollar-sign sequences such as `$&` are corrupted because the new string replacement interprets them as replacement patterns instead of preserving the URL literally.",
+          "reason": "The first pull request introduced `css.replace(dep.placeholder, dep.url)`. The second changes it to a function replacer, which inserts the URL verbatim and fixes that defect."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22306,
+    "fix": 22711,
+    "fixCommit": "65f525e643ba31faeaeafbc5d888b61465e6b48d",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The HMR glob matcher ignores the `caseSensitive: false` option, so a file whose name differs only in letter case from the pattern doesn't trigger an HMR update, even though glob enumeration matched it.",
+          "reason": "Before the first PR, the matchers were plain `picomatch(affirmed)` calls with no options. That is always case-sensitive, so `caseSensitive: false` was already ignored. The first PR added `noextglob`, `dot` and `ignore` but didn't touch case handling, so this gap is older. The second PR fills in an option the first one left out; it doesn't fix a regression the first one caused."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "With caseSensitive: false, glob enumeration can include files whose casing differs from the pattern, but the HMR matcher remains case-sensitive. Adding or removing those files can therefore fail to update the glob import.",
+          "reason": "Before the first PR, picomatch already used its default case-sensitive behavior. The first PR preserved that behavior, so the second PR repairs an existing omission."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22592,
+    "fix": 22643,
+    "fixCommit": "689a0669ad926461f3f1b81701cb6c01f7b2bd4a",
+    "blamedLines": 6,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Setting \"moduleResolution\": \"nodenext\" while leaving \"module\": \"esnext\" is an invalid combination. Since TypeScript 5.2, tsc fails with TS5110 (\"Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'\"), so every generated TS template's tsconfig.node.json fails to type-check.",
+          "reason": "The first PR introduced the mismatched pair (module esnext with moduleResolution nodenext). The second PR replaces both with \"module\": \"nodenext\", which makes moduleResolution default to nodenext and clears the config error the first PR caused."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Changing `moduleResolution` to `nodenext` while leaving `module` as `esnext` makes all six configurations invalid. TypeScript reports TS5110, causing checks and builds using these configurations to fail.",
+          "reason": "The first PR introduced the incompatible option combination. The second sets `module` to `nodenext`, which also defaults module resolution to `nodenext`, resolving the error."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 22528,
+    "fix": 22428,
+    "fixCommit": "1298951ebc5e5a94164c21f142fe748ca37eea68",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The first PR adds no defect that the second fixes. It only makes sure the rolldown bundle is closed when write() rejects, and the sourcemap behavior stays the same.",
+          "reason": "The second PR fixes an older sourcemap problem. Optimized deps were written with `sourcemap: true`, and the optimizedDeps load hook returned only the code, so follow-up transforms lost the original mapping. The fix switches to `'hidden'` and loads the .map file. The `sourcemap: true` line existed before the first PR, which only moved it into a try/finally while changing the bundle cleanup. The two PRs just touch nearby lines."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Optimized dependencies lose accurate source mappings when plugins apply further transforms because the loader returns JavaScript without its existing sourcemap. Debugging then points to incorrect original locations or names.",
+          "reason": "This problem predates the first pull request, which only ensures bundle.close() runs when write() rejects. It preserves the existing sourcemap setting and does not change how optimized dependencies are loaded."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 22404,
+    "fix": 22408,
+    "fixCommit": "d4838a0358d9f04a980d4d2ac7263f21a6b28ee2",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Rolldown's built-in `process.env.NODE_ENV` replacement stays active when bundling workers. It conflicts with Vite's own define plugin, so the worker bundle can end up with the wrong NODE_ENV value.",
+          "reason": "The first PR only added `transform.target`, taken from the worker's build target. It did not touch `define`. Rolldown applies its built-in NODE_ENV replacement whether or not a `transform` object is passed, and before the first PR the worker bundle never disabled it either. The main build's options do disable it, but that setting was never applied to workers. So the second PR fixes a gap that already existed. It edits the `transform` block the first PR added, but that only puts it next to the earlier change."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Adding the worker transform options enables Rolldown’s built-in process.env.NODE_ENV replacement, which interferes with Vite’s define plugin and can give worker code the wrong environment value.",
+          "reason": "The second pull request disables that built-in replacement in the transform configuration introduced by the first, leaving the define plugin to handle it."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21902,
+    "fix": 22269,
+    "fixCommit": "868f1411a6f474baa4417f2d6524692dd452f760",
+    "blamedLines": 8,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect from the first PR is repaired. The first PR only changed how the existing no-cors script rejection is reported: it now returns a JS `throw` with status 200 instead of a 403.",
+          "reason": "The second PR deletes the whole rejectNoCorsRequest middleware, which existed before the first PR, and swaps in a different approach: it appends `export {}` to HMR patches so a classic script can't load them. The stated reason is that Sec-Fetch-* headers are only sent to potentially-trustworthy origins, so a header-based check can't protect other origins. That limitation was already in the middleware before the first PR. So the second PR is a redesign of the protection, not a fix for anything the first PR's error-reporting change broke."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "HMR patch files without ESM syntax can be loaded as classic scripts by an untrusted site. The request guard fails for non-potentially-trustworthy origins because browsers omit the Sec-Fetch-* headers it checks.",
+          "reason": "The first PR only changes the response for requests already blocked by the existing guard. The second PR fixes an older gap by adding ESM syntax to HMR patches so they cannot execute as classic scripts."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21829,
+    "fix": 22257,
+    "fixCommit": "a5763266170f8606836da5c6f987b4b2fd6ddc55",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect from the first PR is repaired. The first PR added oxcRuntimePlugin only when the global config.isBundled is false. That matches what happened before, when the runtime resolveId hook was also absent in bundled mode.",
+          "reason": "The second PR adds a new per-environment `isBundled` option and refactors many plugins to choose their behavior per environment through applyToEnvironment. The oxcRuntimePlugin line it changes was added by the first PR, but that line was not broken: it gated the plugin the same way the old code did. This is an intentional feature and refactor, not a fix for a regression from the first PR."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Enabling bundled development also treats unbundled SSR environments as bundled, selecting bundler plugins and skipping the development plugins those environments need.",
+          "reason": "The global isBundled behavior predates the first PR. Even before its runtime resolver change, oxcPlugin selected the native bundled path and bypassed the development runtime resolver whenever that global flag was true. The second PR fixes this older environment-selection problem."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 20916,
+    "fix": 22158,
+    "fixCommit": "f05f50173461789e0f1323fe06b51f18ca41c132",
+    "blamedLines": 3,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "A malicious package in node_modules can ship a sourcemap whose `sources` or `sourceMappingURL` paths point outside the package, for example `../../vite.config.js`. The dev server would then read that file and send its contents to the browser.",
+          "reason": "The unchecked path resolution in `injectSourcesContent` and `createConvertSourceMapReadMap` existed before the first PR, and `transformRequest` already called `extractSourcemapFromFile`. The first PR only made that function synchronous and added another caller in `forwardConsole`. The second PR's change to that caller just passes the new logger. The main fix, in `injectSourcesContent`, is in code the first PR never touched. This is an older security problem, not one the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "A dependency's sourcemap can reference files outside its package, causing Vite to read local files and expose their contents in served sourcemaps.",
+          "reason": "The unrestricted source and map-file reads already existed before the first PR. That PR changed map extraction from asynchronous to synchronous and added a console-forwarding caller; the second PR adds package-boundary checks to repair the older vulnerability."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21535,
+    "fix": 22156,
+    "fixCommit": "17a8f9edfcd3b9344668120a84e3328aeada3c97",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect from the first PR is repaired here. The first PR only shortens the file list in HMR update log messages. The second PR moves CJS interop assignments in import analysis to the top of the file, which fixes an unrelated issue.",
+          "reason": "The second PR changes transformCjsImport and interopNamedImports, and pulls a getFileStartIndex helper out of ssrTransform. None of that code was touched by the first PR. The only overlap is that both PRs add a function at the end of utils.ts, which is just a neighboring edit."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "Rewriting CommonJS imports leaves their binding assignments at the original import location, so using an imported binding earlier in the module can throw a ReferenceError.",
+          "reason": "The second PR fixes existing import initialization ordering. The first PR only changes HMR log formatting and does not introduce or modify that behavior."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21744,
+    "fix": 22039,
+    "fixCommit": "374bb5d597fcd0485e929565c698d8ed219136f8",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "cssEntriesMap is keyed by chunk.name, so CSS entries with the same basename (e.g. a/index.css and b/index.css) overwrite each other. This breaks the manifest entries and the cleanup of pure-CSS entries.",
+          "reason": "The name-keyed cssEntriesMap was already there before the first PR: css.ts set and got it by chunk.name, and both the old JS manifest plugin and the native one (already the default via 'v2') read it. The first PR only removed the JS fallbacks and the nativePluginEnabledLevel checks. It never changed how cssEntriesMap is keyed or filled, so the second PR fixes an older bug."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "CSS entry points with the same basename overwrite each other in cssEntriesMap, causing incorrect asset associations or missing isEntry flags in the manifest.",
+          "reason": "The basename-based map insertion and lookup already existed before the first PR, which did not change them. Its native manifest path also already existed and was enabled by default; the second PR fixes that older collision by using unique chunk filenames."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21830,
+    "fix": 21831,
+    "fixCommit": "1527f358182de0dfde1eea905edb0f87a9b808b9",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The TanStack commands pass `--template file-router`, which the TanStack CLI has deprecated. The first PR did not add that flag. It only moved the `--` separator and kept the existing arguments as they were.",
+          "reason": "The `--template file-router` flag was already in the commands before the first PR. The first PR only changed `npm exec pkg -- args` to `npm exec -- pkg args` and updated the replace logic to match. The second PR removes the deprecated flag because the external CLI changed. That fixes an older issue the first PR did not cause, and the overlap is just that both PRs edit the same lines."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The TanStack scaffolding commands pass the deprecated `--template file-router` option to the latest CLI.",
+          "reason": "The option was already present before the first pull request. The first pull request changed `npm exec` argument handling; the second removes an existing deprecated option."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21932,
+    "fix": 21829,
+    "fixCommit": "d323ed7a824c232597c2b4ef2a4f3494e5231c3d",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The bump to rolldown rc.10 and Oxc 0.120 makes the dev transform inject `@oxc-project/runtime` helpers into ordinary code, such as tagged templates that contain `</script>`. Vite resolves those helpers through its own `@oxc-project/runtime` dependency, so in dev/SSR the module runner can load a non-ESM helper build and fail when it imports the helper.",
+          "reason": "I didn't open either repository; this is based on the diffs and my memory of Vite's releases. The first PR bumped rolldown to rc.10 and `@oxc-project/runtime` to 0.120.0, so dev transforms now inject runtime helpers such as the tagged-template one. The second PR drops Vite's runtime dependency and its resolveId hook, switching dev to rolldown's `oxcRuntimePlugin`, which serves ESM helpers. Its new test loads a tagged template containing `</script>` in the module runner. That fits a regression from the bump, not an older bug."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "When SSR processes Oxc runtime helpers through `noExternal`, the existing resolver can select CommonJS files that the ESM module runner cannot load.",
+          "reason": "The CommonJS resolution path predates the first PR, which only updates dependency versions. The second PR replaces that existing resolver with `oxcRuntimePlugin()` to guarantee ESM helpers, repairing an older interoperability problem."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  }
+]
