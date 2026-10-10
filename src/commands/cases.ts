@@ -2,6 +2,7 @@ import path from "node:path";
 import { z } from "zod";
 import { casesFile, readCases, splitNames, suiteNames, writeCases } from "../cases/schema";
 import { copyCases } from "../copy";
+import { pushMainBranch } from "../copy/mainBranch";
 import {
   type Arguments,
   approved,
@@ -90,10 +91,12 @@ export async function copyCommand(argv: Arguments): Promise<void> {
   const only = listOption({ argv, name: "--only" });
   const cases = readCases(file);
   const selected = cases.filter((entry) => only === undefined || only.includes(entry.id));
+  const evalRepository = required({ argv, name: "--eval-repo" });
+
+  console.error(`main branch: ${await pushMainBranch({ cases, evalRepository })}`);
+
   const copied = new Map(
-    (
-      await copyCases({ cases: selected, evalRepository: required({ argv, name: "--eval-repo" }) })
-    ).map((entry) => [entry.id, entry]),
+    (await copyCases({ cases: selected, evalRepository })).map((entry) => [entry.id, entry]),
   );
 
   writeCases({ file, cases: cases.map((entry) => copied.get(entry.id) ?? entry) });

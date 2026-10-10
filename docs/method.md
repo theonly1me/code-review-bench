@@ -17,7 +17,7 @@ Each review runs in a fresh, shared clone of the case repository. The harness re
 
 - `shadowclone`: `shadowclone review --base main`, with checks and network on. The harness reads the JSON result.
 - `openqodex`: `npx openqodex@0.11.0 review --base main` with the Claude reviewer, web tools, and the same model.
-- `shadowclone-cloud` and `greptile`: a comment on a copy of the case, pushed to an evaluation repository as a draft pull request. The copy leaves out `.github/workflows`, and the harness skips a case whose change edits a workflow.
+- `shadowclone-cloud` and `greptile`: a comment on a copy of the case, pushed to an evaluation repository as a draft pull request. The copy leaves out `.github/workflows`, and the harness skips a case whose change edits a workflow. The `main` branch of that repository holds the oldest case base. So the code that a bot indexes comes before every known defect and its fix. Each bot runs with its default settings and no custom rules.
 
 ## Graders
 
