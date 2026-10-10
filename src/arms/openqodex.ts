@@ -20,6 +20,14 @@ const usageSchema = z.object({
     .optional(),
 });
 
+const completionSchema = z.object({ completion: z.object({ status: z.string() }) });
+
+export function openqodexRunStatus(report: unknown): "done" | "failed" {
+  return completionSchema.safeParse(report).data?.completion.status === "complete"
+    ? "done"
+    : "failed";
+}
+
 export function openqodexArguments(options: {
   readonly reportDirectory: string;
   readonly timeoutSeconds: number;
@@ -75,7 +83,7 @@ export const runOpenqodexLocally: ArmRunner = async ({ entry, repeat, directory,
       repeat,
       startedAt,
       finishedAt: new Date().toISOString(),
-      status: report === null ? "failed" : "done",
+      status: openqodexRunStatus(report),
       detail: `exit ${result.exitCode}: ${result.stderr.trim().split("\n").slice(-3).join(" | ").slice(0, 400)}`,
       costUsd: usageSchema.safeParse(report).data?.completion?.reviewer?.usage?.cost_usd ?? null,
       raw: report,
