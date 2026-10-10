@@ -26,7 +26,7 @@ The local arms use `claude-opus-5-5` at the default effort. Greptile uses its ow
 - Claude Code, signed in. The `shadowclone`, `openqodex`, and `opus` judge steps use it.
 - Codex, signed in. The `sol` judge uses it.
 - Shadowclone: the `shadowclone` command, or a source checkout passed with `--shadowclone <folder>`.
-- The review linters on the `PATH`: shellcheck 0.10.0, hadolint 2.15.1, actionlint 1.7.7, zizmor 1.30.1, and squawk 2.66.0. The run manifest lists the linters that it found.
+- The review linters on the `PATH`: shellcheck 0.10.0, hadolint 2.15.1, actionlint 1.7.7, zizmor 1.30.1, squawk 2.66.0, and trivy 0.75.0. The run manifest lists the linters that it found.
 
 ## Run it
 
