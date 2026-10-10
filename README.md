@@ -74,7 +74,7 @@ A run resumes. It skips each review that has a `done` result. The report writes 
    - If the repository has no `main` branch, the copy pushes the oldest case base to `main`. This is the code that a bot indexes, and it comes before every known defect and its fix.
    - Each case becomes a draft pull request from `case-<key>/head` to `case-<key>/base`. The copy leaves out `.github/workflows`, and it skips a case whose change edits a workflow.
 3. Install the Shadowclone bot and Greptile on that repository, with their default settings and no custom rules.
-4. Run `--arm shadowclone-cloud` or `--arm greptile` with `--repeats 1`. The harness asks for each review with a pull request comment.
+4. Run `--arm shadowclone-cloud --shadowclone-bot <bot login>` or `--arm greptile` with `--repeats 1`. The harness asks for each review with a pull request comment that mentions the bot login, or `@greptileai`.
 
 ## Grading
 

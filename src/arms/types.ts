@@ -32,6 +32,7 @@ export type ArmSettings = {
   readonly model: string;
   readonly openqodexTimeoutSeconds: number;
   readonly shadowclone: ShadowcloneCommand;
+  readonly shadowcloneBot: string | null;
 };
 
 export type ArmRunner = (options: {

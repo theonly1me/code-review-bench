@@ -81,6 +81,7 @@ export async function runCommand(argv: Arguments): Promise<void> {
   const only = listOption({ argv, name: "--only" });
   const model = optional({ argv, name: "--model" }) ?? defaultModel;
   const shadowclone = shadowcloneCommand(optional({ argv, name: "--shadowclone" }));
+  const shadowcloneBot = optional({ argv, name: "--shadowclone-bot" }) ?? null;
   const cases = readCases(casesFile({ work, suite, split })).filter(
     (entry) => only === undefined || only.includes(entry.id),
   );
@@ -91,6 +92,10 @@ export async function runCommand(argv: Arguments): Promise<void> {
     repeats: numberOption({ argv, name: "--repeats", fallback: 1 }),
   });
   const host = arm === "greptile" ? "Greptile" : "Claude Code";
+
+  if (arm === "shadowclone-cloud" && shadowcloneBot === null) {
+    throw new Error("The shadowclone-cloud arm needs --shadowclone-bot <app or account login>.");
+  }
 
   if (cases.length === 0) {
     throw new Error(
@@ -124,6 +129,7 @@ export async function runCommand(argv: Arguments): Promise<void> {
     settings: {
       model,
       shadowclone,
+      shadowcloneBot,
       openqodexTimeoutSeconds: numberOption({ argv, name: "--openqodex-timeout", fallback: 900 }),
     },
     limit: numberOption({ argv, name: "--limit", fallback: 3 }),

@@ -39,10 +39,17 @@ export function isArmReview(options: {
     : (options.body ?? "").includes(shadowcloneReviewMarker);
 }
 
-const requestBodies: Readonly<Record<CloudArmName, string>> = {
-  "shadowclone-cloud": "@shadowclone review",
-  greptile: "@greptileai",
-};
+function requestBody(options: { readonly arm: CloudArmName; readonly bot: string | null }): string {
+  if (options.arm === "greptile") {
+    return "@greptileai";
+  }
+
+  if (options.bot === null) {
+    throw new Error("the shadowclone-cloud arm needs --shadowclone-bot <app or account login>");
+  }
+
+  return `@${options.bot} review`;
+}
 
 async function waitForReview(options: {
   readonly arm: CloudArmName;
@@ -76,7 +83,7 @@ async function waitForReview(options: {
 }
 
 export function cloudRunner(arm: CloudArmName): ArmRunner {
-  return async ({ entry, repeat }): Promise<ArmRun> => {
+  return async ({ entry, repeat, settings }): Promise<ArmRun> => {
     const startedAt = new Date().toISOString();
     const base = { arm, caseId: entry.id, repeat, startedAt, costUsd: null };
 
@@ -98,7 +105,7 @@ export function cloudRunner(arm: CloudArmName): ArmRunner {
       "POST",
       `repos/${repository}/issues/${number}/comments`,
       "-f",
-      `body=${requestBodies[arm]}`,
+      `body=${requestBody({ arm, bot: settings.shadowcloneBot })}`,
     ]);
 
     const review = await waitForReview({ arm, repository, number, startedAt });
