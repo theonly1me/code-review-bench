@@ -4,8 +4,12 @@ import { z } from "zod";
 import { runProcess } from "../runProcess";
 import { withReviewClone } from "../cases/repository";
 import { readJsonFile } from "../process";
-import { openqodexRelease } from "../suites/openqodex";
 import { type ArmRunner, failedRun } from "./types";
+
+export const openqodexRelease = {
+  version: "0.11.0",
+  commit: "2f2fa9e48c1f62a6123997eb14111140d8e22a74",
+} as const;
 
 const usageSchema = z.object({
   completion: z

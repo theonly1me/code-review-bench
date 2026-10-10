@@ -6,7 +6,6 @@ It runs each reviewer through its public CLI or its pull request bot. It has no 
 
 | Suite       | Cases                                                                           | Known defects                                              |
 | ----------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `openqodex` | The 21 cases of the OpenQodex benchmark at release 0.11.0                       | 51 planted bugs, 2 clean cases                             |
 | `real`      | Merged vite pull requests. The `dev` split tunes, and the `scored` split scores | One defect for each defect case, confirmed by two judges   |
 | `planted`   | A large pull request with a private manifest                                    | The manifest lists them, and its sha256 is published first |
 
@@ -37,7 +36,6 @@ Use a private work folder outside every repository. Each command that calls a mo
 3. Build the cases:
 
    ```bash
-   bun src/cli.ts cases --work <work> --suite openqodex
    bun src/cli.ts mine --repo vitejs/vite --clone <vite> --since 2025-07-01 --until 2026-02-28 --introduced-before 2026-01-29 --mined <dev-mined>
    bun src/cli.ts validate --mined <dev-mined> --clone <vite> --yes --max-calls 40
    bun src/cli.ts cases --work <work> --suite real --split dev --mined <dev-mined> --clone <vite> --clean 12
@@ -47,18 +45,18 @@ Use a private work folder outside every repository. Each command that calls a mo
 4. Run each arm. `--repeats` sets the runs for each case, and `--limit` sets the reviews that run at the same time:
 
    ```bash
-   bun src/cli.ts run --work <work> --suite openqodex --split scored --arm shadowclone --shadowclone <shadowclone checkout> --run <name> --repeats 3 --limit 4 --yes --max-calls 63
-   bun src/cli.ts run --work <work> --suite openqodex --split scored --arm openqodex --run <name> --repeats 3 --limit 4 --yes --max-calls 63
+   bun src/cli.ts run --work <work> --suite real --split scored --arm shadowclone --shadowclone <shadowclone checkout> --run <name> --repeats 3 --limit 4 --yes --max-calls 120
+   bun src/cli.ts run --work <work> --suite real --split scored --arm openqodex --run <name> --repeats 3 --limit 4 --yes --max-calls 120
    ```
 
 5. Grade and report:
 
    ```bash
-   bun src/cli.ts judge --work <work> --suite openqodex --split scored --run <name> --yes --max-calls 42
-   bun src/cli.ts report --work <work> --suite openqodex --split scored --run <name>
+   bun src/cli.ts judge --work <work> --suite real --split scored --run <name> --yes --max-calls 80
+   bun src/cli.ts report --work <work> --suite real --split scored --run <name>
    ```
 
-A run resumes. It skips each review that has a `done` result. The report writes `report-<suite>-<split>.md` and `metrics-<suite>-<split>.json` into the run folder. For the `openqodex` suite, it also writes their results layout to `openqodex-scorer/` and adds the output of their `score.mjs`.
+A run resumes. It skips each review that has a `done` result. The report writes `report-<suite>-<split>.md` and `metrics-<suite>-<split>.json` into the run folder.
 
 ## Cloud arms
 
@@ -70,7 +68,6 @@ A run resumes. It skips each review that has a `done` result. The report writes 
 
 - **Blind judges:** Claude Opus 5.5 and GPT 6.1 Sol label each pooled finding `real`, `minor`, or `wrong`. They also name the findings that identify each known defect. A label or a detection counts when both judges agree.
 - **Disputes:** `bun src/cli.ts disputes` writes each disputed finding with both reasons and no reviewer name. Put the blind decisions in `tiebreaks.json` in the run folder, as `{ "<finding id>": "real" }`.
-- **Their scorer:** for the `openqodex` suite, their `benchmark/score.mjs` scores both local arms with their own rules.
 
 ## Check the harness
 

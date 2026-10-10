@@ -12,7 +12,6 @@ import {
   required,
   workDirectory,
 } from "../options";
-import { buildOpenqodexCases } from "../suites/openqodex";
 import { buildPlantedCases, manifestSeal } from "../suites/planted";
 import { mineDefects } from "../suites/real/mine";
 import { prepareRealCases } from "../suites/real/prepare";
@@ -22,15 +21,6 @@ import { readJsonFile } from "../process";
 export async function casesCommand(argv: Arguments): Promise<void> {
   const work = await workDirectory(argv);
   const suite = choice({ argv, name: "--suite", choices: suiteNames });
-
-  if (suite === "openqodex") {
-    const only = listOption({ argv, name: "--only" });
-    const cases = await buildOpenqodexCases({ work, ...(only === undefined ? {} : { only }) });
-
-    writeCases({ file: casesFile({ work, suite, split: "scored" }), cases });
-    console.log(`${cases.length} openqodex cases`);
-    return;
-  }
 
   if (suite === "planted") {
     const manifest = required({ argv, name: "--manifest" });

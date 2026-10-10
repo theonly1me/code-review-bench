@@ -17,7 +17,7 @@ import {
   workDirectory,
 } from "../options";
 import { git } from "../process";
-import { openqodexRelease } from "../suites/openqodex";
+import { openqodexRelease } from "../arms/openqodex";
 
 const defaultModel = "claude-opus-5-5";
 
