@@ -1,0 +1,21 @@
+{
+  "name": "code-review-bench",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "scripts": {
+    "bench": "bun src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test src",
+    "format": "prettier --write",
+    "check": "tsc --noEmit && bun test src && prettier --check src"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.2",
+    "prettier": "3.9.9",
+    "typescript": "5.9.3"
+  }
+}
