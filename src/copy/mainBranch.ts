@@ -39,7 +39,6 @@ export async function pushMainBranch(options: {
     cwd: checkout,
     arguments: [
       "commit-tree",
-      "-S",
       await treeWithoutWorkflows({ checkout, commit: baseSha }),
       "-m",
       "Base",

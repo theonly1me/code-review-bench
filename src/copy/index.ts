@@ -22,7 +22,6 @@ async function copyCase(options: {
     cwd: checkout,
     arguments: [
       "commit-tree",
-      "-S",
       await treeWithoutWorkflows({ checkout, commit: entry.baseSha }),
       "-m",
       "Base",
@@ -32,7 +31,6 @@ async function copyCase(options: {
     cwd: checkout,
     arguments: [
       "commit-tree",
-      "-S",
       await treeWithoutWorkflows({ checkout, commit: entry.headSha }),
       "-p",
       base,
