@@ -33,6 +33,7 @@ const judgeTools = ["Read", "Grep", "Glob"] as const;
 const judgeTimeoutMilliseconds = 30 * 60_000;
 
 const claudeResultSchema = z.object({
+  type: z.literal("result"),
   is_error: z.boolean().optional(),
   result: z.string().optional(),
   structured_output: z.unknown().optional(),
@@ -53,6 +54,20 @@ function engineEnvironment(keys: readonly string[]): Record<string, string> {
         (baseKeys.some((key) => key === entry[0]) || keys.includes(entry[0])),
     ),
   );
+}
+
+export function claudeAnswer(stdout: string): z.infer<typeof claudeResultSchema> {
+  const parsed: unknown = JSON.parse(stdout);
+  const messages = z.array(z.unknown()).safeParse(parsed).data ?? [parsed];
+  const answer = messages
+    .map((message) => claudeResultSchema.safeParse(message).data)
+    .findLast((result) => result !== undefined);
+
+  if (answer === undefined) {
+    throw new Error("Claude Code returned no result message");
+  }
+
+  return answer;
 }
 
 function failure(options: { readonly engine: string; readonly text: string }): Error {
@@ -109,7 +124,7 @@ export async function askClaude(request: JudgeRequest): Promise<unknown> {
     throw failure({ engine: "Claude Code", text: result.stderr || result.stdout });
   }
 
-  const answer = claudeResultSchema.parse(JSON.parse(result.stdout));
+  const answer = claudeAnswer(result.stdout);
 
   if (answer.is_error === true) {
     throw failure({ engine: "Claude Code", text: answer.result ?? "" });

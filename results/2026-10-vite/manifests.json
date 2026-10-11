@@ -1,0 +1,62 @@
+{
+  "greptile": {
+    "harnessCommit": "5abc897f32fa9fc22e5b3efc121fe372d3cf5502",
+    "shadowclone": "0.0.28",
+    "shadowcloneDirty": false,
+    "openqodex": {
+      "version": "0.11.0",
+      "commit": "2f2fa9e48c1f62a6123997eb14111140d8e22a74"
+    },
+    "claudeCode": "2.1.296 (Claude Code)",
+    "node": "v24.14.1",
+    "linters": ["shellcheck", "hadolint", "actionlint", "zizmor", "squawk", "trivy"],
+    "model": "claude-opus-5-5",
+    "machine": "darwin arm64 Apple M3 Max",
+    "startedAt": "2026-10-10T21:36:16.403Z"
+  },
+  "openqodex": {
+    "harnessCommit": "5abc897f32fa9fc22e5b3efc121fe372d3cf5502",
+    "shadowclone": "0.0.28",
+    "shadowcloneDirty": false,
+    "openqodex": {
+      "version": "0.11.0",
+      "commit": "2f2fa9e48c1f62a6123997eb14111140d8e22a74"
+    },
+    "claudeCode": "2.1.296 (Claude Code)",
+    "node": "v24.14.1",
+    "linters": ["shellcheck", "hadolint", "actionlint", "zizmor", "squawk", "trivy"],
+    "model": "claude-opus-5-5",
+    "machine": "darwin arm64 Apple M3 Max",
+    "startedAt": "2026-10-10T21:11:27.861Z"
+  },
+  "shadowclone-cloud": {
+    "harnessCommit": "5abc897f32fa9fc22e5b3efc121fe372d3cf5502",
+    "shadowclone": "0.0.28",
+    "shadowcloneDirty": false,
+    "openqodex": {
+      "version": "0.11.0",
+      "commit": "2f2fa9e48c1f62a6123997eb14111140d8e22a74"
+    },
+    "claudeCode": "2.1.296 (Claude Code)",
+    "node": "v24.14.1",
+    "linters": ["shellcheck", "hadolint", "actionlint", "zizmor", "squawk", "trivy"],
+    "model": "claude-opus-5-5",
+    "machine": "darwin arm64 Apple M3 Max",
+    "startedAt": "2026-10-10T23:55:02.194Z"
+  },
+  "shadowclone": {
+    "harnessCommit": "5abc897f32fa9fc22e5b3efc121fe372d3cf5502",
+    "shadowclone": "0.0.28",
+    "shadowcloneDirty": false,
+    "openqodex": {
+      "version": "0.11.0",
+      "commit": "2f2fa9e48c1f62a6123997eb14111140d8e22a74"
+    },
+    "claudeCode": "2.1.296 (Claude Code)",
+    "node": "v24.14.1",
+    "linters": ["shellcheck", "hadolint", "actionlint", "zizmor", "squawk", "trivy"],
+    "model": "claude-opus-5-5",
+    "machine": "darwin arm64 Apple M3 Max",
+    "startedAt": "2026-10-10T23:35:59.433Z"
+  }
+}

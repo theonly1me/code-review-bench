@@ -1,0 +1,706 @@
+[
+  {
+    "id": "real-scored-c01",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor: typecheck client directory",
+    "description": "Enable typechecking for `vite/src/client` directory.",
+    "baseSha": "04f974fbae1df6b7b6423d9083130579cdfa06ef",
+    "headSha": "2cf91d82bd94611467a47222c980859009c759cb",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 1
+    }
+  },
+  {
+    "id": "real-scored-c02",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: use `import.meta.ROLLDOWN_FILE_URL_*` for assets in JS",
+    "description": "Part of the \"Use of `import.meta.ROLLUP_FILE_URL_referenceId`\" in https://github.com/vitejs/vite/issues/22709#issuecomment-4875776753\r\n\r\nThis change allows Rolldown plugins using `import.meta.ROLLDOWN_FILE_URL_*` to work well with the `base` option and `renderBuiltUrl` option. But this does not convert URL of those assets to data URL. For that https://github.com/vitejs/vite/issues/22709#issuecomment-4902815567 is needed.\r\nThis PR migrates the asset plugin to use that approach.",
+    "baseSha": "a6c08e10a624bd89b78683ff1b0e8cfa1d89aa45",
+    "headSha": "9050e092e6185c8dd73daf1a7012db036586a2ee",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The new `resolveFileUrl` hook runs every file name through `encodeURIPath`. For chunks emitted by other plugins, this percent-encodes the braces in the hash placeholder (`!~{001}~`), so Rolldown never swaps in the final hash and the URL points to a file that doesn't exist.",
+        "fix": "diff --git a/packages/vite/src/node/plugins/asset.ts b/packages/vite/src/node/plugins/asset.ts\nindex c315d5b29..85e12b89d 100644\n--- a/packages/vite/src/node/plugins/asset.ts\n+++ b/packages/vite/src/node/plugins/asset.ts\n@@ -48,6 +48,11 @@ import { getImportMapFilename } from './html'\n // referenceId is base64url but replaces - with $\n export const assetUrlRE: RegExp = /__VITE_ASSET__([\\w$]+)__/g\n \n+const encodedHashPlaceholderRE = /!~%7B([\\w$]{1,17})%7D~/g\n+function unescapeHashPlaceholders(uri: string): string {\n+  return uri.replace(encodedHashPlaceholderRE, '!~{$1}~')\n+}\n+\n interface FileUrlMetadata {\n   asFileUrl: boolean\n }\n@@ -329,7 +334,9 @@ export function assetPlugin(config: ResolvedConfig): Plugin {\n               toRelativeRuntime,\n             )\n             return typeof replacement === 'string'\n-              ? JSON.stringify(encodeURIPath(replacement))\n+              ? JSON.stringify(\n+                  unescapeHashPlaceholders(encodeURIPath(replacement)),\n+                )\n               : replacement.runtime\n           },\n \ndiff --git a/playground/assets/__tests__/assets.spec.ts b/playground/assets/__tests__/assets.spec.ts\nindex 46e540d5c..222ae0ba8 100644\n--- a/playground/assets/__tests__/assets.spec.ts\n+++ b/playground/assets/__tests__/assets.spec.ts\n@@ -218,6 +218,20 @@ describe('asset imports from js', () => {\n   })\n })\n \n+describe.runIf(isBuild)('file URL emitted by an external plugin', () => {\n+  test('replaces the preliminary hash', async () => {\n+    expect(await page.textContent('.emitted-worker-url')).toMatch(\n+      /^\\/foo\\/bar\\/assets\\/emitted-worker-[-\\w]{8}\\.js$/,\n+    )\n+  })\n+\n+  test('loads the emitted chunk', async () => {\n+    await expect\n+      .poll(() => page.textContent('.emitted-worker-result'))\n+      .toBe('worker loaded')\n+  })\n+})\n+\n describe('css url() references', () => {\n   test('fonts', async () => {\n     expect(\ndiff --git a/playground/assets/__tests__/encoded-base/assets-encoded-base.spec.ts b/playground/assets/__tests__/encoded-base/assets-encoded-base.spec.ts\nindex 900fb34df..c3adcf72c 100644\n--- a/playground/assets/__tests__/encoded-base/assets-encoded-base.spec.ts\n+++ b/playground/assets/__tests__/encoded-base/assets-encoded-base.spec.ts\n@@ -73,6 +73,12 @@ describe('asset imports from js', () => {\n   })\n })\n \n+test.runIf(isBuild)('loads the emitted worker', async () => {\n+  await expect\n+    .poll(() => page.textContent('.emitted-worker-result'))\n+    .toBe('worker loaded')\n+})\n+\n describe('css url() references', () => {\n   test('fonts', async () => {\n     expect(\ndiff --git a/playground/assets/__tests__/relative-base/assets-relative-base.spec.ts b/playground/assets/__tests__/relative-base/assets-relative-base.spec.ts\nindex 69b2b3241..d786b3ff2 100644\n--- a/playground/assets/__tests__/relative-base/assets-relative-base.spec.ts\n+++ b/playground/assets/__tests__/relative-base/assets-relative-base.spec.ts\n@@ -77,6 +77,12 @@ describe('asset imports from js', () => {\n   })\n })\n \n+test.runIf(isBuild)('loads the emitted worker', async () => {\n+  await expect\n+    .poll(() => page.textContent('.emitted-worker-result'))\n+    .toBe('worker loaded')\n+})\n+\n describe('css url() references', () => {\n   test('fonts', async () => {\n     expect(\ndiff --git a/playground/assets/__tests__/runtime-base/assets-runtime-base.spec.ts b/playground/assets/__tests__/runtime-base/assets-runtime-base.spec.ts\nindex 2b89521b8..39933d183 100644\n--- a/playground/assets/__tests__/runtime-base/assets-runtime-base.spec.ts\n+++ b/playground/assets/__tests__/runtime-base/assets-runtime-base.spec.ts\n@@ -70,6 +70,12 @@ describe('asset imports from js', () => {\n   })\n })\n \n+test.runIf(isBuild)('loads the emitted worker', async () => {\n+  await expect\n+    .poll(() => page.textContent('.emitted-worker-result'))\n+    .toBe('worker loaded')\n+})\n+\n describe('css url() references', () => {\n   test('fonts', async () => {\n     expect(\ndiff --git a/playground/assets/__tests__/url-base/assets-url-base.spec.ts b/playground/assets/__tests__/url-base/assets-url-base.spec.ts\nindex 0e7b044d7..fd106883c 100644\n--- a/playground/assets/__tests__/url-base/assets-url-base.spec.ts\n+++ b/playground/assets/__tests__/url-base/assets-url-base.spec.ts\n@@ -75,6 +75,12 @@ describe('asset imports from js', () => {\n   })\n })\n \n+test.runIf(isBuild)('loads the emitted worker', async () => {\n+  await expect\n+    .poll(() => page.textContent('.emitted-worker-result'))\n+    .toBe('worker loaded')\n+})\n+\n describe('css url() references', () => {\n   test('fonts', async () => {\n     expect(\ndiff --git a/playground/assets/asset/emitted-worker.js b/playground/assets/asset/emitted-worker.js\nnew file mode 100644\nindex 000000000..ea9f1d651\n--- /dev/null\n+++ b/playground/assets/asset/emitted-worker.js\n@@ -0,0 +1 @@\n+self.postMessage('worker loaded')\ndiff --git a/playground/assets/asset/main.js b/playground/assets/asset/main.js\nindex e889874ff..18bf777df 100644\n--- a/playground/assets/asset/main.js\n+++ b/playground/assets/asset/main.js\n@@ -1,4 +1,14 @@\n+import emittedWorkerUrl from 'virtual:emitted-worker-url'\n+\n function text(el, text) {\n   document.querySelector(el).textContent = text\n }\n text('.relative-js', 'hello')\n+\n+if (emittedWorkerUrl) {\n+  text('.emitted-worker-url', emittedWorkerUrl)\n+  const worker = new Worker(emittedWorkerUrl, { type: 'module' })\n+  worker.addEventListener('message', ({ data }) => {\n+    text('.emitted-worker-result', data)\n+  })\n+}\ndiff --git a/playground/assets/index.html b/playground/assets/index.html\nindex 6ba523349..d9b395be1 100644\n--- a/playground/assets/index.html\n+++ b/playground/assets/index.html\n@@ -54,6 +54,10 @@\n   </li>\n </ul>\n \n+<h2>File URL emitted by an external plugin</h2>\n+<code class=\"emitted-worker-url\">pending</code>\n+<code class=\"emitted-worker-result\">pending</code>\n+\n <h2>CSS url references</h2>\n <div>Font should be loaded (all text should be italic)</div>\n <div class=\"css-url-absolute\">\ndiff --git a/playground/assets/vite.config-runtime-base.js b/playground/assets/vite.config-runtime-base.js\nindex 8fbed84bc..c505feec8 100644\n--- a/playground/assets/vite.config-runtime-base.js\n+++ b/playground/assets/vite.config-runtime-base.js\n@@ -24,6 +24,7 @@ export default defineConfig({\n     },\n   },\n   plugins: [\n+    ...baseConfig.plugins,\n     {\n       name: 'dynamic-base-assets-globals',\n       transformIndexHtml(_, ctx) {\ndiff --git a/playground/assets/vite.config.js b/playground/assets/vite.config.js\nindex 9bae9842e..82bc7fc6b 100644\n--- a/playground/assets/vite.config.js\n+++ b/playground/assets/vite.config.js\n@@ -16,6 +16,26 @@ export default defineConfig({\n     },\n   },\n   assetsInclude: ['**/*.unknown', './nested/*.custom'],\n+  plugins: [\n+    {\n+      name: 'emitted-worker-url',\n+      resolveId(id) {\n+        if (id === 'virtual:emitted-worker-url') {\n+          return '\\0virtual:emitted-worker-url'\n+        }\n+      },\n+      load(id) {\n+        if (id !== '\\0virtual:emitted-worker-url') return\n+        if (this.environment.mode !== 'build') return 'export default undefined'\n+\n+        const referenceId = this.emitFile({\n+          type: 'chunk',\n+          id: path.resolve(import.meta.dirname, 'asset/emitted-worker.js'),\n+        })\n+        return `export default import.meta.ROLLUP_FILE_URL_${referenceId}`\n+      },\n+    },\n+  ],\n   build: {\n     outDir: 'dist/foo',\n     assetsInlineLimit: 8000, // 8 kB",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 2
+    }
+  },
+  {
+    "id": "real-scored-c03",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(css): support es2025 build target for lightningcss",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nallow using es2025 by making it properly map to browser versions. simple change, same style as #21294, haven't tried building it.",
+    "baseSha": "a704abc4e6f1528837030cf92cb7a2de65da54cc",
+    "headSha": "4028085f30e416390fd8d5f12e2435e996baafc7",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 3
+    }
+  },
+  {
+    "id": "real-scored-c04",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(legacy): prefer oxc as minifier (fix #21973)",
+    "description": "Fixes #21973\r\n\r\n**Summary**\r\n\r\n* Updates `plugin-legacy` to prefer `oxc` as the default minifier instead of always forcing `terser`.\r\n\r\n**Changelog**\r\n\r\n* Add legacy minifier resolution helpers to derive behavior from `build.minify`.\r\n* Replace hardcoded Terser paths with conditional Oxc(default)/Terser(fallback) selection.",
+    "baseSha": "a1d73a3879196cfd76b05a364e30b1e6b4bdf757",
+    "headSha": "32e435217ff9847ddd643d462b112a1b6fb92b2b",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "Legacy chunks are now minified by Oxc with a plain `minify: true` and no syntax target. The minifier's default (esnext) target can bring back syntax that Babel had lowered for legacy browsers, such as optional catch binding (`catch {}`) or optional chaining.",
+        "fix": "diff --git a/packages/plugin-legacy/src/index.ts b/packages/plugin-legacy/src/index.ts\nindex 8628d4253..7387a63aa 100644\n--- a/packages/plugin-legacy/src/index.ts\n+++ b/packages/plugin-legacy/src/index.ts\n@@ -538,6 +538,8 @@ function viteLegacyPlugin(options: Options = {}): Plugin[] {\n           minify: resolveLegacyOutputMinify(\n             config.build.minify,\n             supportsLegacyOxcMinification,\n+            // Don't use newer syntax for legacy chunks\n+            'es2015',\n           ),\n         }\n       }\ndiff --git a/playground/legacy/__tests__/legacy.spec.ts b/playground/legacy/__tests__/legacy.spec.ts\nindex de670c345..c7bbe9ffb 100644\n--- a/playground/legacy/__tests__/legacy.spec.ts\n+++ b/playground/legacy/__tests__/legacy.spec.ts\n@@ -123,6 +123,17 @@ describe.runIf(isBuild)('build', () => {\n     expect(findAssetFile(/polyfills-legacy/)).toMatch(terserPattern)\n   })\n \n+  test('should not use newer syntax when minifying legacy chunks', () => {\n+    // The playground targets IE 11, so babel lowers the legacy chunks to ES5.\n+    // The minifier must not reintroduce syntax newer than its `es2015` compress\n+    // target: `try {} catch (e) {}` must not be collapsed to `try {} catch {}`\n+    // (ES2019) and optional chaining (ES2020) must not appear.\n+    const mainLegacyChunk = findAssetFile(/chunk-main-legacy/)\n+    expect(mainLegacyChunk).toMatch(/catch\\s*\\(/)\n+    expect(mainLegacyChunk).not.toMatch(/catch\\s*\\{/)\n+    expect(mainLegacyChunk).not.toMatch(/\\w\\?\\.\\w/)\n+  })\n+\n   test('should emit css file', async () => {\n     expect(\n       listAssets().some((filename) => filename.endsWith('.css')),",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 4
+    }
+  },
+  {
+    "id": "real-scored-c05",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(css): minify style tag",
+    "description": "Minify style tag in HTML.",
+    "baseSha": "8cb872e7fb65b03f6068923c6aa7fcf3e71baf21",
+    "headSha": "0258852a7f57c755efc54cb6e097fbb4fc4e6d53",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 5
+    }
+  },
+  {
+    "id": "real-scored-c06",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(css): export PostCSS config type for type-safe configs",
+    "description": "### Description\n\nRe-exports the PostCSS user config shape as `PostcssUserConfig` from `vite`, so PostCSS configs can be typed against the same definition Vite loads them with:\n\n```ts\nimport type { PostcssUserConfig } from 'vite'\n\nconst config: PostcssUserConfig = { plugins: [] }\nexport default config\n```\n\nCloses #19109 (approved by @bluwy in the issue). This continues the work of #22525, which was closed by its author; the only outstanding review feedback there (from @sapphi-red) was *\"We should use the types from `postcss-load-config`\"* instead of hand-writing the shape — this PR addresses exactly that.\n\n### Why it mirrors the type instead of re-exporting it\n\nA literal re-export turned out not to be possible with the current type-bundling setup, for two compounding reasons:\n\n- `postcss-load-config` is a **bundled `devDependency`**, not a runtime dependency — so it can't be referenced as an external `import('postcss-load-config')` in the published `.d.ts` (consumers don't have it installed).\n- Its declarations use **CommonJS `export =` syntax**, which `rolldown-plugin-dts` cannot re-export through the bundled `.d.ts`. A named re-export fails codegen (`Export 'PostcssUserConfig' is not defined`), and resolving the type inline pulls in non-externalized `postcss/lib/*` subpaths and fails on their `export =` declarations.\n\nSo `PostcssUserConfig` is defined by mirroring `postcss-load-config`'s `Config` using the already-public `postcss` types. To make sure the mirror can never silently drift, a type-level test asserts it stays structurally identical to the upstream `Config`:\n\n```ts\nexport type cases = [ExpectTrue<Equal<PostcssUserConfig, PostcssLoadConfig>>]\n```\n\nThis also caught a subtle bug in the previous attempt: it used `PostCSS.TransformCallback` where `Config` actually uses `Transformer` (which additionally requires `postcssPlugin`/`postcssVersion`).\n\n### Tests\n\n- `packages/vite/src/node/__tests_dts__/postcss.ts` — a type-only test that (1) locks `PostcssUserConfig` to `postcss-load-config`'s `Config` via `Equal`, and (2) checks both the array and object plugin formats are accepted and an invalid value is rejected. It runs as part of `pnpm typecheck` (`tsc -p src/node/__tests_dts__`).\n- Verified locally: `pnpm typecheck`, `pnpm build-types` (roll + check), `eslint`, and `oxfmt --check` all pass.\n\n### Notes for reviewers\n\n- The mirror + `Equal` lock is the approach I landed on given the `export =` / bundled-dep constraints above. If you'd prefer a literal reference (e.g. by also externalizing `postcss` subpaths in `rolldown.dts.config.ts`, which leaks `import ... from \"postcss/lib/processor\"` into the public `.d.ts`), happy to switch — let me know.\n- No docs change included: the type carries inline JSDoc with a usage example. Glad to add a docs note if you'd like one.",
+    "baseSha": "04175fbcb0074c68d28f76763974ae89941ff03b",
+    "headSha": "45971351875ebb75f014f68ed20c35ef401e2c5a",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 6
+    }
+  },
+  {
+    "id": "real-scored-c07",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: extend `server.fs.deny` list with common files",
+    "description": "Note: we do not consider this as a vulnerability as it's not possible to cover every sensitive files possible. But we can add common ones as we go. And the `server.fs.deny` list is documented, so if you need more than these, you should add as you see fit.",
+    "baseSha": "ed7b28352e347dc7c95d590d2e696c3e5bd1e3d7",
+    "headSha": "4531e01b203c104ae1105775df4231a331142ea9",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 7
+    }
+  },
+  {
+    "id": "real-scored-c08",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: use `import.meta.ROLLDOWN_FILE_URL_*` for other plugins",
+    "description": "Part of the \"Use of `import.meta.ROLLUP_FILE_URL_referenceId`\" in https://github.com/vitejs/vite/issues/22709#issuecomment-4875776753\r\n\r\nSimilar to #22888 but for the other plugins.\r\n\r\nfixes https://github.com/vitejs/vite/issues/13996",
+    "baseSha": "4366ac468343252df6d5706361a6348afa66f9cc",
+    "headSha": "59573b8b82f067afa23c22fe753d1d8e8bdd4c1d",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 8
+    }
+  },
+  {
+    "id": "real-scored-c09",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor: correct logic in `collectAllModules` function",
+    "description": "Hi team,\r\n\r\nWhile going through the source code, I came across this function:\r\n\r\nhttps://github.com/vitejs/vite/blob/646dbedd2870f8ec48df0321177d8aa64bbd1575/packages/vite/src/node/config.ts#L2519\r\n\r\nI noticed one thing about the collectAllModules implementation. Inside the for loops, we are adding the imported chunk filename to analyzedModules before calling collectAllModules recursively.\r\n\r\nBut because there is a early return at the start of collectAllModules, the recursive call looks like it will return immediately and it will not process that chunk modules.\r\n\r\nSo does it make more sense to either remove the recursive call there, or not add the filename to analyzedModules before calling collectAllModules?\r\n\r\nAlso, since codeSplitting: false is used here:\r\n\r\nhttps://github.com/vitejs/vite/blob/646dbedd2870f8ec48df0321177d8aa64bbd1575/packages/vite/src/node/config.ts#L2498\r\n\r\nMy understanding is that only one chunk will be generated. So I was thinking recursive collection may not be needed here.",
+    "baseSha": "646dbedd2870f8ec48df0321177d8aa64bbd1575",
+    "headSha": "b288b48524cdcf3686ecdaffbea921b019a1e1b6",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 9
+    }
+  },
+  {
+    "id": "real-scored-c10",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: add warning for unsupported hooks in plugin returned from `applyToEnvironment` hook",
+    "description": "Some hooks do not for plugins returned by `applyToEnvironment` hook. This PR clarifies that in the docs and adds warning if those hooks are declared.\r\n\r\nrefs https://github.com/vitejs/vite/pull/18544\r\nrefs https://discord.com/channels/804011606160703521/1534597514987176086/1535141249030430750",
+    "baseSha": "6a3339811d0f9cd5baed22a34571dff2596be1a1",
+    "headSha": "8426b1ae34cbc0fc38d53048ac21070056ae9bcf",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 10
+    }
+  },
+  {
+    "id": "real-scored-c11",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: integrate with Vite Task for zero-config build caching",
+    "description": "Integrates Vite with Vite Task so that `vite build` can be cached with zero configuration when run under `vp run`: Vite reports its build inputs, outputs, and tracked env vars through `@voidzero-dev/vite-task-client`, which is a no-op when Vite runs outside Vite Task.\r\n\r\nCompanion PR on the Vite Task side: voidzero-dev/vite-task#346.\r\n\r\nSee the [proposal](https://github.com/voidzero-dev/vite-task/blob/runner-aware-tools/docs/runner-task-ipc/vite-proposal.md) for background and design rationale.\r\n\r\n\r\n## Future direction\r\n\r\nWe are open to generalizing this into a hook system that any runner can use, but that would be a much bigger commitment than just supporting Vite Task.\r\n\r\nVite Task gives us a case study before we want to make the hook system generic and stable. We already found and fixed follow-up issues after the initial integration in this PR:\r\n\r\n- https://github.com/vitejs/vite/pull/22800\r\n- https://github.com/vitejs/vite/pull/22706\r\n\r\nIf Vite had exposed this as a public API from the start, those fixes would have needed compatibility handling or a migration path.\r\n\r\n## Security\r\n\r\n`@voidzero-dev/vite-task-client` [loads code from a path specified by `VP_RUN_NODE_CLIENT_PATH`](https://npmx.dev/package-code/@voidzero-dev/vite-task-client/v/0.2.0/src%2Findex.js#L35-L44) , assuming the env is controlled by a trusted party.\r\n\r\nNode and OS already trust environment variables with abilities to inject code into a process (`NODE_OPTIONS='--require ...'` and `LD_PRELOAD` for example). Users should already be expected not to let untrusted parties control environment variables.\r\n\r\n## Why not patch in Vite+\r\n\r\nA Vite+ patch would only affect the Vite copy bundled with Vite+. Users can run Vite Task with their installed `vite`, and tools that depend on Vite, such as `vitepress build`, would miss the integration.",
+    "baseSha": "8d1b0195fd186d0b3297d7cd17acff6c96797420",
+    "headSha": "3a105808d9afb5e66e26280887225d35b5ebeb36",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The Vite Task integration tells the runner to ignore only the individual temp config file. The `node_modules/.vite-temp` directory is created (mkdir) before any ignore call and is never itself ignored, so that directory access still ends up in the build's cache fingerprint as an input/output.",
+        "fix": "diff --git a/packages/vite/src/node/config.ts b/packages/vite/src/node/config.ts\nindex e37e5e339..9663def45 100644\n--- a/packages/vite/src/node/config.ts\n+++ b/packages/vite/src/node/config.ts\n@@ -2623,36 +2623,38 @@ async function loadConfigFromBundledFile(\n     // Storing the bundled file in node_modules/ is avoided for Deno\n     // because Deno only supports Node.js style modules under node_modules/\n     // and configs with `npm:` import statements will fail when executed.\n-    let nodeModulesDir =\n+    const nodeModulesDir =\n       typeof process.versions.deno === 'string'\n         ? undefined\n         : findNearestNodeModules(path.dirname(fileName))\n-    if (nodeModulesDir) {\n+\n+    let viteTempDir = nodeModulesDir\n+      ? path.resolve(nodeModulesDir, '.vite-temp')\n+      : undefined\n+    if (viteTempDir) {\n       try {\n-        await fsp.mkdir(path.resolve(nodeModulesDir, '.vite-temp/'), {\n+        await fsp.mkdir(viteTempDir, {\n           recursive: true,\n         })\n       } catch (e) {\n         if (e.code === 'EACCES') {\n           // If there is no access permission, a temporary configuration file is created by default.\n-          nodeModulesDir = undefined\n+          viteTempDir = undefined\n         } else {\n           throw e\n         }\n       }\n     }\n     const hash = `timestamp-${Date.now()}-${Math.random().toString(16).slice(2)}`\n-    const tempFileName = nodeModulesDir\n-      ? path.resolve(\n-          nodeModulesDir,\n-          `.vite-temp/${path.basename(fileName)}.${hash}.mjs`,\n-        )\n+    const tempFileName = viteTempDir\n+      ? path.resolve(viteTempDir, `${path.basename(fileName)}.${hash}.mjs`)\n       : `${fileName}.${hash}.mjs`\n \n-    // Tell Vite Task to ignore this transient file as both input and output,\n-    // so the read-write of this file doesn't affect the cache fingerprints.\n-    ignoreInput(tempFileName)\n-    ignoreOutput(tempFileName)\n+    // Tell Vite Task to ignore node_modules/.vite-temp or the temp config file,\n+    // so the read-write of this path doesn't affect the cache fingerprints.\n+    const pathToIgnore = viteTempDir ?? tempFileName\n+    ignoreInput(pathToIgnore)\n+    ignoreOutput(pathToIgnore)\n     await fsp.writeFile(tempFileName, bundledCode)\n     try {\n       return (await import(pathToFileURL(tempFileName).href)).default",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 11
+    }
+  },
+  {
+    "id": "real-scored-c12",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(config): warn features incompatible with native loader in bundle loader",
+    "description": "This PR adds warnings when features that are not available in native config loader is used in bundle config loader. The purpose is to make it easier to change the default to native config loader in the next major version.\r\n\r\nThe warnings looks like:\r\n```\r\n(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:\r\n  - import \"./svgVirtualModulePlugin\" without a file extension (vite.config-base.js:3). Add the file extension\r\n  - import \"./matrixTestResultPlugin\" without a file extension (vite.config-base.js:4). Add the file extension\r\n  - import \"./windows83Filename\" without a file extension (vite.config-base.js:5). Add the file extension\r\nSet `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.\r\n```\r\n\r\nThe warnings are emitted for:\r\n- `__dirname` / `__filename` usage in ESM file\r\n- extension less import in ESM file (e.g. `import \"./foo\"` for `foo.js`)\r\n- directory index import in ESM file (e.g. `import \"./foo\"` for `foo/index.js`)\r\n- json import without attribute in ESM file (e.g. `import \"./foo.json\"`)\r\n- ESM syntax in a file loaded as CommonJS by Node.js\r\n\r\nIt is possible to suppress the warnings by setting `VITE_CONFIG_NATIVE_IGNORE_WARNING=true`. This is an env var so that it works for config loads done internally by meta-frameworks.\r\n\r\nrefs https://github.com/vitejs/vite/issues/21546\r\n\r\n<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->",
+    "baseSha": "af21ab68adac3380dc9a854d2fe3f776654301cd",
+    "headSha": "d26fe83cd35b08154a9d187a238c5371c23025b0",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The new native-compat transform plugin's id filter (`/\\.[cm]?[jt]sx?$/`) also matches Rolldown's virtual runtime module (`\\0rolldown/runtime.js`). That module then goes through `isFilePathESM`, which resolves package.json from the current working directory, so a `type: commonjs` package can get a false \"ESM syntax in a file loaded as CommonJS\" warning even when the config is `.mts`.",
+        "fix": "diff --git a/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/package.json b/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/package.json\nnew file mode 100644\nindex 000000000..88f8d5b1f\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/package.json\n@@ -0,0 +1,5 @@\n+{\n+  \"name\": \"@vitejs/test-native-compat-mts\",\n+  \"type\": \"commonjs\",\n+  \"private\": true\n+}\ndiff --git a/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/vite.config.mts b/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/vite.config.mts\nnew file mode 100644\nindex 000000000..4f1b25a0c\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config/vite.config.mts\n@@ -0,0 +1,3 @@\n+import { defineConfig } from 'vite'\n+\n+export default defineConfig({})\ndiff --git a/packages/vite/src/node/nativeConfigCompat.ts b/packages/vite/src/node/nativeConfigCompat.ts\nindex 8af469e2d..b2fc57040 100644\n--- a/packages/vite/src/node/nativeConfigCompat.ts\n+++ b/packages/vite/src/node/nativeConfigCompat.ts\n@@ -217,7 +217,13 @@ export function createNativeConfigCompatPlugin(\n   return {\n     name: 'vite:native-config-compat-check',\n     transform: {\n-      filter: { id: /\\.[cm]?[jt]sx?$/ },\n+      filter: {\n+        id: {\n+          include: /\\.[cm]?[jt]sx?$/,\n+          // exclude rolldown runtime\n+          exclude: /^\\0/,\n+        },\n+      },\n       async handler(code, id) {\n         const isESM =\n           typeof process.versions.deno === 'string' || isFilePathESM(id)\ndiff --git a/packages/vite/src/node/utils.ts b/packages/vite/src/node/utils.ts\nindex 38eb7bc8e..7108016c7 100644\n--- a/packages/vite/src/node/utils.ts\n+++ b/packages/vite/src/node/utils.ts\n@@ -430,6 +430,13 @@ export function isFilePathESM(\n     return true\n   } else if (/\\.c[jt]s$/.test(filePath)) {\n     return false\n+  } else if (filePath.startsWith('\\0')) {\n+    // treat virtual modules as ESM\n+    return true\n+  } else if (!path.isAbsolute(filePath)) {\n+    // should not rely on `process.cwd()` as that would depend on\n+    // the environment and make it unreproducible\n+    return false\n   } else {\n     // check package.json for type: \"module\"\n     try {\n@@ -453,6 +460,15 @@ export function isFilePathFormatExplicit(\n   if (/\\.[mc][jt]s$/.test(filePath)) {\n     return true\n   }\n+  if (filePath.startsWith('\\0')) {\n+    // treat virtual modules as ESM\n+    return true\n+  }\n+  if (!path.isAbsolute(filePath)) {\n+    // should not rely on `process.cwd()` as that would depend on\n+    // the environment and make it unreproducible\n+    return false\n+  }\n   try {\n     const pkg = findNearestPackageData(path.dirname(filePath), packageCache)\n     return pkg?.data.type === 'module' || pkg?.data.type === 'commonjs'\ndiff --git a/pnpm-lock.yaml b/pnpm-lock.yaml\nindex 58e303106..763efb7c5 100644\n--- a/pnpm-lock.yaml\n+++ b/pnpm-lock.yaml\n@@ -459,6 +459,8 @@ importers:\n \n   packages/vite/src/node/__tests__/fixtures/config/native-compat/esm-in-commonjs-pkg: {}\n \n+  packages/vite/src/node/__tests__/fixtures/config/native-compat/mts-config: {}\n+\n   packages/vite/src/node/__tests__/fixtures/config/native-import: {}\n \n   packages/vite/src/node/__tests__/fixtures/config/plugin-module-condition: {}",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 12
+    }
+  },
+  {
+    "id": "real-scored-c13",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: update rolldown to 1.0.0-rc.13",
+    "description": "See https://github.com/rolldown/rolldown/releases/tag/v1.0.0-rc.13\r\n\r\n---\r\n\r\nThe cause of the CI error in the Vite ecosystem with TanStack Start can be found here: https://github.com/vitejs/vite/pull/22097#issuecomment-4197741204",
+    "baseSha": "7611eb02e445960a8dbfb6d62b715dd8c12b9296",
+    "headSha": "b4ad96fd342776f8206ad95c32447f3ca02864e1",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 13
+    }
+  },
+  {
+    "id": "real-scored-c14",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: support subpath imports in dynamic import statements",
+    "description": "Closes #23182 — supports subpath imports in dynamic `import(...)` expressions, matching the existing support in `import.meta.glob` expressions",
+    "baseSha": "dcf88bd2ad2b1a8845f9029587cc8c825e382d42",
+    "headSha": "77fbe7d0c446eaaebeb4dc535c2aad20e9990764",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 14
+    }
+  },
+  {
+    "id": "real-scored-c15",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor(client): inline dev-id value in CSS selector",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nUse `data-vite-dev-id=\"\\${CSS.escape(id)}\"` as the CSS selector instead of selecting all `link[data-vite-dev-id]` elements and filtering by ID in JavaScript. This lets the browser's native selector engine do the matching, making the code simpler and slightly more efficient.\r\nhttps://developer.mozilla.org/en-US/docs/Web/API/CSS/escape_static",
+    "baseSha": "403cc608e4e8633b0335f5e8221c83dfca4994f8",
+    "headSha": "0f81b5c383c45175e12852f2bac06335cfe591af",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 15
+    }
+  },
+  {
+    "id": "real-scored-c16",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor(bundled-dev): remove rolldown lazy stub module workaround",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\n\r\nRolldown has fixed the issue; the patch in #22778 can be removed. https://github.com/rolldown/rolldown/pull/10426\r\nThe updated rolldown version #23070 includes the latest fixes.",
+    "baseSha": "e6b6b167afa0a80548829d1f24a0712f9194389a",
+    "headSha": "187f6072890e957b7ffe32290e883553db3bc6a6",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 16
+    }
+  },
+  {
+    "id": "real-scored-c17",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(config): include column in config incompatibility location",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nrefs #22850\r\n\r\nThe terminal output provides more explicit code line and column locations, and you can quickly jump to the specific location by clicking the file path, making it easy to locate quickly.",
+    "baseSha": "2ad9ec262a7bd8e30788df537eb217abe9af82ab",
+    "headSha": "6b8201f9d1ba5f1dbb68b2da78ad53198da39848",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 17
+    }
+  },
+  {
+    "id": "real-scored-c18",
+    "suite": "real",
+    "split": "scored",
+    "title": "fix: apply correct fs restrictions for pnpm gvs",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nclose #22405",
+    "baseSha": "1c0655072af185c83abc1d5b2328405288e46e09",
+    "headSha": "f0c1df4aec858d191782a48854fb8b655c11dfd9",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The new pnpm GVS logic looks for node_modules/.modules.yaml under the nearest package root. In a pnpm monorepo that file only exists in the workspace root's node_modules, so for nested workspace packages the file is never found and the virtual store directory is never added to fs.allow.",
+        "fix": "diff --git a/packages/vite/src/node/server/index.ts b/packages/vite/src/node/server/index.ts\nindex c0c9e1745..31f1ea478 100644\n--- a/packages/vite/src/node/server/index.ts\n+++ b/packages/vite/src/node/server/index.ts\n@@ -1220,12 +1220,13 @@ export async function resolveServerOptions(\n \n   setupHmrWsOptionCompat(_server)\n \n+  const workspaceRoot = searchForWorkspaceRoot(root)\n   const server: ResolvedServerOptions = {\n     ..._server,\n     fs: {\n       ..._server.fs,\n       // run searchForWorkspaceRoot only if needed\n-      allow: raw?.fs?.allow ?? [searchForWorkspaceRoot(root)],\n+      allow: raw?.fs?.allow ?? [workspaceRoot],\n     },\n     sourcemapIgnoreList:\n       _server.sourcemapIgnoreList === false\n@@ -1263,7 +1264,13 @@ export async function resolveServerOptions(\n   // Read node_modules/.modules.yaml which pnpm always writes on install — this works\n   // unconditionally regardless of how Vite is launched (node / npx / pnpm run),\n   // avoiding the need for subprocess calls or user-agent sniffing.\n-  const pnpmModulesYaml = path.join(cwd, 'node_modules', '.modules.yaml')\n+  // Use workspace root (not package root) because .modules.yaml lives at the\n+  // monorepo root's node_modules/, not in nested workspace packages.\n+  const pnpmModulesYaml = path.join(\n+    workspaceRoot,\n+    'node_modules',\n+    '.modules.yaml',\n+  )\n   try {\n     const content = fs.readFileSync(pnpmModulesYaml, 'utf-8')\n     const parsed = JSON.parse(content)\n@@ -1273,7 +1280,10 @@ export async function resolveServerOptions(\n         allowDirs.push(virtualStoreDir)\n       } else if (virtualStoreDir.startsWith('..')) {\n         allowDirs.push(\n-          path.resolve(path.join(cwd, 'node_modules'), virtualStoreDir),\n+          path.resolve(\n+            path.join(workspaceRoot, 'node_modules'),\n+            virtualStoreDir,\n+          ),\n         )\n       }\n     }",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 18
+    }
+  },
+  {
+    "id": "real-scored-c19",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(optimizer): support aube lockfile",
+    "description": "- What is this PR solving? Write a clear and concise description.\r\n[Aube](https://aube.jdx.dev/) is a new node package manager which uses the `aube-lock.yaml` lockfile. \r\n\r\n    When using Aube we have the issue that the [File system cache](https://v4.vite.dev/guide/dep-pre-bundling.html#file-system-cache) doesn't get updated when we update our dependencies. This change should solve that.\r\n\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\nI didn't create an issue for this, because I think this change will already solve the issue.\r\n\r\n- What other alternatives have you explored?\r\nWe could also write a plugin for this, but all users of Aube will have this issue.\r\n\r\n<!--\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->",
+    "baseSha": "14fcb66c7513957beea28de9657d15936ad48728",
+    "headSha": "dd3b8f4449092724731440687d7149a323f39424",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 19
+    }
+  },
+  {
+    "id": "real-scored-c20",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(create-vite): use `\"moduleResolution\": \"nodenext\"` for `tsconfig.node.json`",
+    "description": "Part of https://github.com/vitejs/vite/issues/21546\r\n\r\n`\"moduleResolution\": \"nodenext\"` is recommended for type stripping:\r\n- https://github.com/tsconfig/bases/blob/main/bases/node-ts.json\r\n- https://nodejs.org/docs/latest/api/typescript.html#type-stripping",
+    "baseSha": "d1e8a78dcf5db2e983a82d30f5ee25e268a20013",
+    "headSha": "a7b654cdb8aa6104a87779bf7dd494f511e82c9f",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "Setting \"moduleResolution\": \"nodenext\" while leaving \"module\": \"esnext\" is an invalid combination. Since TypeScript 5.2, tsc fails with TS5110 (\"Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'\"), so every generated TS template's tsconfig.node.json fails to type-check.",
+        "fix": "diff --git a/packages/create-vite/template-preact-ts/tsconfig.node.json b/packages/create-vite/template-preact-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-preact-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-preact-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",\ndiff --git a/packages/create-vite/template-qwik-ts/tsconfig.node.json b/packages/create-vite/template-qwik-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-qwik-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-qwik-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",\ndiff --git a/packages/create-vite/template-react-ts/tsconfig.node.json b/packages/create-vite/template-react-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-react-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-react-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",\ndiff --git a/packages/create-vite/template-solid-ts/tsconfig.node.json b/packages/create-vite/template-solid-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-solid-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-solid-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",\ndiff --git a/packages/create-vite/template-svelte-ts/tsconfig.node.json b/packages/create-vite/template-svelte-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-svelte-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-svelte-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",\ndiff --git a/packages/create-vite/template-vue-ts/tsconfig.node.json b/packages/create-vite/template-vue-ts/tsconfig.node.json\nindex 1e970f10c..8455dcbc2 100644\n--- a/packages/create-vite/template-vue-ts/tsconfig.node.json\n+++ b/packages/create-vite/template-vue-ts/tsconfig.node.json\n@@ -3,12 +3,11 @@\n     \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.node.tsbuildinfo\",\n     \"target\": \"es2023\",\n     \"lib\": [\"ES2023\"],\n-    \"module\": \"esnext\",\n     \"types\": [\"node\"],\n     \"skipLibCheck\": true,\n \n     /* Bundler mode */\n-    \"moduleResolution\": \"nodenext\",\n+    \"module\": \"nodenext\",\n     \"allowImportingTsExtensions\": true,\n     \"verbatimModuleSyntax\": true,\n     \"moduleDetection\": \"force\",",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 20
+    }
+  },
+  {
+    "id": "real-scored-c21",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(config): warn on named imports from JSON modules",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it. If you've solved it in a different way, clarify what is different and link the other PRs in the PR description.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nIf you have used AI:\r\n\r\n- Read the AI Policy at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md#ai-policy.\r\n- Keep the PR description and discussion concise. Use your own words, do not let AI write for you.\r\n- Disclose and describe how you have reviewed its code, e.g. the thought process and decisions that lead to the final code.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nOnly the version field in package.json is used, so we can import it directly.",
+    "baseSha": "493cc7d43269860fe499a30980d729b0adc93d2c",
+    "headSha": "50dd61ba287438cce2250260cb75564d9bd5583c",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 21
+    }
+  },
+  {
+    "id": "real-scored-c22",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: update rolldown to 1.0.0-rc.8",
+    "description": "See https://github.com/rolldown/rolldown/releases/tag/v1.0.0-rc.7 and https://github.com/rolldown/rolldown/releases/tag/v1.0.0-rc.8",
+    "baseSha": "44e33ae6a7b64130831f08b2a20d04cbd106898d",
+    "headSha": "51d712e4f8341ca103e66c6b2d0c88a03020cb47",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 22
+    }
+  },
+  {
+    "id": "real-scored-c23",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: add `input` option",
+    "description": "Adds `input` option for the following reasons:\r\n\r\n- to make it easier to configure the entrypoints to be multiple pages \r\n- to make it easier to configure the entrypoint for environments (related https://github.com/vitejs/vite/issues/21336)\r\n- for full bundle mode, the entrypoint has to be known beforehand so that Rolldown can generate the bundle\r\n- it is useful to fix HMR issues like https://github.com/vitejs/vite/issues/17806, https://github.com/vitejs/vite/issues/16664",
+    "baseSha": "578ffb80d46940f3b99cd96ed609f8b3a0ac5ede",
+    "headSha": "834a04731d6a11f90e4c5535b4dc21ea1ad06d65",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "When `build.lib.entry` is left out, `resolveBuildEnvironmentOptions` fills it in with `merged.lib.entry = input`. That writes the default straight into the user's own `build.lib` object, so their config gets changed while it is being resolved.",
+        "fix": "diff --git a/packages/vite/src/node/__tests__/build.spec.ts b/packages/vite/src/node/__tests__/build.spec.ts\nindex 16e885348..27457caed 100644\n--- a/packages/vite/src/node/__tests__/build.spec.ts\n+++ b/packages/vite/src/node/__tests__/build.spec.ts\n@@ -2,7 +2,7 @@ import { basename, resolve } from 'node:path'\n import { stripVTControlCharacters } from 'node:util'\n import fsp from 'node:fs/promises'\n import colors from 'picocolors'\n-import { afterEach, describe, expect, test, vi } from 'vitest'\n+import { afterEach, describe, expect, assert, test, vi } from 'vitest'\n import type {\n   LogLevel,\n   OutputChunk,\n@@ -1087,6 +1087,22 @@ test('sharedConfigBuild and emitAssets', async () => {\n   ])\n })\n \n+test('resolving lib entry from the top-level input does not mutate the user config', async () => {\n+  const userLib: LibraryOptions = { formats: ['es'] }\n+  const config = await resolveConfig(\n+    {\n+      configFile: false,\n+      input: 'src/main.ts',\n+      build: { lib: userLib },\n+    },\n+    'build',\n+  )\n+  const resolvedLib = config.environments.client.build.lib\n+  assert(resolvedLib !== false)\n+  expect(resolvedLib.entry).toBe('src/main.ts')\n+  expect(userLib.entry).toBeUndefined()\n+})\n+\n describe('onRollupLog', () => {\n   const pluginName = 'rollup-plugin-test'\n   const msgInfo = 'This is the INFO message.'\ndiff --git a/packages/vite/src/node/build.ts b/packages/vite/src/node/build.ts\nindex 15c402285..aa690d024 100644\n--- a/packages/vite/src/node/build.ts\n+++ b/packages/vite/src/node/build.ts\n@@ -471,7 +471,8 @@ export function resolveBuildEnvironmentOptions(\n     ...merged.rolldownOptions,\n   }\n   if (merged.lib && merged.lib.entry == null && input != null) {\n-    merged.lib.entry = input\n+    // avoid mutating the user-provided lib options object\n+    merged.lib = { ...merged.lib, entry: input }\n   }\n \n   // handle special build targets",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 23
+    }
+  },
+  {
+    "id": "real-scored-c24",
+    "suite": "real",
+    "split": "scored",
+    "title": "perf(config): skip native config compat check when warning is ignored",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nWhen VITE_CONFIG_NATIVE_IGNORE_WARNING is set, the native config compat plugin no longer runs the analysis and then suppresses the warning at output time. This avoids the parse overhead when the result would be discarded anyway.",
+    "baseSha": "c60b4d7cdb85b7d4f78671cdcfb863e5f8b66bb7",
+    "headSha": "7acc0dc3a93158d56f15de02d6a64abd28caa6b7",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 24
+    }
+  },
+  {
+    "id": "real-scored-c25",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: add `input` to `server.fs.allow`",
+    "description": "Since the `input` is part of the module graph, add it to `server.fs.allow` similarly to the imported modules in a module.",
+    "baseSha": "791843e1591ec2d65a401560bc1fc0a85b32ee32",
+    "headSha": "66017af89ce457079c57ca7746bb30c993fe4087",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 25
+    }
+  },
+  {
+    "id": "real-scored-c26",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor: remove HmrUrl concept",
+    "description": "This PR removes the \"HmrUrl\" concept.\r\n\r\nThere were three \"Url\" concept in Vite:\r\n\r\n- \"ModuleUrl\"\r\n  - the URL used in the module graph.\r\n  - does not replace `\\0`\r\n  - does not have base\r\n  - Example: `\\0virtual:foo`\r\n- \"BrowserUrl\"\r\n  - the URL used by the browser\r\n  - replaces `\\0`\r\n  - has base\r\n  - Example: `/base/@id/__x00__virtual:foo?t=123`\r\n- \"HmrUrl\"\r\n  - the URL used in the HMR client.\r\n  - replaces `\\0`\r\n  - does not have base\r\n  - Example: `/@id/__x00__virtual:foo`\r\n\r\nIt is confusing to have three kinds of representation. I think the HmrUrl is not needed as well.\r\n\r\n---\r\n\r\n<sub>Stack created with <a href=\"https://github.com/github/gh-stack\">GitHub Stacks CLI</a> • <a href=\"https://gh.io/stacks-feedback\">Give Feedback 💬</a></sub>",
+    "baseSha": "616296895bd135386d35069a479a5f188c7de298",
+    "headSha": "3c6c8fb3c6afc22a234de6b59a3d8a2689d0dc81",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 26
+    }
+  },
+  {
+    "id": "real-scored-c27",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor(bundled-dev): avoid injecting server values in the bundle",
+    "description": "Avoid injecting server values (e.g. port number) to the bundle output so that we can create bundles before the server is listening.\r\nThe default client environment requires the server to listen to execute a module, but some of the server environments doesn't require it and meta-frameworks seem to rely on it.\r\nThis PR will allow that to be possible when implementing the bundled dev support for SSR.",
+    "baseSha": "1331b0b438b1e7193effb7d2341660bccb9c3155",
+    "headSha": "c5a17600471018583f1b4cdbd54aa32c0eb49be7",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The client now imports `DevRuntime` from 'rolldown/experimental/runtime', and rolldown's runtime injection is turned off (`skipCommonRuntimeInjection`). As a result, the runtime is bundled into vite's prebuilt client when vite itself is built. In the browser it can differ from the installed rolldown that generates the dev bundle, which can break HMR when the versions differ.",
+        "fix": "diff --git a/packages/vite/rolldown.config.ts b/packages/vite/rolldown.config.ts\nindex 5fede8777..52a0f0526 100644\n--- a/packages/vite/rolldown.config.ts\n+++ b/packages/vite/rolldown.config.ts\n@@ -44,7 +44,8 @@ const bundledDevClientConfig = defineConfig({\n   transform: {\n     target: 'es2020',\n   },\n-  external: ['@vite/env'],\n+  // the runtime is served from the installed rolldown at dev time (`getRolldownDevRuntimeFiles`)\n+  external: ['@vite/env', 'rolldown/experimental/runtime'],\n   output: {\n     dir: path.resolve(dirname, 'dist'),\n     entryFileNames: 'client/bundledDevClient.mjs',\ndiff --git a/packages/vite/src/node/__tests__/plugins/clientInjections.spec.ts b/packages/vite/src/node/__tests__/plugins/clientInjections.spec.ts\nnew file mode 100644\nindex 000000000..172d3cba5\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/plugins/clientInjections.spec.ts\n@@ -0,0 +1,18 @@\n+import path from 'node:path'\n+import { expect, test } from 'vitest'\n+import { getRolldownDevRuntimeFiles } from '../../plugins/clientInjections'\n+\n+// The runtime entry imports its helper file with a relative path. Catch a rolldown layout\n+// change here, instead of as a 404 in the browser.\n+test('serves every file the rolldown dev runtime imports', () => {\n+  const files = getRolldownDevRuntimeFiles()\n+  let checked = 0\n+  for (const [urlPath, source] of files) {\n+    for (const match of source.matchAll(/\\bfrom\\s*['\"](\\.\\.?\\/[^'\"]+)['\"]/g)) {\n+      const imported = path.posix.join(path.posix.dirname(urlPath), match[1])\n+      expect(files.has(imported), `${urlPath} imports ${match[1]}`).toBe(true)\n+      checked++\n+    }\n+  }\n+  expect(checked).toBeGreaterThan(0)\n+})\ndiff --git a/packages/vite/src/node/constants.ts b/packages/vite/src/node/constants.ts\nindex dd208e13d..751deab5e 100644\n--- a/packages/vite/src/node/constants.ts\n+++ b/packages/vite/src/node/constants.ts\n@@ -131,6 +131,8 @@ export const BUNDLED_DEV_CLIENT_ENTRY: string = resolve(\n )\n /** URL filename the bundled-dev server serves the vite client under */\n export const BUNDLED_DEV_CLIENT_FILENAME: string = 'bundledDevClient.mjs'\n+/** URL directory the bundled-dev server serves rolldown's dev runtime files under */\n+export const BUNDLED_DEV_ROLLDOWN_RUNTIME_DIR: string = '@rolldown'\n export const ENV_ENTRY: string = resolve(\n   VITE_PACKAGE_DIR,\n   'dist/client/env.mjs',\ndiff --git a/packages/vite/src/node/plugins/clientInjections.ts b/packages/vite/src/node/plugins/clientInjections.ts\nindex 782d28ad1..e55e1e4a7 100644\n--- a/packages/vite/src/node/plugins/clientInjections.ts\n+++ b/packages/vite/src/node/plugins/clientInjections.ts\n@@ -1,8 +1,14 @@\n import fs from 'node:fs'\n import path from 'node:path'\n+import { fileURLToPath } from 'node:url'\n import { cleanUrl } from '../../shared/utils'\n import type { ResolvedConfig } from '../config'\n-import { CLIENT_ENTRY, ENV_ENTRY, BUNDLED_DEV_CLIENT_ENTRY } from '../constants'\n+import {\n+  BUNDLED_DEV_CLIENT_ENTRY,\n+  BUNDLED_DEV_ROLLDOWN_RUNTIME_DIR,\n+  CLIENT_ENTRY,\n+  ENV_ENTRY,\n+} from '../constants'\n import { perEnvironmentState } from '../environment'\n import type { Plugin } from '../plugin'\n import { isObject, normalizePath, resolveHostname } from '../utils'\n@@ -138,6 +144,8 @@ async function createClientConfigValueReplacer(\n       .replace(`__SERVER_FORWARD_CONSOLE__`, serverForwardConsoleReplacement)\n }\n \n+const ROLLDOWN_DEV_RUNTIME_ENTRY = 'rolldown/experimental/runtime'\n+\n export async function getHmrImplementation(\n   config: ResolvedConfig,\n ): Promise<string> {\n@@ -145,7 +153,46 @@ export async function getHmrImplementation(\n   const replacer = await createClientConfigValueReplacer(config)\n   return (\n     replacer(content)\n-      // the rolldown runtime cannot import a module\n+      // `/@vite/env` is not served in bundled dev\n       .replace(/import\\s*['\"]@vite\\/env['\"]/, '')\n+      // absolute under `base`: a relative specifier would resolve against a sub-page's URL\n+      .replace(\n+        new RegExp(`(from\\\\s*['\"])${ROLLDOWN_DEV_RUNTIME_ENTRY}(['\"])`),\n+        (_, before, after) =>\n+          `${before}${path.posix.join(\n+            config.base,\n+            BUNDLED_DEV_ROLLDOWN_RUNTIME_DIR,\n+            path.basename(rolldownDevRuntimeEntryPath()),\n+          )}${after}`,\n+      )\n   )\n }\n+\n+function rolldownDevRuntimeEntryPath(): string {\n+  return fileURLToPath(import.meta.resolve(ROLLDOWN_DEV_RUNTIME_ENTRY))\n+}\n+\n+/**\n+ * The dev runtime must match the rolldown that generates the bundle, so it is read from the\n+ * installed package at serve time instead of being bundled into the client. The entry imports\n+ * its helper file with a relative path, so both are served under the same directory.\n+ */\n+export function getRolldownDevRuntimeFiles(): Map<string, string> {\n+  const entry = rolldownDevRuntimeEntryPath()\n+  const dir = path.dirname(entry)\n+  const files = new Map<string, string>()\n+  for (const name of fs.readdirSync(dir)) {\n+    if (name.startsWith('experimental-runtime') && name.endsWith('.mjs')) {\n+      files.set(\n+        `${BUNDLED_DEV_ROLLDOWN_RUNTIME_DIR}/${name}`,\n+        fs.readFileSync(path.join(dir, name), 'utf-8'),\n+      )\n+    }\n+  }\n+  if (\n+    !files.has(`${BUNDLED_DEV_ROLLDOWN_RUNTIME_DIR}/${path.basename(entry)}`)\n+  ) {\n+    throw new Error(`rolldown dev runtime entry ${entry} was not found`)\n+  }\n+  return files\n+}\ndiff --git a/packages/vite/src/node/server/bundledDev.ts b/packages/vite/src/node/server/bundledDev.ts\nindex 3519f188c..e5415d62f 100644\n--- a/packages/vite/src/node/server/bundledDev.ts\n+++ b/packages/vite/src/node/server/bundledDev.ts\n@@ -9,7 +9,10 @@ import {\n } from 'rolldown/experimental'\n import { ChunkMetadataMap, resolveRolldownOptions } from '../build'\n import { BUNDLED_DEV_CLIENT_FILENAME } from '../constants'\n-import { getHmrImplementation } from '../plugins/clientInjections'\n+import {\n+  getHmrImplementation,\n+  getRolldownDevRuntimeFiles,\n+} from '../plugins/clientInjections'\n import { createDebugger, formatAndTruncateFileList } from '../utils'\n import { convertToDevWatchOptions } from '../watch'\n import type { DevEnvironment } from './environment'\n@@ -60,7 +63,8 @@ export class MemoryFiles {\n \n export class BundledDev {\n   private _devEngine!: DevEngine\n-  private viteRuntime?: string\n+  /** the vite client and the rolldown runtime; set before the first build so `hasBuildOutput` can count them */\n+  private staticFiles = new Map<string, MemoryFile>()\n   private initialBuildCompleted = false\n   private _closed = false\n   private clients = new Clients()\n@@ -107,17 +111,14 @@ export class BundledDev {\n   private pendingPayloadFilenames = new Set<string>()\n \n   get hasBuildOutput(): boolean {\n-    return (\n-      this.memoryFiles.size > 1 ||\n-      (this.memoryFiles.size === 1 &&\n-        !this.memoryFiles.has(BUNDLED_DEV_CLIENT_FILENAME))\n-    )\n+    return this.memoryFiles.size > this.staticFiles.size\n   }\n \n   async listen(): Promise<void> {\n     this._closed = false\n     debug?.('INITIAL: setup bundle options')\n     const rolldownOptions = await this.getRolldownOptions()\n+    await this.storeStaticFiles()\n     // NOTE: only single outputOptions is supported here\n     if (\n       Array.isArray(rolldownOptions.output) &&\n@@ -262,10 +263,6 @@ export class BundledDev {\n         debug?.('INITIAL: run error', e)\n       },\n     )\n-    this.viteRuntime = await getHmrImplementation(\n-      this.environment.getTopLevelConfig(),\n-    )\n-    this.storeOutputFiles([])\n     this.waitForInitialBuildFinish().then(() => {\n       if (this._closed) return\n       debug?.('INITIAL: build done')\n@@ -373,14 +370,27 @@ export class BundledDev {\n     this.initialBuildCompleted = false\n   }\n \n+  private async storeStaticFiles(): Promise<void> {\n+    const sources = new Map<string, string>([\n+      [\n+        BUNDLED_DEV_CLIENT_FILENAME,\n+        await getHmrImplementation(this.environment.getTopLevelConfig()),\n+      ],\n+      ...getRolldownDevRuntimeFiles(),\n+    ])\n+    this.staticFiles.clear()\n+    for (const [fileName, source] of sources) {\n+      const file = {\n+        source,\n+        etag: getEtag(Buffer.from(source), { weak: true }),\n+      }\n+      this.staticFiles.set(fileName, file)\n+      this.memoryFiles.set(fileName, file)\n+    }\n+  }\n+\n   private storeOutputFiles(output: RolldownOutput['output'][number][]): void {\n     // NOTE: don't clear memoryFiles here as incremental build reuses the files\n-    if (this.viteRuntime) {\n-      this.memoryFiles.set(BUNDLED_DEV_CLIENT_FILENAME, {\n-        source: this.viteRuntime,\n-        etag: getEtag(Buffer.from(this.viteRuntime), { weak: true }),\n-      })\n-    }\n     for (const outputFile of output) {\n       this.memoryFiles.set(outputFile.fileName, () => {\n         const source =\ndiff --git a/playground/hmr-full-bundle-mode/__tests__/hmr-full-bundle-mode.spec.ts b/playground/hmr-full-bundle-mode/__tests__/hmr-full-bundle-mode.spec.ts\nindex 27c09900d..45dcaee51 100644\n--- a/playground/hmr-full-bundle-mode/__tests__/hmr-full-bundle-mode.spec.ts\n+++ b/playground/hmr-full-bundle-mode/__tests__/hmr-full-bundle-mode.spec.ts\n@@ -36,6 +36,25 @@ if (isBuild) {\n     await expect.poll(() => page.textContent('.worker-url')).toBe('worker-url')\n   })\n \n+  // The runtime must be the installed rolldown's, served by the dev server\n+  test('loads the rolldown runtime from the server', async () => {\n+    const runtimeUrl = new URL(\n+      '/@rolldown/experimental-runtime.mjs',\n+      page.url(),\n+    )\n+    const client = await page.request.get(\n+      new URL('/bundledDevClient.mjs', page.url()).href,\n+    )\n+    expect(await client.text()).toContain(`from \"${runtimeUrl.pathname}\"`)\n+    const runtime = await page.request.get(runtimeUrl.href)\n+    expect(runtime.status()).toBe(200)\n+    expect(await runtime.text()).toContain('class DevRuntime')\n+    const loaded: string[] = await page.evaluate(() =>\n+      performance.getEntriesByType('resource').map((entry) => entry.name),\n+    )\n+    expect(loaded).toContain(runtimeUrl.href)\n+  })\n+\n   // BUNDLED -> GENERATE_HMR_PATCH -> BUNDLING -> BUNDLE_ERROR -> BUNDLING -> BUNDLED\n   test('handle bundle error', async () => {\n     editFile('main.js', (code) =>",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 27
+    }
+  },
+  {
+    "id": "real-scored-c28",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor(legacy): use `babel-plugin-polyfill-*` consistently",
+    "description": "Use `babel-plugin-polyfill-*` consistently so that it is easier to understand it does the same thing.\r\n\r\nrefs #20387",
+    "baseSha": "a1d73a3879196cfd76b05a364e30b1e6b4bdf757",
+    "headSha": "59888f410aff124a57ef299bed502a2c36db4cee",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 28
+    }
+  },
+  {
+    "id": "real-scored-c29",
+    "suite": "real",
+    "split": "scored",
+    "title": "fix(css): support external CSS with lightningcss",
+    "description": "### Description\r\n\r\nTried to make external CSS work in lightningcss to provide a workaround to #18384 in a way, but found out that lightningcss does not support this (https://github.com/parcel-bundler/lightningcss/issues/479).\r\n\r\nrefs #18384\r\nrefs #14505\r\n\r\n<!-- What is this PR solving? Write a clear description or reference the issues it solves (e.g. `fixes #123`). What other alternatives have you explored? Are there any parts you think require more attention from reviewers? -->\r\n\r\n<!----------------------------------------------------------------------\r\nBefore creating the pull request, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us reviewing it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it.\r\n\r\nThank you for contributing to Vite!\r\n----------------------------------------------------------------------->",
+    "baseSha": "f8d75f7723aeb635126c8dc0e0c33266c72d24c0",
+    "headSha": "4da31ea76c05f168a635d9392296c4d90795de26",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The new 'import' case uses `css.replace(dep.placeholder, dep.url)` with a string replacement. Because of that, any `$` sequences in an external @import URL (such as `$&`) are read as replacement patterns, and the URL in the output is corrupted.",
+        "fix": "diff --git a/packages/vite/src/node/__tests__/plugins/css.spec.ts b/packages/vite/src/node/__tests__/plugins/css.spec.ts\nindex d925ee96a..da69d0433 100644\n--- a/packages/vite/src/node/__tests__/plugins/css.spec.ts\n+++ b/packages/vite/src/node/__tests__/plugins/css.spec.ts\n@@ -421,6 +421,22 @@ describe('preprocessCSS', () => {\n       \"\n     `)\n   })\n+\n+  test('lightningcss preserves $ in external @import url', async () => {\n+    const resolvedConfig = await resolveConfig(\n+      {\n+        configFile: false,\n+        css: { transformer: 'lightningcss' },\n+      },\n+      'serve',\n+    )\n+    const result = await preprocessCSS(\n+      `@import 'http://example.com/a.css?x=$&y';`,\n+      'foo.css',\n+      resolvedConfig,\n+    )\n+    expect(result.code).toContain('http://example.com/a.css?x=$&y')\n+  })\n })\n \n // Sass does not consult the `main` field; see\ndiff --git a/packages/vite/src/node/plugins/css.ts b/packages/vite/src/node/plugins/css.ts\nindex 0db8e1a6b..effd36925 100644\n--- a/packages/vite/src/node/plugins/css.ts\n+++ b/packages/vite/src/node/plugins/css.ts\n@@ -3409,7 +3409,9 @@ async function compileLightningCSS(\n         break\n       }\n       case 'import': {\n-        css = css.replace(dep.placeholder, dep.url)\n+        // use a function replacer so `$` sequences in the URL are inserted\n+        // verbatim instead of being interpreted as replacement patterns\n+        css = css.replace(dep.placeholder, () => dep.url)\n         break\n       }\n       default:",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 29
+    }
+  },
+  {
+    "id": "real-scored-c30",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(server): support multiple hosts in __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS",
+    "description": "Allows `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS` environment variable to accept multiple comma-separated hosts instead of just a single host.\r\n\r\n```bash\r\n# Before: single host only\r\n__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=example.com\r\n\r\n# After: multiple hosts supported\r\n__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=example.com,test.com,dev.example.org\r\n```\r\n\r\n- Splits the environment variable value by commas\r\n- Trims whitespace from each host\r\n- Filters out empty entries\r\n- Fully backwards compatible with single host values\r\n- Updated documentation (`docs/config/server-options.md`)\r\n- Included tests (6 new unit tests in `config.spec.ts`)\r\n\r\nclose #19746",
+    "baseSha": "1c0655072af185c83abc1d5b2328405288e46e09",
+    "headSha": "75e38ce11b85743c0e3d8db6ee9ddd06b3147350",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 30
+    }
+  },
+  {
+    "id": "real-scored-c31",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: `import.meta.glob` support `caseSensitive` option",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nclose #21682",
+    "baseSha": "8a13d6337eea3e74d6a7abaaa7e1d378f5b9bc49",
+    "headSha": "fd5ab55f0c7de6f66458ac14d6048ce333966c66",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 31
+    }
+  },
+  {
+    "id": "real-scored-c32",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor: exclude postfix from `__VITE_ASSET__`",
+    "description": "Part of the \"Use of `import.meta.ROLLUP_FILE_URL_referenceId`\" in https://github.com/vitejs/vite/issues/22709#issuecomment-4875776753\r\n\r\nThis refactor is need to migrate some parts to `import.meta.ROLLUP_FILE_URL_referenceId`.\r\nThe postfix was added in https://github.com/vitejs/vite/commit/4188ac628e759d102d71d169534cc174935f7ac6 but I think it's not needed.",
+    "baseSha": "e6b6b167afa0a80548829d1f24a0712f9194389a",
+    "headSha": "7b697f776b2581693fd48828bae068bcf1b08a96",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The postfix (query/hash) was moved out of the `__VITE_ASSET__` placeholder. JS and CSS asset URLs now pass only the bare filename to `toOutputFilePathInJS`/`toOutputFilePathInCss`, so the user's `renderBuiltUrl` hook no longer receives the asset's query string and can't include it in the URL it builds.",
+        "fix": "diff --git a/packages/vite/src/node/__tests__/build.spec.ts b/packages/vite/src/node/__tests__/build.spec.ts\nindex c194760f8..7aa05ca0b 100644\n--- a/packages/vite/src/node/__tests__/build.spec.ts\n+++ b/packages/vite/src/node/__tests__/build.spec.ts\n@@ -25,6 +25,7 @@ import {\n } from '../build'\n import type { Logger } from '../logger'\n import { createLogger } from '../logger'\n+import { injectQuery } from '../utils'\n \n const dirname = import.meta.dirname\n \n@@ -112,6 +113,26 @@ describe('build', () => {\n     assertOutputHashContentChange(result[0], result[1])\n   })\n \n+  test('renderBuiltUrl receives asset postfixes in JS and CSS', async () => {\n+    const result = await buildProjectWithRenderBuiltUrl(\n+      (filename) => injectQuery(filename, 'dpl=id'),\n+      true,\n+    )\n+    const entry = result.output.find(\n+      (output): output is OutputChunk =>\n+        output.type === 'chunk' && output.isEntry,\n+    )\n+    const css = result.output.find(\n+      (output): output is OutputAsset =>\n+        output.type === 'asset' && output.fileName.endsWith('.css'),\n+    )\n+\n+    expect(entry?.code).toContain('?dpl=id&marker=value')\n+    expect(entry?.code).toContain('?dpl=id&marker=other')\n+    expect(css?.source.toString()).toContain('?dpl=id&marker=value')\n+    expect(css?.source.toString()).toContain('?dpl=id&marker=other')\n+  })\n+\n   test('top-level input is used as the default build entry', async () => {\n     const result = (await build({\n       root: resolve(dirname, 'packages/build-project'),\n@@ -1564,6 +1585,7 @@ test('copies public directory after building same environment with write false f\n \n async function buildProjectWithRenderBuiltUrl(\n   renderBuiltUrl: (filename: string) => string,\n+  includePostfixes = false,\n ) {\n   return (await build({\n     root: resolve(dirname, 'packages/build-project'),\n@@ -1579,21 +1601,29 @@ async function buildProjectWithRenderBuiltUrl(\n       {\n         name: 'test',\n         resolveId(id) {\n-          if (id === 'entry.js' || id === 'subentry.js') {\n+          if (id === 'entry.js' || id === 'subentry.js' || id === 'style.css') {\n             return '\\0' + id\n           }\n         },\n         load(id) {\n           if (id === '\\0entry.js') {\n             return `\n-              import assetUrl from '/asset.txt?url'\n-              console.log(assetUrl)\n+              import assetUrl from '/asset.txt?url${includePostfixes ? '&marker=value' : ''}'\n+              ${includePostfixes ? `import otherAssetUrl from '/asset.txt?url&marker=other'` : ''}\n+              ${includePostfixes ? `import 'style.css'` : ''}\n+              console.log(assetUrl${includePostfixes ? `, otherAssetUrl` : ''})\n               window.addEventListener('click', () => { import('subentry.js') })\n             `\n           }\n           if (id === '\\0subentry.js') {\n             return `export default 'subentry'`\n           }\n+          if (id === '\\0style.css') {\n+            return `\n+              .asset-a { background: url('/asset.txt?marker=value') }\n+              .asset-b { background: url('/asset.txt?marker=other') }\n+            `\n+          }\n         },\n       },\n     ],\ndiff --git a/packages/vite/src/node/plugins/asset.ts b/packages/vite/src/node/plugins/asset.ts\nindex 85e12b89d..fade538a5 100644\n--- a/packages/vite/src/node/plugins/asset.ts\n+++ b/packages/vite/src/node/plugins/asset.ts\n@@ -45,8 +45,9 @@ import {\n } from '../utils'\n import { getImportMapFilename } from './html'\n \n-// referenceId is base64url but replaces - with $\n-export const assetUrlRE: RegExp = /__VITE_ASSET__([\\w$]+)__/g\n+// referenceId is a 22-character base64url string but replaces - with $\n+export const assetUrlRE: RegExp =\n+  /__VITE_ASSET__([\\w$]{22})(?:_([a-f\\d]{24}))?__/g\n \n const encodedHashPlaceholderRE = /!~%7B([\\w$]{1,17})%7D~/g\n function unescapeHashPlaceholders(uri: string): string {\n@@ -55,6 +56,7 @@ function unescapeHashPlaceholders(uri: string): string {\n \n interface FileUrlMetadata {\n   asFileUrl: boolean\n+  postfix: string\n }\n \n const fileUrlMetadata = new WeakMap<Environment, Map<string, FileUrlMetadata>>()\n@@ -140,12 +142,12 @@ export function renderAssetUrlInJS(\n   assetUrlRE.lastIndex = 0\n   while ((match = assetUrlRE.exec(code))) {\n     s ||= new MagicString(code)\n-    const [full, referenceId] = match\n+    const [full, referenceId, urlId] = match\n     const file = pluginContext.getFileName(referenceId)\n     chunk.viteMetadata!.importedAssets.add(cleanUrl(file))\n     const replacement = toOutputFilePathInJS(\n       environment,\n-      file,\n+      file + getAssetUrlPostfix(environment, urlId),\n       'asset',\n       chunk.fileName,\n       'js',\n@@ -285,7 +287,11 @@ export function assetPlugin(config: ResolvedConfig): Plugin {\n         }\n \n         return {\n-          code: `export default ${formatBuiltAsset(resolved, 'js')}`,\n+          code: `export default ${formatBuiltAsset(\n+            resolved,\n+            'js',\n+            addFileUrlMetadataForAsset(this.environment, resolved, 'js'),\n+          )}`,\n           // Force rollup to keep this module from being shared between other entry points if it's an entrypoint.\n           // If the resulting chunk is empty, it will be removed in generateBundle.\n           moduleSideEffects:\n@@ -327,7 +333,7 @@ export function assetPlugin(config: ResolvedConfig): Plugin {\n             }\n             const replacement = toOutputFilePathInJS(\n               environment,\n-              fileName,\n+              fileName + (metadata?.postfix ?? ''),\n               'asset',\n               chunkId,\n               'js',\n@@ -555,13 +561,30 @@ async function fileToBuiltUrl(\n     skipPublicCheck,\n     forceInline,\n   )\n-  const urlId =\n-    resolved.type === 'reference' && format === 'js' && asFileUrl\n-      ? addFileUrlMetadata(pluginContext.environment, { asFileUrl })\n-      : undefined\n+  const urlId = addFileUrlMetadataForAsset(\n+    pluginContext.environment,\n+    resolved,\n+    format,\n+    asFileUrl,\n+  )\n   return formatBuiltAsset(resolved, format, urlId)\n }\n \n+function addFileUrlMetadataForAsset(\n+  environment: Environment,\n+  resolved: FileToBuiltUrlResult,\n+  format: AssetUrlFormat,\n+  useFileUrl = false,\n+): string | undefined {\n+  if (resolved.type !== 'reference') return\n+\n+  const asFileUrl = format === 'js' && useFileUrl\n+  const { postfix } = resolved\n+  if (!asFileUrl && !postfix) return\n+\n+  return addFileUrlMetadata(environment, { asFileUrl, postfix })\n+}\n+\n function addFileUrlMetadata(\n   environment: Environment,\n   metadata: FileUrlMetadata,\n@@ -580,6 +603,15 @@ function addFileUrlMetadata(\n   return urlId\n }\n \n+export function getAssetUrlPostfix(\n+  environment: Environment,\n+  urlId: string | undefined,\n+): string {\n+  return urlId\n+    ? (fileUrlMetadata.get(environment)?.get(urlId)?.postfix ?? '')\n+    : ''\n+}\n+\n /** Format a resolved asset as either a JS expression or a plain-text string. */\n function formatBuiltAsset(\n   resolved: FileToBuiltUrlResult,\n@@ -591,11 +623,9 @@ function formatBuiltAsset(\n       const base = urlId\n         ? `import.meta.ROLLDOWN_FILE_URL_${resolved.referenceId}_${urlId}`\n         : `import.meta.ROLLDOWN_FILE_URL_${resolved.referenceId}`\n-      return resolved.postfix\n-        ? `${base} + ${JSON.stringify(resolved.postfix)}`\n-        : base\n+      return base\n     }\n-    return `__VITE_ASSET__${resolved.referenceId}__${resolved.postfix}`\n+    return `__VITE_ASSET__${resolved.referenceId}${urlId ? `_${urlId}` : ''}__`\n   }\n   return format === 'js'\n     ? JSON.stringify(encodeURIPath(resolved.value))\ndiff --git a/packages/vite/src/node/plugins/css.ts b/packages/vite/src/node/plugins/css.ts\nindex 683021556..61494751d 100644\n--- a/packages/vite/src/node/plugins/css.ts\n+++ b/packages/vite/src/node/plugins/css.ts\n@@ -100,6 +100,7 @@ import {\n   assetUrlRE,\n   cssEntriesMap,\n   fileToUrl,\n+  getAssetUrlPostfix,\n   publicAssetUrlCache,\n   publicAssetUrlRE,\n   publicFileToBuiltUrl,\n@@ -751,8 +752,10 @@ export function cssPostPlugin(config: ResolvedConfig): Plugin {\n               }\n \n               // replace asset url references with resolved url.\n-              chunkCSS = chunkCSS.replace(assetUrlRE, (_, fileHash) => {\n-                const filename = this.getFileName(fileHash)\n+              chunkCSS = chunkCSS.replace(assetUrlRE, (_, fileHash, urlId) => {\n+                const filename =\n+                  this.getFileName(fileHash) +\n+                  getAssetUrlPostfix(this.environment, urlId)\n                 chunk.viteMetadata!.importedAssets.add(cleanUrl(filename))\n                 return encodeURIPath(\n                   toOutputFilePathInCss(\ndiff --git a/packages/vite/src/node/plugins/html.ts b/packages/vite/src/node/plugins/html.ts\nindex c09d50670..031c21a81 100644\n--- a/packages/vite/src/node/plugins/html.ts\n+++ b/packages/vite/src/node/plugins/html.ts\n@@ -44,6 +44,7 @@ import {\n } from '../utils'\n import {\n   assetUrlRE,\n+  getAssetUrlPostfix,\n   getPublicAssetFilename,\n   publicAssetUrlRE,\n   urlToBuiltUrl,\n@@ -1074,12 +1075,15 @@ export function buildHtmlPlugin(config: ResolvedConfig): Plugin {\n           },\n         )\n         // resolve asset url references\n-        result = result.replace(assetUrlRE, (_, fileHash) => {\n+        result = result.replace(assetUrlRE, (_, fileHash, urlId) => {\n           const file = this.getFileName(fileHash)\n           if (chunk) {\n             chunk.viteMetadata!.importedAssets.add(cleanUrl(file))\n           }\n-          return encodeURIPath(toOutputAssetFilePath(file))\n+          return (\n+            encodeURIPath(toOutputAssetFilePath(file)) +\n+            getAssetUrlPostfix(this.environment, urlId)\n+          )\n         })\n \n         result = result.replace(publicAssetUrlRE, (_, fileHash) => {",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 32
+    }
+  },
+  {
+    "id": "real-scored-c33",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: update rolldown to 1.0.0-rc.17",
+    "description": "See https://github.com/rolldown/rolldown/releases/tag/v1.0.0-rc.17",
+    "baseSha": "b8a21cc821c1434ac9d2b85ec53005df9edc306b",
+    "headSha": "59c94f93c14490fd00aa63b6d7f026037f8638cc",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 33
+    }
+  },
+  {
+    "id": "real-scored-c34",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(build): chunk importmap",
+    "description": "This PR implements `build.chunkImportMap` option, which utilizes import maps feature to optimize chunk caching efficiency.\r\nThis PR is based on #16552 and uses [Rolldown's experimental importmaps feature](https://rolldown.rs/reference/InputOptions.experimental#chunkimportmap). Huge thanks to @bhbs who have researched this topic and gave us the insights.\r\n\r\nThe implementation in the Vite core relies on `import.meta.resolve`. For that reason, only browsers with `import.meta.resolve` support are supported when this option is used.\r\n~~To align with this, plugin-legacy now considers `import.meta.resolve` to be \"widely-available\". In other words, browsers without `import.meta.resolve` will use the legacy chunks instead of the modern chunks.~~ _(done in #21662)_ The plugin-legacy support for this feature is implemented by using [the import map support in SystemJS](https://github.com/systemjs/systemjs/blob/main/docs/import-maps.md).\r\n\r\nNote that `experimental.renderBuiltUrl` currently does not work with this option. To properly support the combination of that option + this option, it requires more effort to design how to handle absolute URLs (e.g. how to support the case where `renderBuiltUrl` returns an absolute URL that should be mapped by the import map).\r\n\r\nAlso note that this optimization currently does not apply to CSS and assets. But this shouldn't affect largely as it will only invalidate the JS file that is importing them and would not affect the JS files that transitively imports the changed CSS / asset.\r\n\r\nfixes #6773\r\nfixes #10636\r\nclose #16552\r\n\r\n<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it.\r\n\r\nThank you for contributing to Vite!\r\n-->",
+    "baseSha": "2a226937ee1acbeb2ed1828fbadf1543d8a9a314",
+    "headSha": "3fa8bf388dffb48b39c61a1fff0a852f7cbe84cb",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The new chunk import map code reads the top-level `config.build.chunkImportMap`, base and import-map filename instead of the current environment's config. With `sharedPlugins: true` or per-environment settings, the client's import map is skipped, or the code reads an import map that doesn't exist in another environment's bundle.",
+        "fix": "diff --git a/packages/plugin-legacy/src/index.ts b/packages/plugin-legacy/src/index.ts\nindex 7387a63aa..2ade9ba84 100644\n--- a/packages/plugin-legacy/src/index.ts\n+++ b/packages/plugin-legacy/src/index.ts\n@@ -723,7 +723,7 @@ function viteLegacyPlugin(options: Options = {}): Plugin[] {\n         // The legacy bundle is built first, and its index.html isn't actually emitted if\n         // modern bundle will be generated. Here we simply record its corresponding legacy chunk.\n         facadeToLegacyChunkMap.set(chunk.facadeModuleId, chunk.fileName)\n-        if (config.build.chunkImportMap) {\n+        if (config.environments.client.build.chunkImportMap) {\n           facadeToLegacyImportMap.set(\n             chunk.facadeModuleId,\n             bundle![getImportMapFilename(config)]! as Rollup.OutputAsset,\n@@ -773,7 +773,7 @@ function viteLegacyPlugin(options: Options = {}): Plugin[] {\n       }\n \n       // 2. inject importmaps\n-      if (config.build.chunkImportMap) {\n+      if (config.environments.client.build.chunkImportMap) {\n         const importMap = facadeToLegacyImportMap.get(chunk.facadeModuleId)!\n         const decoder = new TextDecoder()\n         tags.push({\ndiff --git a/packages/vite/src/node/__tests__/build.spec.ts b/packages/vite/src/node/__tests__/build.spec.ts\nindex 27457caed..7d67dc097 100644\n--- a/packages/vite/src/node/__tests__/build.spec.ts\n+++ b/packages/vite/src/node/__tests__/build.spec.ts\n@@ -1020,6 +1020,182 @@ test.for([true, false])(\n   },\n )\n \n+test('chunkImportMap per environment with shared plugins', async () => {\n+  const root = resolve(dirname, 'fixtures/shared-plugins/chunk-import-map')\n+  let client: RolldownOutput | undefined\n+  let ssr: RolldownOutput | undefined\n+  const builder = await createBuilder({\n+    root,\n+    logLevel: 'warn',\n+    environments: {\n+      client: {\n+        build: {\n+          chunkImportMap: true,\n+          write: false,\n+          rolldownOptions: {\n+            input: '/entry.js',\n+          },\n+        },\n+      },\n+      ssr: {\n+        build: {\n+          chunkImportMap: false,\n+          ssr: true,\n+          write: false,\n+          rolldownOptions: {\n+            input: '/entry.js',\n+          },\n+        },\n+      },\n+    },\n+    builder: {\n+      sharedPlugins: true,\n+      async buildApp(builder) {\n+        client = (await builder.build(\n+          builder.environments.client,\n+        )) as RolldownOutput\n+        ssr = (await builder.build(builder.environments.ssr)) as RolldownOutput\n+      },\n+    },\n+  })\n+\n+  await builder.buildApp()\n+\n+  const entry = client!.output.find(\n+    (output): output is OutputChunk =>\n+      output.type === 'chunk' && output.isEntry,\n+  )!\n+  const css = client!.output.find(\n+    (output) => output.type === 'asset' && output.fileName.endsWith('.css'),\n+  )!\n+  const importMapAsset = client!.output.find(\n+    (output) => output.type === 'asset' && output.fileName === 'importmap.json',\n+  )!\n+  expect(\n+    ssr!.output.some(\n+      (output) =>\n+        output.type === 'asset' && output.fileName === 'importmap.json',\n+    ),\n+  ).toBe(false)\n+  const importMap = JSON.parse(importMapAsset.source.toString())\n+    .imports as Record<string, string>\n+  const cssSpecifier = Object.entries(importMap).find(\n+    ([, fileName]) => fileName === `/${css.fileName}`,\n+  )![0]\n+  expect(entry.code).toContain(JSON.stringify(cssSpecifier.slice(1)))\n+})\n+\n+test('chunkImportMap is emitted when emitAssets is false', async () => {\n+  const root = resolve(dirname, 'fixtures/shared-plugins/chunk-import-map')\n+  const builder = await createBuilder({\n+    root,\n+    logLevel: 'warn',\n+    environments: {\n+      ssr: {\n+        build: {\n+          ssr: true,\n+          emitAssets: false,\n+          write: false,\n+          chunkImportMap: true,\n+          rolldownOptions: {\n+            input: '/entry.js',\n+            experimental: {\n+              chunkImportMap: {\n+                fileName: 'custom-importmap.json',\n+              },\n+            },\n+          },\n+        },\n+      },\n+    },\n+  })\n+\n+  const result = (await builder.build(\n+    builder.environments.ssr,\n+  )) as RolldownOutput\n+\n+  expect(result.output).toContainEqual(\n+    expect.objectContaining({\n+      type: 'asset',\n+      fileName: 'custom-importmap.json',\n+    }),\n+  )\n+})\n+\n+test('chunkImportMap is emitted for SSR when enabled', async () => {\n+  const root = resolve(dirname, 'fixtures/shared-plugins/chunk-import-map')\n+  const builder = await createBuilder({\n+    root,\n+    logLevel: 'warn',\n+    environments: {\n+      ssr: {\n+        build: {\n+          ssr: true,\n+          chunkImportMap: true,\n+          write: false,\n+          rolldownOptions: {\n+            input: '/entry.js',\n+          },\n+        },\n+      },\n+    },\n+  })\n+\n+  const result = (await builder.build(\n+    builder.environments.ssr,\n+  )) as RolldownOutput\n+\n+  expect(result.output).toContainEqual(\n+    expect.objectContaining({\n+      type: 'asset',\n+      fileName: 'importmap.json',\n+    }),\n+  )\n+})\n+\n+test('importmap named asset is not emitted when chunkImportMap is false', async () => {\n+  const root = resolve(dirname, 'fixtures/shared-plugins/chunk-import-map')\n+  const builder = await createBuilder({\n+    root,\n+    logLevel: 'warn',\n+    plugins: [\n+      {\n+        name: 'emit-importmap-named-asset',\n+        buildStart() {\n+          this.emitFile({\n+            type: 'asset',\n+            fileName: 'importmap.json',\n+            source: '{}',\n+          })\n+        },\n+      },\n+    ],\n+    environments: {\n+      ssr: {\n+        build: {\n+          ssr: true,\n+          emitAssets: false,\n+          write: false,\n+          rolldownOptions: {\n+            input: '/entry.js',\n+          },\n+        },\n+      },\n+    },\n+  })\n+\n+  const result = (await builder.build(\n+    builder.environments.ssr,\n+  )) as RolldownOutput\n+\n+  expect(result.output).not.toContainEqual(\n+    expect.objectContaining({\n+      type: 'asset',\n+      fileName: 'importmap.json',\n+    }),\n+  )\n+})\n+\n test('sharedConfigBuild and emitAssets', async () => {\n   const root = resolve(dirname, 'fixtures/shared-config-build/emitAssets')\n   const builder = await createBuilder({\ndiff --git a/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/entry.js b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/entry.js\nnew file mode 100644\nindex 000000000..e1a05dfab\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/entry.js\n@@ -0,0 +1 @@\n+import('./lazy.js')\ndiff --git a/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.css b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.css\nnew file mode 100644\nindex 000000000..29da9e259\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.css\n@@ -0,0 +1,3 @@\n+.lazy {\n+  color: red;\n+}\ndiff --git a/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.js b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.js\nnew file mode 100644\nindex 000000000..f6e6772c7\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/shared-plugins/chunk-import-map/lazy.js\n@@ -0,0 +1,3 @@\n+import './lazy.css'\n+\n+export const lazy = true\ndiff --git a/packages/vite/src/node/build.ts b/packages/vite/src/node/build.ts\nindex 28cc7f1cf..b61689a1c 100644\n--- a/packages/vite/src/node/build.ts\n+++ b/packages/vite/src/node/build.ts\n@@ -685,6 +685,10 @@ export function resolveRolldownOptions(\n       viteMode: true,\n       chunkImportMap: options.chunkImportMap\n         ? {\n+            ...(typeof options.rolldownOptions.experimental?.chunkImportMap ===\n+            'object'\n+              ? options.rolldownOptions.experimental?.chunkImportMap\n+              : {}),\n             baseUrl: base,\n           }\n         : options.rolldownOptions.experimental?.chunkImportMap,\ndiff --git a/packages/vite/src/node/plugins/asset.ts b/packages/vite/src/node/plugins/asset.ts\nindex 35cd29ea8..b7a0a1b32 100644\n--- a/packages/vite/src/node/plugins/asset.ts\n+++ b/packages/vite/src/node/plugins/asset.ts\n@@ -42,6 +42,7 @@ import {\n } from '../../shared/utils'\n import type { Environment } from '../environment'\n import type { PartialEnvironment } from '../baseEnvironment'\n+import { getImportMapFilename } from './html'\n \n // referenceId is base64url but replaces - with $\n export const assetUrlRE: RegExp = /__VITE_ASSET__([\\w$]+)__(?:\\$_(.*?)__)?/g\n@@ -299,11 +300,17 @@ export function assetPlugin(config: ResolvedConfig): Plugin {\n         config.command === 'build' &&\n         !this.environment.config.build.emitAssets\n       ) {\n+        const chunkImportMapEnabled =\n+          this.environment.config.build.chunkImportMap\n         for (const file in bundle) {\n           if (\n             bundle[file].type === 'asset' &&\n             !file.endsWith('ssr-manifest.json') &&\n-            !jsSourceMapRE.test(file)\n+            !jsSourceMapRE.test(file) &&\n+            !(\n+              chunkImportMapEnabled &&\n+              file === getImportMapFilename(this.environment.config)\n+            )\n           ) {\n             delete bundle[file]\n           }\ndiff --git a/packages/vite/src/node/plugins/css.ts b/packages/vite/src/node/plugins/css.ts\nindex 909dbac62..984c516f8 100644\n--- a/packages/vite/src/node/plugins/css.ts\n+++ b/packages/vite/src/node/plugins/css.ts\n@@ -1074,11 +1074,14 @@ export function cssPostPlugin(config: ResolvedConfig): Plugin {\n \n       // With `cssCodeSplit: false`, CSS is emitted as a single stylesheet in the HTML,\n       // so this per-chunk import map handling is irrelevant.\n-      if (config.build.chunkImportMap && chunkCssReferences.size) {\n+      if (\n+        this.environment.config.build.chunkImportMap &&\n+        chunkCssReferences.size\n+      ) {\n         // The import map hash identifies the JS chunk independently of its content.\n         // Since each chunk has at most one extracted CSS sidecar, we can reuse that\n         // stable identity with a `.css` extension while mapping it to the CSS content hash.\n-        const importMap = getImportMap(bundle, config)!\n+        const importMap = getImportMap(bundle, this.environment.config)!\n         const importMapReverseMapping = Object.fromEntries(\n           Object.entries(importMap.mapping).map(([k, v]) => [v, k]),\n         )\n@@ -1126,8 +1129,8 @@ export function cssPostPlugin(config: ResolvedConfig): Plugin {\n         const pureCssChunkNameSet = new Set(pureCssChunkNames)\n \n         let importMapReverseMapping: Record<string, string> | undefined\n-        if (config.build.chunkImportMap) {\n-          const importMap = getImportMap(bundle, config)!\n+        if (this.environment.config.build.chunkImportMap) {\n+          const importMap = getImportMap(bundle, this.environment.config)!\n           importMapReverseMapping = Object.fromEntries(\n             Object.entries(importMap.mapping).map(([k, v]) => [v, k]),\n           )\ndiff --git a/packages/vite/src/node/plugins/html.ts b/packages/vite/src/node/plugins/html.ts\nindex 7f0ae6b1c..36dfafd4f 100644\n--- a/packages/vite/src/node/plugins/html.ts\n+++ b/packages/vite/src/node/plugins/html.ts\n@@ -33,7 +33,7 @@ import {\n   removeLeadingSlash,\n   unique,\n } from '../utils'\n-import type { ResolvedConfig } from '../config'\n+import type { ResolvedConfig, ResolvedEnvironmentOptions } from '../config'\n import { checkPublicFile } from '../publicDir'\n import { BUNDLED_DEV_CLIENT_FILENAME } from '../constants'\n import { toOutputFilePathInHtml } from '../build'\n@@ -1233,7 +1233,8 @@ export function postImportMapHook(\n   const decoder = new TextDecoder()\n   return function (html, { bundle }) {\n     const chunkImportMapEnabled =\n-      config.command === 'build' && config.build.chunkImportMap\n+      config.command === 'build' &&\n+      config.environments.client.build.chunkImportMap\n \n     if (importMapAppendRE.test(html)) {\n       let importMap: string | undefined\n@@ -1259,7 +1260,9 @@ export function postImportMapHook(\n \n     if (chunkImportMapEnabled) {\n       const nonce = config.html?.cspNonce\n-      const importMap = bundle![getImportMapFilename(config)] as OutputAsset\n+      const importMap = bundle![\n+        getImportMapFilename(config.environments.client)\n+      ] as OutputAsset\n       const importMapHtml = serializeTag({\n         tag: 'script',\n         attrs: { type: 'importmap', ...(nonce ? { nonce } : {}) },\n@@ -1686,22 +1689,33 @@ function incrementIndent(indent: string = '') {\n   return `${indent}${indent[0] === '\\t' ? '\\t' : '  '}`\n }\n \n-export function getImportMapFilename(config: ResolvedConfig): string {\n+export function getImportMapFilename(\n+  options: ResolvedEnvironmentOptions,\n+): string {\n   const chunkImportMap =\n-    config.build.rolldownOptions.experimental?.chunkImportMap\n+    options.build.rolldownOptions.experimental?.chunkImportMap\n   if (typeof chunkImportMap === 'object' && chunkImportMap.fileName) {\n     return chunkImportMap.fileName\n   }\n   return 'importmap.json'\n }\n \n+function getImportMapBaseUrl(options: ResolvedEnvironmentOptions): string {\n+  const chunkImportMap =\n+    options.build.rolldownOptions.experimental?.chunkImportMap\n+  if (typeof chunkImportMap === 'object' && chunkImportMap.baseUrl) {\n+    return chunkImportMap.baseUrl\n+  }\n+  return '/'\n+}\n+\n /**\n  * Read and parse the chunk import map asset from the bundle.\n  * Returns `undefined` when the import map is not present in the bundle.\n  */\n export function getImportMap(\n   bundle: OutputBundle,\n-  config: ResolvedConfig,\n+  options: ResolvedEnvironmentOptions & ResolvedConfig,\n ):\n   | {\n       asset: OutputAsset\n@@ -1710,7 +1724,7 @@ export function getImportMap(\n       mapping: Record<string, string>\n     }\n   | undefined {\n-  const asset = bundle[getImportMapFilename(config)] as OutputAsset | undefined\n+  const asset = bundle[getImportMapFilename(options)] as OutputAsset | undefined\n   if (!asset) return undefined\n \n   const content: { imports: Record<string, string> } = JSON.parse(\n@@ -1718,10 +1732,11 @@ export function getImportMap(\n       ? asset.source\n       : new TextDecoder().decode(asset.source),\n   )\n+  const baseUrl = getImportMapBaseUrl(options)\n   const mapping = Object.fromEntries(\n     Object.entries(content.imports).map(([k, v]) => [\n-      k.slice(config.base.length),\n-      v.slice(config.base.length),\n+      k.slice(baseUrl.length),\n+      v.slice(baseUrl.length),\n     ]),\n   )\n   return { asset, content, mapping }\ndiff --git a/packages/vite/src/node/plugins/importAnalysisBuild.ts b/packages/vite/src/node/plugins/importAnalysisBuild.ts\nindex c6e577252..5ba08c7a5 100644\n--- a/packages/vite/src/node/plugins/importAnalysisBuild.ts\n+++ b/packages/vite/src/node/plugins/importAnalysisBuild.ts\n@@ -357,8 +357,8 @@ export function buildImportAnalysisPlugin(config: ResolvedConfig): Plugin[] {\n \n       let importMapMapping: Record<string, string> | undefined\n       let importMapReverseMapping: Record<string, string> | undefined\n-      if (config.build.chunkImportMap) {\n-        const importMap = getImportMap(bundle, config)!\n+      if (this.environment.config.build.chunkImportMap) {\n+        const importMap = getImportMap(bundle, this.environment.config)!\n         importMapMapping = importMap.mapping\n         importMapReverseMapping = Object.fromEntries(\n           Object.entries(importMapMapping).map(([k, v]) => [v, k]),\n@@ -370,7 +370,7 @@ export function buildImportAnalysisPlugin(config: ResolvedConfig): Plugin[] {\n             fileName: 'importmap.legacy.json',\n             source: importMap.asset.source,\n           })\n-          delete bundle[getImportMapFilename(config)]\n+          delete bundle[getImportMapFilename(this.environment.config)]\n         }\n       }",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 34
+    }
+  },
+  {
+    "id": "real-scored-c35",
+    "suite": "real",
+    "split": "scored",
+    "title": "fix: resolve root to real path",
+    "description": "https://github.com/vitejs/vite/pull/22685#issuecomment-4849906715",
+    "baseSha": "9beae37d7221b25463a011feb40b0303ca328d87",
+    "headSha": "6813ac82fe4dfe1e5f012d9778a7bbbf38727143",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "The root is now always resolved to its realpath, even when `resolve.preserveSymlinks` is true. So users who rely on preserved symlinks get their symlinked project root replaced by the target path, which breaks how paths resolve inside the root.",
+        "fix": "diff --git a/packages/vite/src/node/__tests__/config.spec.ts b/packages/vite/src/node/__tests__/config.spec.ts\nindex 259a2b341..cf3927586 100644\n--- a/packages/vite/src/node/__tests__/config.spec.ts\n+++ b/packages/vite/src/node/__tests__/config.spec.ts\n@@ -2037,6 +2037,28 @@ describe('loadConfigFromFile', () => {\n   })\n })\n \n+describe('root resolution', () => {\n+  const fixtureRoot = path.resolve(\n+    import.meta.dirname,\n+    './fixtures/config/root-resolution',\n+  )\n+  const realDir = path.join(fixtureRoot, 'real')\n+  const linkDir = path.join(fixtureRoot, 'link')\n+\n+  test('resolves a symlinked root to its real path', async () => {\n+    const config = await resolveConfig({ root: linkDir }, 'serve')\n+    expect(config.root).toBe(normalizePath(fs.realpathSync.native(realDir)))\n+  })\n+\n+  test('keeps a symlinked root when resolve.preserveSymlinks is true', async () => {\n+    const config = await resolveConfig(\n+      { root: linkDir, resolve: { preserveSymlinks: true } },\n+      'serve',\n+    )\n+    expect(config.root).toBe(normalizePath(linkDir))\n+  })\n+})\n+\n describe('resolveServerOptions', () => {\n   const warnFn = vi.fn()\n   const logger = { warn: warnFn } as unknown as Logger\ndiff --git a/packages/vite/src/node/__tests__/fixtures/config/root-resolution/link b/packages/vite/src/node/__tests__/fixtures/config/root-resolution/link\nnew file mode 120000\nindex 000000000..ac558a3e1\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/config/root-resolution/link\n@@ -0,0 +1 @@\n+real\n\\ No newline at end of file\ndiff --git a/packages/vite/src/node/__tests__/fixtures/config/root-resolution/real/.gitkeep b/packages/vite/src/node/__tests__/fixtures/config/root-resolution/real/.gitkeep\nnew file mode 100644\nindex 000000000..8b1378917\n--- /dev/null\n+++ b/packages/vite/src/node/__tests__/fixtures/config/root-resolution/real/.gitkeep\n@@ -0,0 +1 @@\n+\ndiff --git a/packages/vite/src/node/config.ts b/packages/vite/src/node/config.ts\nindex 0c8df2abe..b9f516d2a 100644\n--- a/packages/vite/src/node/config.ts\n+++ b/packages/vite/src/node/config.ts\n@@ -1600,9 +1600,11 @@ export async function resolveConfig(\n   let nonNormalizedResolvedRoot = config.root\n     ? path.resolve(config.root)\n     : process.cwd()\n-  try {\n-    nonNormalizedResolvedRoot = safeRealpathSync(nonNormalizedResolvedRoot)\n-  } catch {}\n+  if (!config.resolve?.preserveSymlinks) {\n+    try {\n+      nonNormalizedResolvedRoot = safeRealpathSync(nonNormalizedResolvedRoot)\n+    } catch {}\n+  }\n   const resolvedRoot = normalizePath(nonNormalizedResolvedRoot)\n \n   checkBadCharactersInPath(",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 35
+    }
+  },
+  {
+    "id": "real-scored-c36",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat: add top-level `tsconfig` option",
+    "description": "Adds top-level `tsconfig` option, similar to Rolldown.\r\n\r\nNormally this option should not be used and is recommended to use other options.\r\n\r\nclose https://github.com/vitejs/vite/issues/22112\r\nclose https://github.com/vitejs/vite/issues/10531",
+    "baseSha": "fdef04f112aadfea40ad3c448d96a49a04c168bd",
+    "headSha": "b1289013d964aa98188e8e038fec84bbdd96c44b",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 36
+    }
+  },
+  {
+    "id": "real-scored-c37",
+    "suite": "real",
+    "split": "scored",
+    "title": "refactor: enable some typecheck rules",
+    "description": "Followup from #22230, this enables some typecheck rules and apply some fixes to the code.\r\n\r\nI didn't enable all of the rules. Some that are hard to enable or don't apply to us, I've added comments to them. The rest without comments should be revisited again as they're actually useful, e.g. async functions with no awaits, no floating promises, etc, but they require a lot of change that IMO is better to address in individual PRs.\r\n\r\nThere are some rules that I fix but still kept off because it's hard to fix them completely. It's also not possible to use `eslint-disable` for these rules as when we run eslint without typechecking, it'll report that the disabled rules are unused.\r\n\r\nThere isn't a lot of diff in this PR, but if you'd like to see how each rule affect the code, you can check the commits individually as I address each rules one by one.",
+    "baseSha": "3770a53064e8da27d4cb8d595a2b038413e6abdb",
+    "headSha": "c6ddc154420c752af502b842c6281b7d00385f4b",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 37
+    }
+  },
+  {
+    "id": "real-scored-c38",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(dev): resolve interface name for explicit host in network URLs",
+    "description": "<!--\r\n- What is this PR solving? Write a clear and concise description.\r\n- Reference the issues it solves (e.g. `fixes #123`).\r\n- What other alternatives have you explored?\r\n- Are there any parts you think require more attention from reviewers?\r\n\r\nAlso, please make sure you do the following:\r\n\r\n- Read the Contributing Guidelines at https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md.\r\n- Check that there isn't already a PR that solves the problem the same way. If you find a duplicate, please help us review it.\r\n- Update the corresponding documentation if needed.\r\n- Include relevant tests that fail without this PR but pass with it. If the tests are not included, explain why.\r\n\r\nThank you for contributing to Vite!\r\n-->\r\nWhen a specific host is provided (e.g. `--host 192.168.1.10`), the network interface name was always `undefined`, so the URL was printed without any annotation. This change looks up the interface name from `os.networkInterfaces()` so that the label is shown even for an explicit host IP.  \r\n\r\nSupplement #22830",
+    "baseSha": "d8cd38830251b95fd7dddcd0eee0ce94cc61c2f4",
+    "headSha": "5adeb6f52662d1f4c8e14e906f35035c3ed9aff1",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 38
+    }
+  },
+  {
+    "id": "real-scored-c39",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(create-vite): use Oxlint for react templates and add ESLint option",
+    "description": "This PR adds Oxlint option for react templates that swaps ESLint with Oxlint.\r\n\r\nWhile the JS plugins are still alpha (https://oxc.rs/docs/guide/usage/linter/js-plugins.html), now that the Windows memory issue is fixed (https://github.com/oxc-project/oxc/issues/19395), I think we can have an option to use Oxlint. ~~I guess we can switch to Oxlint by default when JS plugins becomes stable, and remove the option later on.~~ The default is to use Oxlint and can be switched to ESLint. We can remove the option later on.\r\n\r\nrefs #21044\r\nclose #22025",
+    "baseSha": "e1803128e5698202e22c6e5e17dc9ebd83d4f3f5",
+    "headSha": "6657c0d63f3059c323f67fe40699efb3549f2e14",
+    "changesWorkflows": false,
+    "defects": [
+      {
+        "id": "d1",
+        "summary": "Passing `--eslint` with a non-React template (for example `--template vue --eslint`) still calls `setupEslint`. That function runs `fs.rmSync` on `.oxlintrc.json`, which doesn't exist in that template, so scaffolding crashes with ENOENT.",
+        "fix": "diff --git a/packages/create-vite/__tests__/cli.spec.ts b/packages/create-vite/__tests__/cli.spec.ts\nindex bbd4a3542..89af49d88 100644\n--- a/packages/create-vite/__tests__/cli.spec.ts\n+++ b/packages/create-vite/__tests__/cli.spec.ts\n@@ -227,6 +227,23 @@ test('scaffolds React template with ESLint when --eslint is passed', () => {\n   expect(pkg).toContain('\"lint\": \"eslint .\"')\n })\n \n+test('ignores --eslint with a warning for non-React templates', () => {\n+  const { stdout, stderr } = run(\n+    [projectName, '--template', 'vue', '--eslint'],\n+    {\n+      cwd: import.meta.dirname,\n+    },\n+  )\n+  expect(stdout).toContain(\n+    '`--eslint` is only supported for React templates and will be ignored',\n+  )\n+  expect(stderr).not.toContain('ENOENT')\n+\n+  const generatedFiles = fs.readdirSync(genPath).sort()\n+  expect(templateFiles).toEqual(generatedFiles)\n+  expect(fs.existsSync(path.join(genPath, 'eslint.config.js'))).toBe(false)\n+})\n+\n test('works with the -t alias', () => {\n   const { stdout } = run(\n     [\ndiff --git a/packages/create-vite/src/index.ts b/packages/create-vite/src/index.ts\nindex 0561995e6..c15d882d5 100755\n--- a/packages/create-vite/src/index.ts\n+++ b/packages/create-vite/src/index.ts\n@@ -630,6 +630,12 @@ async function init() {\n   // 5. Ask whether to use ESLint instead of Oxlint (React templates only)\n   const isReactTemplate = template === 'react' || template === 'react-ts'\n   let eslint = argEslint\n+  if (!isReactTemplate && eslint) {\n+    prompts.log.warn(\n+      '`--eslint` is only supported for React templates and will be ignored',\n+    )\n+    eslint = false\n+  }\n   if (isReactTemplate && eslint === undefined) {\n     if (interactive) {\n       const eslintResult = await prompts.select({",
+        "severity": null,
+        "locations": []
+      }
+    ],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 39
+    }
+  },
+  {
+    "id": "real-scored-c40",
+    "suite": "real",
+    "split": "scored",
+    "title": "feat(optimizer): support nub lockfile",
+    "description": "[nub](https://github.com/nubjs/nub) is a package manager whose lockfile, `nub.lock`, is a root-level file — same shape as `bun.lock`/`bun.lockb`.\n\nAdds `nub.lock` to `lockfileFormats` so `getLockfileHash` invalidates the dep-optimizer cache correctly on nub projects. Mirrors the `bun.lock` entry, including `checkPatchesDir: 'patches'`: nub reads pnpm-style `patchedDependencies` whose values are `patches/*.patch` file paths (e.g. `\"lodash@4.17.21\": \"patches/lodash.patch\"`), so `patches/` is a real nub directory convention and re-hashing the cache when those files change is correct.\n\nNo test file covers `lockfileFormats`; the prior `bun.lock` addition (#18403) also shipped without one. Verified with `pnpm --filter vite run build`, `eslint`, `oxfmt --check`, and the existing optimizer unit tests — all passing.",
+    "baseSha": "6319827116c5be2a19c1b91c84ba3d38ad26a41c",
+    "headSha": "c64846899196323e152d5f5c01d1e41b097a94b4",
+    "changesWorkflows": false,
+    "defects": [],
+    "pull": {
+      "repository": "theonly1me/code-review-bench-cases",
+      "number": 40
+    }
+  }
+]

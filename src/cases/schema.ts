@@ -3,7 +3,7 @@ import path from "node:path";
 import { z } from "zod";
 import { readJsonFile } from "../process";
 
-export const suiteNames = ["openqodex", "real", "planted"] as const;
+export const suiteNames = ["real", "planted"] as const;
 
 export const splitNames = ["dev", "scored"] as const;
 
@@ -39,7 +39,6 @@ export const reviewCaseSchema = z.object({
   headSha: commitShaSchema,
   changesWorkflows: z.boolean(),
   defects: z.array(defectSchema),
-  openqodexSpec: z.unknown().optional(),
   pull: z.object({ repository: z.string(), number: z.number().int().positive() }).nullable(),
 });
 

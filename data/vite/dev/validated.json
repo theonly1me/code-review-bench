@@ -1,0 +1,488 @@
+[
+  {
+    "introducing": 21381,
+    "fix": 21642,
+    "fixCommit": "e54e25fbb9b721b2c655d17e35706e070c92ff70",
+    "blamedLines": 5,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new wildcard pre-check in `tryListen` resolves `false` on any listen error, not only EADDRINUSE. So an error like EACCES or EADDRNOTAVAIL on 0.0.0.0 or :: marks every port as in use. Vite then skips every port up to 65535, or throws under strictPort, even when the requested host is free.",
+          "reason": "The first PR added `tryListen` with an error handler that always resolves `false`. Because the promise never rejects, the `.catch(() => true)` meant to tolerate errors such as IPv6 being disabled never runs. The second PR changes that handler to resolve `e.code !== 'EADDRINUSE'`, so only a real port conflict blocks the port. Its new test simulates EACCES on the wildcard hosts and checks that Vite still binds to the requested port."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The wildcard pre-check treats every listen error as a port conflict, including permission errors or unavailable IPv6 support. This can skip usable ports or prevent startup even when binding to the configured host would succeed.",
+          "reason": "The first PR introduced the error handler that always resolves false. The second PR changes it to report a conflict only for EADDRINUSE, allowing other wildcard errors to proceed to the actual server bind."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 21402,
+    "fix": 21518,
+    "fixCommit": "8bb32036792a6f522f5c947112f3d688add755a0",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Removing `importMetaResolverCache` means `createNodeImportMeta` calls `createImportMetaResolver()` for every module, and each call registers another Node module resolve hook. The hooks chain up and eventually throw \"Maximum call stack size exceeded\".",
+          "reason": "The first PR removed the module-level cache that made sure the hook was registered only once, and it made `createImportMetaResolver` run on every `createNodeImportMeta` call. The second PR adds an `isHookRegistered` guard so the hook is registered only once. That directly fixes the repeated registration the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Removing the resolver cache causes every createNodeImportMeta call to register another customization hook. As modules are loaded, the accumulated hooks can cause “Maximum call stack size exceeded” errors during resolution.",
+          "reason": "The first pull request replaced cached resolver initialization with an unconditional call for each module. The second adds a registration guard to prevent the resulting duplicate hooks."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 21443,
+    "fix": 21472,
+    "fixCommit": "66347f6df0e723d9d03ea31ab41ab5b767ad15ba",
+    "blamedLines": 8,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The wrappers now mutate the plugin's shared hook object by setting `hook.handler = handler`. When there are several build environments, each wrap replaces the handler set by the one before, so every environment ends up running the handler bound to the last environment that was wrapped.",
+          "reason": "The first PR swapped the per-environment object spread for in-place mutation so that lazy filter changes would be seen. This made all environments share one hook object, so the handler wrapped for the last environment overwrote the others. The second PR makes a separate hook object for each environment again. It keeps the lazy-filter behaviour by adding getters and setters for filter and order on the original hook that pass changes on to every copy. That directly fixes the shared-state bug the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Mutating object-form hook handlers in place makes a plugin reused across build environments share and repeatedly wrap the same handler. Hooks can consequently execute with the wrong environment context.",
+          "reason": "The first PR replaced per-environment hook copies with mutations of the shared original hook. The second restores separate hook objects for each environment while forwarding lazy filter and order changes."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 21450,
+    "fix": 21452,
+    "fixCommit": "d2fc4be0447e384e18e557b70f7c345d5bcea941",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "No defect was introduced. Before and after the first PR, `require` calls to externals were turned into the import facade for both 'browser' and 'neutral'. The second PR deliberately changes how 'neutral' is handled.",
+          "reason": "The original code used the facade when `kind === 'require-call' && platform !== 'node'`, which already covered 'neutral'. The first PR's refactor kept that exact behavior: it returns early only for 'node' and still applies the plugin to 'browser' and 'neutral'. The second PR changes behavior on purpose by also skipping the plugin for 'neutral'. That fixes an older design choice, not a regression from the refactor."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "For `platform: 'neutral'`, the plugin converts external `require()` calls into imports even though the runtime may support `require()`, potentially changing module-loading semantics.",
+          "reason": "This behavior predates the first pull request: its original `platform !== 'node'` condition already converted require calls for neutral platforms. The second pull request fixes that existing behavior."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 21103,
+    "fix": 21211,
+    "fixCommit": "6a3aca084356316811ff62cbedb5a410a249e789",
+    "blamedLines": 29,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new merge gives the caller's options priority, but on restart `restartServer` passes the old saved `_shortcutsOptions` back in. So stale shortcut actions from the old server (e.g. a plugin's) override the ones a plugin just registered on the new server. The per-server `_rl` also leaks or duplicates readlines when a plugin binds during server recreation.",
+          "reason": "The first PR added cross-call merging via `_shortcutsOptions` and a per-server `_rl`, making plugin calls a supported path. Its \"new takes priority\" rule plus `restartServer` re-binding the old options means old plugin closures win after a restart. The second PR fixes this: one state survives restart, the readline is reused, and restart re-binds with only `{print:false}`, so the fresh plugin action replaces the old one in place. Its test checks the new plugin action runs and the old one doesn't."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "After a server restart, a plugin shortcut can invoke its old callback because the saved merged shortcuts overwrite the fresh callback registered by the plugin during restart.",
+          "reason": "The first PR saves merged plugin callbacks and gives replayed options priority over existing bindings. The second preserves shortcut state through restart, updates plugin callbacks in place, and avoids replaying stale callbacks."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 21019,
+    "fix": 21081,
+    "fixCommit": "728c8eeebc0ad7ba48e680f46bbdb55020b2e152",
+    "blamedLines": 11,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Replacing the custom copyDir with fs.cpSync triggers Node.js bugs (nodejs/node#58768, #59168), so copying the public dir or templates can fail. It also no longer dereferences symlinks the way the old statSync/copyFileSync code did, and the srcFile === destDir skip is gone, which breaks the case where outDir sits inside publicDir.",
+          "reason": "The second PR is a straight revert of the first one. Its added comment says fs.cpSync can't be used because of Node.js bugs and that dereference would be needed. Both problems come from the cpSync switch made in the first PR."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new fs.cpSync calls omit dereference: true, so symlinked public assets are copied as links instead of copying their contents. Build output can consequently depend on files outside the output directory and break when deployed.",
+          "reason": "The first PR introduced this behavior by replacing copying that followed symlinks. The second restores that implementation and explicitly notes the dereference requirement and Node.js fs.cpSync bugs."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20924,
+    "fix": 21029,
+    "fixCommit": "ad5b3bf6f3ad7b24886718c5f5de32eee923ae11",
+    "blamedLines": 3,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new `getBuiltins` invoke handler returns `config.resolve.builtins` as is, and that list contains RegExp objects. When the result is JSON-serialized over the transport (WebSocket or worker), each RegExp turns into `{}`. The runner then calls `regexp.test` on plain objects, which throws, or it misses regex-matched builtins such as `node:`-prefixed ids.",
+          "reason": "The first PR added the `getBuiltins` RPC, which sends raw RegExp values across a JSON-serialized transport. The second PR fixes that same RPC: the server now encodes each RegExp as its source and flags, and the runner rebuilds the RegExp objects from them."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new getBuiltins call sends raw RegExp objects through a JSON transport, which turns them into empty objects. When the runner checks a module against these entries, regexp.test is unavailable and module loading fails.",
+          "reason": "The first PR introduced this transport of raw regular expressions. The second serializes their source and flags and reconstructs them in the runner, repairing the introduced failure."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20869,
+    "fix": 21024,
+    "fixCommit": "4f44f22f7f4595d74c76778bd522387138775055",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The HTTP/2 dev server keeps Node's default stream-reset limits (`streamResetBurst`/`streamResetRate`). When a page makes many requests, it can hit those limits and fail with `net::ERR_HTTP2_PROTOCOL_ERROR`.",
+          "reason": "Before the first PR, every HTTPS server without a proxy already used node:http2 `createSecureServer` with the same options, so the reset-limit problem already existed there. The first PR only removed the HTTP/1 fallback for proxy users. It didn't add or change the HTTP/2 options. The second PR adds options that were always missing, to cope with Node's rapid-reset defaults, so it fixes an older gap rather than something the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "HTTP/2 servers can exceed the default stream-reset rate limit under heavy request traffic, causing net::ERR_HTTP2_PROTOCOL_ERROR.",
+          "reason": "The same HTTP/2 server configuration already existed for HTTPS without proxies before the first PR. The second PR fixes that existing limit; the first PR merely extended HTTP/2 support to configurations using proxies."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 20918,
+    "fix": 20989,
+    "fixCommit": "ca18b233d43a8f31883726ca565940ad1dc85f38",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When a preprocessor or terser is not installed, the fallback lookup from Vite's own directory goes through `tryNodeResolve`'s optional-peer-dependency handling. That returns a fake `__vite-optional-peer-dep:...` id instead of `undefined`, so the \"not found, please install\" error is skipped and a later dynamic import fails with a confusing error.",
+          "reason": "PR 1 swapped `requireResolveFromRootWithFallback` for `nodeResolveWithVite(lang, _dirname, { root })`. With Vite's own directory as the importer, basedir !== root, and sass, less, stylus, sugarss and terser are optional peer deps of Vite. So a missing package resolves to the special optional-peer-dep id, which is truthy, so the error branch never runs. PR 2 adds `disableOptionalPeerDepHandling` to `nodeResolveWithVite` so an unresolved package returns `undefined` again."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When a CSS preprocessor or Terser is missing, the new resolver can return a virtual optional-peer-dependency ID as though it were a file path. The loader then tries to import it and fails instead of reporting the intended missing-dependency error.",
+          "reason": "The first PR introduced nodeResolveWithVite and switched these loaders to it without disabling optional peer dependency handling. The second PR disables that handling so missing packages return undefined and reach the loaders’ intended error checks."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20837,
+    "fix": 20885,
+    "fixCommit": "12d72b0538ef1540bfb0f1dd8a44b75deaa3464e",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When stdin is not a TTY, the first PR attaches a no-op 'data' listener, which switches stdin into flowing mode and reads everything sent to it. That steals input from other consumers. Removing the listener at teardown does not pause the stream, so the open stdin handle can keep the process from exiting.",
+          "reason": "The second PR is a straight revert of the first. It removes only the drain listener and its teardown, and puts the file back exactly as it was. Revert PRs like this are made because the original change caused regressions in non-interactive environments, such as stdin being consumed or the process hanging. This conclusion rests on the diffs and how Node streams behave; I didn't find an issue that names the regression. Since the second PR only undoes code the first one added, any failure it repairs must come from that code."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "Adding a data listener puts non-interactive stdin into flowing mode, so closed or exhausted stdin emits 'end' and invokes the shutdown callback. This can make the server exit immediately when launched with stdin redirected from /dev/null.",
+          "reason": "The second pull request removes the data listener introduced by the first, preventing it from triggering premature shutdown."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20821,
+    "fix": 20826,
+    "fixCommit": "01ae66387cf1f44e029c427251af7d09b9eb2567",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new getInstallCommand and getRunCommand helpers return arrays that already start with the agent name, but install() and start() still pass the agent as the command too. The spawned command becomes `npm npm install` or `pnpm pnpm dev`, so installing dependencies and starting the dev server both break.",
+          "reason": "The first PR changed the helper return values to include the agent, for use in the done message, but kept calling run(agent, getInstallCommand(agent)). That duplicates the command name. The second PR changes run() to take the full array as [command, ...args], which removes the duplicate. That is exactly the bug the first PR introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new command helpers include the package-manager executable, but install() and start() also pass it separately to run(), producing commands such as `npm npm install` and `npm npm run dev`. This breaks automatic dependency installation and dev-server startup.",
+          "reason": "The second pull request separates the helpers’ command arrays into executable and arguments before calling spawn.sync, fixing the duplication introduced by the first pull request."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20410,
+    "fix": 20736,
+    "fixCommit": "14015d794f69accba68798bd0e15135bc51c9c1e",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The dev server's HTML middleware served .html files without applying the server.fs allow/deny (fs.strict) checks, so HTML outside the allowed directories could be read. This gap was older than the first PR, which did not cause it.",
+          "reason": "The first PR moved the fs check from transformMiddleware (only for ?raw/?url/?inline/svg URLs) to file-path checks in transformRequest. HTML requests are handled by indexHtmlMiddleware, which was never covered by either check. The second PR adds a new check to indexHtmlMiddleware, closing an older gap. Its only link to the first PR is reusing and exporting isFileInTargetPath and checkLoadingAccess."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The HTML middleware serves files without enforcing the development server’s filesystem restrictions. Preview requests containing parent-directory traversal can also expose HTML outside the output directory.",
+          "reason": "These checks were already missing before the first pull request, which did not change the HTML middleware or preview handling. Its removed transform guard only covered raw, url, inline, and SVG requests; the second pull request repairs the older HTML access gap."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 19057,
+    "fix": 20595,
+    "fixCommit": "7cdef612a65da5363905723f77516b6745ac9a94",
+    "blamedLines": 4,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The SharedWorker ping code logs console.debug messages like 'connected from window' and 'ping successful' without the usual '[vite]' prefix. In the browser console, users can't tell these messages come from Vite.",
+          "reason": "The first PR added every one of these console.debug calls in pingWorkerContentMain, and none of them had the '[vite]' prefix used by Vite's other client logs. The second PR, labeled as a fix, only adds that prefix to those same lines. It is a small cosmetic defect, but the first PR introduced it and the second PR repairs it."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new SharedWorker debug messages omit the `[vite]` prefix, making their source unclear in the browser console.",
+          "reason": "The first pull request introduced all four unprefixed messages; the second adds the missing prefix to those same messages."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20373,
+    "fix": 20556,
+    "fixCommit": "97d5111645a395dae48b16b110bc76c1ee8956c8",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new prepareOutDirPlugin is added to every build plugin pipeline, including the one used to bundle web workers. When a worker bundle renders, the plugin empties the outDir and copies the public dir again, partway through the main build.",
+          "reason": "Before the first PR, prepareOutDir ran only inside buildEnvironment, never during worker bundling. The first PR moved it into a renderStart hook and registered it in resolveBuildPlugins, which worker configs also use. Worker configs inherit build.write=true, so the hook fires while workers are bundled with generate() and wipes or re-prepares the output directory. The second PR leaves the plugin out when config.isWorker is set, which directly fixes this regression."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new output-preparation plugin also runs during worker builds, which can empty the main build’s output directory and delete files already written there. Worker bundling should not clean the shared output directory.",
+          "reason": "The first PR moved cleanup from buildEnvironment into a Rollup renderStart hook and registered it unconditionally, exposing it to worker builds. The second PR prevents that new behavior by excluding the plugin when config.isWorker is true."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20480,
+    "fix": 20528,
+    "fixCommit": "c5a10ec004130bec17cf42760b76d1d404008fa3",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The relative-path check `id[0] === '.'` treats any specifier that starts with a dot, such as `.vitepress/...`, as relative. A bare-style specifier like that is wrongly resolved against the importer's directory.",
+          "reason": "The `id[0] === '.'` check was in the original code before the first PR. The first PR only wrapped resolveId in a hook filter object, which reindented the code without changing its logic. It also added a load filter. The second PR fixes the older check by using a stricter regex for relative prefixes, so it repairs a defect that predates the first PR."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The resolver treats any specifier starting with a dot as a relative path, even when it lacks a valid relative prefix such as `./` or `../`. This incorrectly resolves dot-prefixed bare specifiers relative to the importer.",
+          "reason": "The first pull request preserves the existing `id[0] === '.'` condition while moving it into a hook handler. The second replaces that unchanged condition with a stricter regex, fixing an older defect."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 20358,
+    "fix": 20507,
+    "fixCommit": "1b211fd1beccd0fc13bec700815abaa9f54147e8",
+    "blamedLines": 2,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "In assetImportMetaUrl, addWatchFile(file) is called on any resolved non-public path, even when during dev that path is a directory or doesn't exist. Watching such paths causes problems.",
+          "reason": "The unconditional this.addWatchFile(file) call existed before the first PR. The refactor only moved the early-exit checks into a hook filter and re-indented the body. Its code filter (/new\\s+URL.+import\\.meta\\.url/) matches the same inputs as the old includes() checks or fewer, so it adds no new cases. The second PR fixes behaviour that predates the first PR."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": false,
+          "defect": "The asset URL transform registers directories and nonexistent paths as watch files during development. It should only watch paths that exist and are regular files.",
+          "reason": "The unconditional addWatchFile(file) call already existed before the first PR, which merely preserved it while refactoring to hook filters. The second PR fixes that older problem by checking the path before registering it."
+        },
+        "error": null
+      }
+    ],
+    "valid": false
+  },
+  {
+    "introducing": 19981,
+    "fix": 20496,
+    "fixCommit": "62b3e0d95c143e2f8b4e88d99c381d23663025ee",
+    "blamedLines": 10,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "`resolveServerUrls` now reads the hostname from `config.server.hostname` and ignores the `options.host` passed in. Preview calls it with `config.preview`, so its `resolvedUrls` are built from the dev server's host instead of `preview.host`.",
+          "reason": "Before PR 1, `resolveServerUrls` called `resolveHostname(options.host)`, so preview got its own host. PR 1 replaced that with `config.server.hostname`, which made preview use the dev server's host. PR 2, titled \"fix(preview): set correct host for resolvedUrls\", adds an explicit `hostname` parameter, has preview pass its own resolved hostname, and removes the `config.server.hostname` field. That directly undoes the regression PR 1 introduced."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "When `preview.host` differs from `server.host`, preview resolves its URLs using the development server’s hostname, so the reported URLs can point to the wrong host.",
+          "reason": "The first PR replaced hostname resolution from the supplied options with `config.server.hostname` in the shared URL resolver. The second PR fixes this by passing the appropriate hostname explicitly, including preview’s hostname."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  },
+  {
+    "introducing": 20351,
+    "fix": 20378,
+    "fixCommit": "03624844ebc2950cfb1a48379726d60e6d31bd6e",
+    "blamedLines": 1,
+    "verdicts": [
+      {
+        "judge": "opus",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The new degit command points to the repo `vitejs/plugin-react`, but that repo doesn't exist. The real repo is `vitejs/vite-plugin-react`, so scaffolding the RSC template fails.",
+          "reason": "The first PR rewrote the customCommand and put in the wrong GitHub repo name. The second PR changes only that path to the correct repository, which fixes the bad URL the first PR added."
+        },
+        "error": null
+      },
+      {
+        "judge": "sol",
+        "output": {
+          "fixRepairsIntroducedDefect": true,
+          "defect": "The updated RSC template command points degit at the incorrect repository, `vitejs/plugin-react`, so it cannot fetch the starter. The repository should be `vitejs/vite-plugin-react`.",
+          "reason": "The first pull request introduced the incorrect repository path, and the second corrects that same path."
+        },
+        "error": null
+      }
+    ],
+    "valid": true
+  }
+]

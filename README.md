@@ -4,13 +4,43 @@ This benchmark compares AI code reviewers on known defects. Clone it, install th
 
 It runs each reviewer through its public CLI or its pull request bot. It has no code from any reviewer.
 
-| Suite       | Cases                                                                           | Known defects                                              |
-| ----------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `openqodex` | The 21 cases of the OpenQodex benchmark at release 0.11.0                       | 51 planted bugs, 2 clean cases                             |
-| `real`      | Merged vite pull requests. The `dev` split tunes, and the `scored` split scores | One defect for each defect case, confirmed by two judges   |
-| `planted`   | A large pull request with a private manifest                                    | The manifest lists them, and its sha256 is published first |
+| Suite     | Cases                                                                                   | Known defects                                              |
+| --------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `real`    | Merged vite pull requests. The `dev` split is for development, and `scored` is the test | One defect for each defect case, confirmed by two judges   |
+| `planted` | A large pull request with a private manifest                                            | The manifest lists them, and its sha256 is published first |
+
+`data/vite` has the mined pull requests, the judge checks, and the selected cases for each split, so a clone builds the same cases.
 
 [`docs/method.md`](docs/method.md) explains the case format, the arms, the graders, and the rules that keep the comparison fair.
+
+[`results/2026-10-vite`](results/2026-10-vite/README.md) has the first published run.
+
+## Quick start
+
+Use your own accounts. Nothing in this repository points at another person's bot or repository.
+
+1. Install Bun 1.4.2, Node.js, Git, and the GitHub CLI. Sign in to Claude Code and Codex. Install the review linters that [Requirements](#requirements) lists.
+2. Install the reviewers that you want to compare:
+   - Shadowclone: `npm install --global @shadowclone/cli`.
+   - OpenQodex: `npx -y openqodex@0.11.0 doctor --install --all-scanners`.
+3. Run the local reviewers, the judges, and the report:
+
+   ```bash
+   bun install
+   WORK=~/review-bench RUN=my-run scripts/run-vite.sh
+   ```
+
+4. To add the pull request bots, create an empty public repository for the case copies, then:
+   1. Copy the cases to it: `bun src/cli.ts copy --work ~/review-bench --suite real --split scored --eval-repo <owner/name>`. This pushes `main` and opens 40 draft pull requests.
+   2. Install Greptile on it from your Greptile account, and turn on reviews for it in the Greptile dashboard.
+   3. Run `shadowclone bot setup --app --repo <owner/name>`. It registers a GitHub App that you own. Add your Claude token to the `shadowclone` environment, and merge the setup pull request.
+   4. Run the script again with the repository and your App login:
+
+      ```bash
+      WORK=~/review-bench RUN=my-run EVAL_REPO=<owner/name> SHADOWCLONE_BOT=<app login> scripts/run-vite.sh
+      ```
+
+The script resumes a run, so a second call skips the reviews that are done. `LOCAL_ARMS` and `REPEATS` change the local reviewers and the runs for each case.
 
 ## Arms
 
@@ -26,7 +56,7 @@ The local arms use `claude-opus-5-5` at the default effort. Greptile uses its ow
 - Claude Code, signed in. The `shadowclone`, `openqodex`, and `opus` judge steps use it.
 - Codex, signed in. The `sol` judge uses it.
 - Shadowclone: the `shadowclone` command, or a source checkout passed with `--shadowclone <folder>`.
-- The review linters on the `PATH`: shellcheck 0.10.0, hadolint 2.15.1, actionlint 1.7.7, zizmor 1.30.1, and squawk 2.66.0. The run manifest lists the linters that it found.
+- The review linters on the `PATH`: shellcheck 0.10.0, hadolint 2.15.1, actionlint 1.7.7, zizmor 1.30.1, squawk 2.66.0, and trivy 0.75.0. The run manifest lists the linters that it found.
 
 ## Run it
 
@@ -34,43 +64,51 @@ Use a private work folder outside every repository. Each command that calls a mo
 
 1. Install the dependencies: `bun install`.
 2. Install the OpenQodex scanners, so that no review runs without them: `npx -y openqodex@0.11.0 doctor --install --all-scanners`.
-3. Build the cases:
+3. Clone vite: `git clone https://github.com/vitejs/vite <vite>`.
+4. Build the cases:
 
    ```bash
-   bun src/cli.ts cases --work <work> --suite openqodex
-   bun src/cli.ts mine --repo vitejs/vite --clone <vite> --since 2025-07-01 --until 2026-02-28 --introduced-before 2026-01-29 --mined <dev-mined>
-   bun src/cli.ts validate --mined <dev-mined> --clone <vite> --yes --max-calls 40
-   bun src/cli.ts cases --work <work> --suite real --split dev --mined <dev-mined> --clone <vite> --clean 12
+   bun src/cli.ts cases --work <work> --suite real --split dev --mined data/vite/dev --clone <vite>
+   bun src/cli.ts cases --work <work> --suite real --split scored --mined data/vite/scored --clone <vite>
    bun src/cli.ts cases --work <work> --suite planted --manifest <private manifest>
    ```
 
-4. Run each arm. `--repeats` sets the runs for each case, and `--limit` sets the reviews that run at the same time:
+   To mine a new window instead, run `mine` and `validate` into a new folder, and pass that folder to `--mined`:
 
    ```bash
-   bun src/cli.ts run --work <work> --suite openqodex --split scored --arm shadowclone --shadowclone <shadowclone checkout> --run <name> --repeats 3 --limit 4 --yes --max-calls 63
-   bun src/cli.ts run --work <work> --suite openqodex --split scored --arm openqodex --run <name> --repeats 3 --limit 4 --yes --max-calls 63
+   bun src/cli.ts mine --repo vitejs/vite --clone <vite> --since 2025-07-01 --until 2026-02-28 --introduced-before 2026-01-29 --mined <mined>
+   bun src/cli.ts validate --mined <mined> --clone <vite> --yes --max-calls 40
    ```
 
-5. Grade and report:
+5. Run each arm. `--repeats` sets the runs for each case, and `--limit` sets the reviews that run at the same time:
 
    ```bash
-   bun src/cli.ts judge --work <work> --suite openqodex --split scored --run <name> --yes --max-calls 42
-   bun src/cli.ts report --work <work> --suite openqodex --split scored --run <name>
+   bun src/cli.ts run --work <work> --suite real --split scored --arm shadowclone --shadowclone <shadowclone checkout> --run <name> --repeats 3 --limit 4 --yes --max-calls 120
+   bun src/cli.ts run --work <work> --suite real --split scored --arm openqodex --run <name> --repeats 3 --limit 4 --yes --max-calls 120
    ```
 
-A run resumes. It skips each review that has a `done` result. The report writes `report-<suite>-<split>.md` and `metrics-<suite>-<split>.json` into the run folder. For the `openqodex` suite, it also writes their results layout to `openqodex-scorer/` and adds the output of their `score.mjs`.
+6. Grade and report:
+
+   ```bash
+   bun src/cli.ts judge --work <work> --suite real --split scored --run <name> --yes --max-calls 80
+   bun src/cli.ts report --work <work> --suite real --split scored --run <name>
+   ```
+
+A run resumes. It skips each review that has a `done` result. The report writes `report-<suite>-<split>.md` and `metrics-<suite>-<split>.json` into the run folder.
 
 ## Cloud arms
 
-1. Copy the cases to an evaluation repository: `bun src/cli.ts copy --work <work> --suite real --split scored --eval-repo <owner/name>`. The copy leaves out `.github/workflows`, and it skips a case whose change edits a workflow.
-2. Install the Shadowclone bot and Greptile on that repository.
-3. Run `--arm shadowclone-cloud` or `--arm greptile` with `--repeats 1`.
+1. Create an empty evaluation repository.
+2. Copy the cases to it: `bun src/cli.ts copy --work <work> --suite real --split scored --eval-repo <owner/name>`.
+   - If the repository has no `main` branch, the copy pushes the oldest case base to `main`. This is the code that a bot indexes, and it comes before every known defect and its fix.
+   - Each case becomes a draft pull request from `case-<key>/head` to `case-<key>/base`. The copy leaves out `.github/workflows`, and it skips a case whose change edits a workflow.
+3. Install the Shadowclone bot and Greptile on that repository, with their default settings and no custom rules.
+4. Run `--arm shadowclone-cloud --shadowclone-bot <bot login>` or `--arm greptile` with `--repeats 1`. The harness asks for each review with a pull request comment that mentions the bot login, or `@greptileai`.
 
 ## Grading
 
 - **Blind judges:** Claude Opus 5.5 and GPT 6.1 Sol label each pooled finding `real`, `minor`, or `wrong`. They also name the findings that identify each known defect. A label or a detection counts when both judges agree.
 - **Disputes:** `bun src/cli.ts disputes` writes each disputed finding with both reasons and no reviewer name. Put the blind decisions in `tiebreaks.json` in the run folder, as `{ "<finding id>": "real" }`.
-- **Their scorer:** for the `openqodex` suite, their `benchmark/score.mjs` scores both local arms with their own rules.
 
 ## Check the harness
 

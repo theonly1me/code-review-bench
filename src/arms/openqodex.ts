@@ -4,8 +4,12 @@ import { z } from "zod";
 import { runProcess } from "../runProcess";
 import { withReviewClone } from "../cases/repository";
 import { readJsonFile } from "../process";
-import { openqodexRelease } from "../suites/openqodex";
 import { type ArmRunner, failedRun } from "./types";
+
+export const openqodexRelease = {
+  version: "0.11.0",
+  commit: "2f2fa9e48c1f62a6123997eb14111140d8e22a74",
+} as const;
 
 const usageSchema = z.object({
   completion: z
@@ -19,6 +23,14 @@ const usageSchema = z.object({
     })
     .optional(),
 });
+
+const completionSchema = z.object({ completion: z.object({ status: z.string() }) });
+
+export function openqodexRunStatus(report: unknown): "done" | "failed" {
+  return completionSchema.safeParse(report).data?.completion.status === "complete"
+    ? "done"
+    : "failed";
+}
 
 export function openqodexArguments(options: {
   readonly reportDirectory: string;
@@ -75,7 +87,7 @@ export const runOpenqodexLocally: ArmRunner = async ({ entry, repeat, directory,
       repeat,
       startedAt,
       finishedAt: new Date().toISOString(),
-      status: report === null ? "failed" : "done",
+      status: openqodexRunStatus(report),
       detail: `exit ${result.exitCode}: ${result.stderr.trim().split("\n").slice(-3).join(" | ").slice(0, 400)}`,
       costUsd: usageSchema.safeParse(report).data?.completion?.reviewer?.usage?.cost_usd ?? null,
       raw: report,

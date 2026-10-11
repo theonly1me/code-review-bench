@@ -7,7 +7,6 @@ import { collectRuns, findingsByCase } from "../grade/collect";
 import { disputes, disputesMarkdown } from "../grade/disputes";
 import { judgeCases, readJudged } from "../grade/judge";
 import { armMetrics } from "../grade/metrics";
-import { scoreWithTheirScorer, writeTheirLayout } from "../grade/openqodexScore";
 import { metricsTable } from "../grade/report";
 import {
   type Arguments,
@@ -82,7 +81,7 @@ export async function judgeCommand(argv: Arguments): Promise<void> {
 }
 
 export async function reportCommand(argv: Arguments): Promise<void> {
-  const { work, suite, split, runs, cases, judgedFile } = await selection(argv);
+  const { suite, split, runs, cases, judgedFile } = await selection(argv);
   const allRuns = collectRuns({ runs, cases });
   const judged = readJudged(judgedFile);
   const tiebreaks = readTiebreaks(runs);
@@ -92,23 +91,7 @@ export async function reportCommand(argv: Arguments): Promise<void> {
     .map((arm, index) =>
       armMetrics({ arm, cases, runs: allRuns, judged, tiebreaks, seed: seed + index * 10 }),
     );
-  const sections = [metricsTable({ title: `${suite} ${split}: blind judges`, metrics })];
-
-  if (suite === "openqodex") {
-    const folder = path.join(runs, "openqodex-scorer");
-
-    writeTheirLayout({
-      folder,
-      cases,
-      runs: allRuns,
-      model: optional({ argv, name: "--model" }) ?? "claude-opus-5-5",
-    });
-    sections.push(
-      `### ${suite} ${split}: their scorer\n\n${await scoreWithTheirScorer({ work, folder })}`,
-    );
-  }
-
-  const report = sections.join("\n\n");
+  const report = metricsTable({ title: `${suite} ${split}: blind judges`, metrics });
 
   writeFileSync(path.join(runs, `report-${suite}-${split}.md`), `${report}\n`);
   writeFileSync(
