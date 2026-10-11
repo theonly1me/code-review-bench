@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { shadowcloneReviewMarker } from "./shadowcloneResult";
 import { ghJson } from "../process";
+import { greptileSummaryWithoutFindings } from "./greptileSummary";
 import type { ArmRun, ArmRunner, CloudArmName } from "./types";
 
 const reviewsSchema = z.array(
@@ -58,25 +59,42 @@ async function waitForReview(options: {
   readonly startedAt: string;
 }) {
   const deadline = Date.now() + pollTimeoutMilliseconds;
+  let quietSummarySeen = false;
 
   while (Date.now() < deadline) {
     await Bun.sleep(pollIntervalMilliseconds);
 
     const activity = await reviewActivity(options).catch(() => null);
-    const found =
-      activity === null
-        ? undefined
-        : reviewsSchema
-            .parse(activity.reviews)
-            .find(
-              (review) =>
-                isArmReview({ arm: options.arm, body: review.body, login: review.user.login }) &&
-                (review.submitted_at ?? "") >= options.startedAt,
-            );
 
-    if (activity !== null && found !== undefined) {
-      return { found, activity };
+    if (activity === null) {
+      continue;
     }
+
+    const found = reviewsSchema
+      .parse(activity.reviews)
+      .find(
+        (review) =>
+          isArmReview({ arm: options.arm, body: review.body, login: review.user.login }) &&
+          (review.submitted_at ?? "") >= options.startedAt,
+      );
+
+    if (found !== undefined) {
+      return { id: found.id, submittedAt: found.submitted_at, activity };
+    }
+
+    const quietSummary =
+      options.arm === "greptile"
+        ? greptileSummaryWithoutFindings({
+            issueComments: activity.issueComments,
+            startedAt: options.startedAt,
+          })
+        : null;
+
+    if (quietSummary !== null && quietSummarySeen) {
+      return { id: quietSummary.id, submittedAt: quietSummary.createdAt, activity };
+    }
+
+    quietSummarySeen = quietSummary !== null;
   }
 
   return null;
@@ -120,9 +138,9 @@ export function cloudRunner(arm: CloudArmName): ArmRunner {
         }
       : {
           ...base,
-          finishedAt: review.found.submitted_at,
+          finishedAt: review.submittedAt,
           status: "done",
-          detail: `review ${review.found.id}`,
+          detail: `review ${review.id}`,
           raw: review.activity,
         };
   };
