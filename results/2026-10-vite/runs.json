@@ -1,0 +1,3202 @@
+[
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c22",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:36:29.960Z",
+    "finishedAt": "2026-10-10T20:37:29.089Z",
+    "costUsd": 0.1923176,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c22",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:04:12.967Z",
+    "finishedAt": "2026-10-10T21:04:41.354Z",
+    "costUsd": 0.018052600000000002,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c22",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:48:22.519Z",
+    "finishedAt": "2026-10-10T20:48:59.183Z",
+    "costUsd": 0.0197926,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c25",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:37:29.090Z",
+    "finishedAt": "2026-10-10T20:38:16.271Z",
+    "costUsd": 0.28392480000000003,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c25",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:05:08.361Z",
+    "finishedAt": "2026-10-10T21:05:43.487Z",
+    "costUsd": 0.1824828,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c25",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:49:23.946Z",
+    "finishedAt": "2026-10-10T20:50:07.238Z",
+    "costUsd": 0.2676636,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c13",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:33:41.511Z",
+    "finishedAt": "2026-10-10T20:34:12.792Z",
+    "costUsd": 0.1218326,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c13",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:00:39.838Z",
+    "finishedAt": "2026-10-10T21:01:09.251Z",
+    "costUsd": 0.037939200000000006,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c13",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:46:07.907Z",
+    "finishedAt": "2026-10-10T20:46:34.204Z",
+    "costUsd": 0.034314,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c14",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:33:59.702Z",
+    "finishedAt": "2026-10-10T20:36:30.240Z",
+    "costUsd": 0.6639122,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c14",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:01:09.252Z",
+    "finishedAt": "2026-10-10T21:03:29.347Z",
+    "costUsd": 0.35585429999999996,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c14",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:46:26.832Z",
+    "finishedAt": "2026-10-10T20:48:11.078Z",
+    "costUsd": 0.4633206000000001,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c40",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:41:57.318Z",
+    "finishedAt": "2026-10-10T20:42:32.633Z",
+    "costUsd": 0.1228586,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c40",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:10:44.247Z",
+    "finishedAt": "2026-10-10T21:11:16.838Z",
+    "costUsd": 0.0419012,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c40",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:54:23.696Z",
+    "finishedAt": "2026-10-10T20:55:00.882Z",
+    "costUsd": 0.040869,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c15",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:34:12.793Z",
+    "finishedAt": "2026-10-10T20:34:42.074Z",
+    "costUsd": 0.13354660000000002,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c15",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:01:12.124Z",
+    "finishedAt": "2026-10-10T21:01:40.784Z",
+    "costUsd": 0.039981,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c15",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:46:34.205Z",
+    "finishedAt": "2026-10-10T20:47:10.213Z",
+    "costUsd": 0.0350732,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c12",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:32:56.938Z",
+    "finishedAt": "2026-10-10T20:33:41.511Z",
+    "costUsd": 0.3818644,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c12",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:00:24.915Z",
+    "finishedAt": "2026-10-10T21:01:12.124Z",
+    "costUsd": 0.1387065,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c12",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:45:39.175Z",
+    "finishedAt": "2026-10-10T20:46:50.713Z",
+    "costUsd": 0.4903239,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c24",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:37:28.638Z",
+    "finishedAt": "2026-10-10T20:38:16.598Z",
+    "costUsd": 0.17656260000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c24",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:04:41.364Z",
+    "finishedAt": "2026-10-10T21:05:08.361Z",
+    "costUsd": 0.0796004,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c24",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:48:59.184Z",
+    "finishedAt": "2026-10-10T20:49:23.946Z",
+    "costUsd": 0.0980322,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c23",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:36:30.240Z",
+    "finishedAt": "2026-10-10T20:37:40.248Z",
+    "costUsd": 0.6863998,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c23",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:04:35.269Z",
+    "finishedAt": "2026-10-10T21:07:07.724Z",
+    "costUsd": 1.0204817,
+    "detail": "4 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c23",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:48:42.519Z",
+    "finishedAt": "2026-10-10T20:50:42.024Z",
+    "costUsd": 0.8102948000000001,
+    "detail": "3 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c01",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:29:54.865Z",
+    "finishedAt": "2026-10-10T20:30:54.212Z",
+    "costUsd": 0.24048090000000003,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c01",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:54:33.038Z",
+    "finishedAt": "2026-10-10T20:55:11.613Z",
+    "costUsd": 0.10783380000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c01",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:42:32.633Z",
+    "finishedAt": "2026-10-10T20:43:11.540Z",
+    "costUsd": 0.0853894,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c39",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:41:57.024Z",
+    "finishedAt": "2026-10-10T20:42:32.825Z",
+    "costUsd": 0.3328179,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c39",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:10:42.695Z",
+    "finishedAt": "2026-10-10T21:11:27.693Z",
+    "costUsd": 0.2289381,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c39",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:53:58.507Z",
+    "finishedAt": "2026-10-10T20:54:44.976Z",
+    "costUsd": 0.2086232,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c06",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:31:34.577Z",
+    "finishedAt": "2026-10-10T20:32:07.004Z",
+    "costUsd": 0.23494489999999998,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c06",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:57:43.567Z",
+    "finishedAt": "2026-10-10T20:58:15.813Z",
+    "costUsd": 0.1679589,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c06",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:43:44.382Z",
+    "finishedAt": "2026-10-10T20:44:17.635Z",
+    "costUsd": 0.1423801,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c30",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:39:06.436Z",
+    "finishedAt": "2026-10-10T20:39:34.521Z",
+    "costUsd": 0.1916856,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c30",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:07:36.991Z",
+    "finishedAt": "2026-10-10T21:07:59.900Z",
+    "costUsd": 0.0640934,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c30",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:51:02.612Z",
+    "finishedAt": "2026-10-10T20:51:26.618Z",
+    "costUsd": 0.059177,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c08",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:32:07.005Z",
+    "finishedAt": "2026-10-10T20:34:44.967Z",
+    "costUsd": 0.9721007,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c08",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:58:15.813Z",
+    "finishedAt": "2026-10-10T21:00:24.915Z",
+    "costUsd": 0.5301817000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c08",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:44:28.072Z",
+    "finishedAt": "2026-10-10T20:45:24.408Z",
+    "costUsd": 0.2913368,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c37",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:41:19.132Z",
+    "finishedAt": "2026-10-10T20:41:57.317Z",
+    "costUsd": 0.2384346,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c37",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:09:44.907Z",
+    "finishedAt": "2026-10-10T21:10:21.087Z",
+    "costUsd": 0.08881800000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c37",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:53:27.559Z",
+    "finishedAt": "2026-10-10T20:53:58.506Z",
+    "costUsd": 0.0586364,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c09",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:32:19.633Z",
+    "finishedAt": "2026-10-10T20:32:56.024Z",
+    "costUsd": 0.1283726,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c09",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:58:20.339Z",
+    "finishedAt": "2026-10-10T20:58:49.207Z",
+    "costUsd": 0.0409772,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c09",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:44:44.860Z",
+    "finishedAt": "2026-10-10T20:45:10.482Z",
+    "costUsd": 0.0355332,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c36",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:40:31.226Z",
+    "finishedAt": "2026-10-10T20:41:19.784Z",
+    "costUsd": 0.3465503,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c36",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:09:44.403Z",
+    "finishedAt": "2026-10-10T21:11:15.091Z",
+    "costUsd": 0.4093574,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c36",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:52:44.599Z",
+    "finishedAt": "2026-10-10T20:53:48.367Z",
+    "costUsd": 0.3001458,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c31",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:39:34.522Z",
+    "finishedAt": "2026-10-10T20:40:05.960Z",
+    "costUsd": 0.22578559999999998,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c31",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:07:59.901Z",
+    "finishedAt": "2026-10-10T21:08:53.254Z",
+    "costUsd": 0.17842639999999996,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c31",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:51:26.619Z",
+    "finishedAt": "2026-10-10T20:51:56.027Z",
+    "costUsd": 0.10727169999999997,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c38",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:41:19.784Z",
+    "finishedAt": "2026-10-10T20:41:57.023Z",
+    "costUsd": 0.152958,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c38",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:10:21.087Z",
+    "finishedAt": "2026-10-10T21:10:44.247Z",
+    "costUsd": 0.1155594,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c38",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:53:48.368Z",
+    "finishedAt": "2026-10-10T20:54:23.695Z",
+    "costUsd": 0.0531198,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c07",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:31:50.055Z",
+    "finishedAt": "2026-10-10T20:32:22.015Z",
+    "costUsd": 0.1315576,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c07",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:57:53.702Z",
+    "finishedAt": "2026-10-10T20:58:20.338Z",
+    "costUsd": 0.0378562,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c07",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:44:17.635Z",
+    "finishedAt": "2026-10-10T20:44:44.859Z",
+    "costUsd": 0.053548,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c26",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:37:40.248Z",
+    "finishedAt": "2026-10-10T20:38:27.083Z",
+    "costUsd": 0.2689528,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c26",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:05:43.487Z",
+    "finishedAt": "2026-10-10T21:06:20.398Z",
+    "costUsd": 0.1811226,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c26",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:49:34.606Z",
+    "finishedAt": "2026-10-10T20:50:22.930Z",
+    "costUsd": 0.2323836,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c19",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:35:20.548Z",
+    "finishedAt": "2026-10-10T20:36:04.111Z",
+    "costUsd": 0.2161203,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c19",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:02:53.262Z",
+    "finishedAt": "2026-10-10T21:03:41.320Z",
+    "costUsd": 0.1658126,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c19",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:47:38.997Z",
+    "finishedAt": "2026-10-10T20:48:04.175Z",
+    "costUsd": 0.0999302,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c21",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:36:29.732Z",
+    "finishedAt": "2026-10-10T20:37:28.638Z",
+    "costUsd": 0.2250442,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c21",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:03:41.321Z",
+    "finishedAt": "2026-10-10T21:04:12.966Z",
+    "costUsd": 0.1494806,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c21",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:48:11.078Z",
+    "finishedAt": "2026-10-10T20:48:42.519Z",
+    "costUsd": 0.1273548,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c17",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:34:44.968Z",
+    "finishedAt": "2026-10-10T20:35:20.548Z",
+    "costUsd": 0.13811099999999998,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c17",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:02:03.519Z",
+    "finishedAt": "2026-10-10T21:02:26.058Z",
+    "costUsd": 0.03305,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c17",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:47:10.214Z",
+    "finishedAt": "2026-10-10T20:47:38.996Z",
+    "costUsd": 0.0424462,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c28",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:38:16.598Z",
+    "finishedAt": "2026-10-10T20:39:06.436Z",
+    "costUsd": 0.18921320000000003,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c28",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:06:20.399Z",
+    "finishedAt": "2026-10-10T21:07:36.991Z",
+    "costUsd": 0.2249761,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c28",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:50:22.930Z",
+    "finishedAt": "2026-10-10T20:51:02.611Z",
+    "costUsd": 0.13287919999999998,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c10",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:32:22.015Z",
+    "finishedAt": "2026-10-10T20:32:56.938Z",
+    "costUsd": 0.20515720000000004,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c10",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:58:49.208Z",
+    "finishedAt": "2026-10-10T20:59:15.737Z",
+    "costUsd": 0.11099980000000001,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c10",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:45:10.482Z",
+    "finishedAt": "2026-10-10T20:45:39.175Z",
+    "costUsd": 0.1380592,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c11",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:32:56.024Z",
+    "finishedAt": "2026-10-10T20:33:59.702Z",
+    "costUsd": 0.36719,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c11",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:59:15.737Z",
+    "finishedAt": "2026-10-10T21:00:39.837Z",
+    "costUsd": 0.3039366,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c11",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:45:24.409Z",
+    "finishedAt": "2026-10-10T20:46:26.832Z",
+    "costUsd": 0.22766599999999998,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c16",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:34:42.074Z",
+    "finishedAt": "2026-10-10T20:35:17.823Z",
+    "costUsd": 0.1392655,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c16",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:01:40.784Z",
+    "finishedAt": "2026-10-10T21:02:03.518Z",
+    "costUsd": 0.0449981,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c16",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:46:50.714Z",
+    "finishedAt": "2026-10-10T20:47:22.210Z",
+    "costUsd": 0.048828300000000005,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c29",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:38:27.084Z",
+    "finishedAt": "2026-10-10T20:40:22.257Z",
+    "costUsd": 0.5495139,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c29",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:07:07.724Z",
+    "finishedAt": "2026-10-10T21:08:22.210Z",
+    "costUsd": 0.37645059999999997,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c29",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:50:42.024Z",
+    "finishedAt": "2026-10-10T20:51:55.777Z",
+    "costUsd": 0.24989530000000004,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c20",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:36:04.111Z",
+    "finishedAt": "2026-10-10T20:36:29.960Z",
+    "costUsd": 0.1768822,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c20",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:03:29.347Z",
+    "finishedAt": "2026-10-10T21:04:35.269Z",
+    "costUsd": 0.3178732,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c20",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:48:04.175Z",
+    "finishedAt": "2026-10-10T20:49:34.605Z",
+    "costUsd": 0.26913560000000003,
+    "detail": "6 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c27",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:38:16.272Z",
+    "finishedAt": "2026-10-10T20:39:43.991Z",
+    "costUsd": 0.6010512000000001,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c27",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:05:54.117Z",
+    "finishedAt": "2026-10-10T21:09:44.403Z",
+    "costUsd": 0.8535733000000001,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c27",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:50:07.239Z",
+    "finishedAt": "2026-10-10T20:52:05.672Z",
+    "costUsd": 0.5588746,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c18",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:35:17.833Z",
+    "finishedAt": "2026-10-10T20:36:29.731Z",
+    "costUsd": 0.32128300000000004,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c18",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:02:26.058Z",
+    "finishedAt": "2026-10-10T21:05:54.116Z",
+    "costUsd": 0.5224248999999999,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c18",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:47:22.211Z",
+    "finishedAt": "2026-10-10T20:48:22.518Z",
+    "costUsd": 0.2159797,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c05",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:31:17.111Z",
+    "finishedAt": "2026-10-10T20:32:19.632Z",
+    "costUsd": 0.3745298,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c05",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:55:44.730Z",
+    "finishedAt": "2026-10-10T20:57:43.567Z",
+    "costUsd": 0.43130150000000006,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c05",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:43:28.467Z",
+    "finishedAt": "2026-10-10T20:44:28.071Z",
+    "costUsd": 0.24045699999999998,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c02",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:29:54.866Z",
+    "finishedAt": "2026-10-10T20:31:34.577Z",
+    "costUsd": 0.6340777999999999,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c02",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:54:44.976Z",
+    "finishedAt": "2026-10-10T20:57:53.701Z",
+    "costUsd": 0.7858692999999999,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c02",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:42:32.825Z",
+    "finishedAt": "2026-10-10T20:43:28.467Z",
+    "costUsd": 0.2056372,
+    "detail": "3 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c34",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:40:22.258Z",
+    "finishedAt": "2026-10-10T20:43:01.310Z",
+    "costUsd": 1.3000152000000003,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c34",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:09:04.410Z",
+    "finishedAt": "2026-10-10T21:10:42.694Z",
+    "costUsd": 0.6523262,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c34",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:52:05.673Z",
+    "finishedAt": "2026-10-10T20:54:33.038Z",
+    "costUsd": 1.003025,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c33",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:40:05.960Z",
+    "finishedAt": "2026-10-10T20:40:31.226Z",
+    "costUsd": 0.110123,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c33",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:08:53.254Z",
+    "finishedAt": "2026-10-10T21:09:20.144Z",
+    "costUsd": 0.0309566,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c33",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:51:56.028Z",
+    "finishedAt": "2026-10-10T20:52:44.342Z",
+    "costUsd": 0.0511122,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c32",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:39:43.991Z",
+    "finishedAt": "2026-10-10T20:40:30.635Z",
+    "costUsd": 0.3331518,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c32",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:08:22.211Z",
+    "finishedAt": "2026-10-10T21:09:04.409Z",
+    "costUsd": 0.1993562,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c32",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:51:55.778Z",
+    "finishedAt": "2026-10-10T20:52:44.599Z",
+    "costUsd": 0.1670102,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c35",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:40:30.636Z",
+    "finishedAt": "2026-10-10T20:41:19.132Z",
+    "costUsd": 0.24125560000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c35",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:09:20.145Z",
+    "finishedAt": "2026-10-10T21:09:44.907Z",
+    "costUsd": 0.062133999999999995,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c35",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:52:44.343Z",
+    "finishedAt": "2026-10-10T20:53:27.558Z",
+    "costUsd": 0.0801014,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c03",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:29:54.868Z",
+    "finishedAt": "2026-10-10T20:31:17.111Z",
+    "costUsd": 0.4544244,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c03",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:55:00.882Z",
+    "finishedAt": "2026-10-10T20:55:44.729Z",
+    "costUsd": 0.08289080000000001,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c03",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:43:01.311Z",
+    "finishedAt": "2026-10-10T20:43:44.382Z",
+    "costUsd": 0.1078882,
+    "detail": "0 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c04",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T20:30:54.215Z",
+    "finishedAt": "2026-10-10T20:31:50.054Z",
+    "costUsd": 0.326008,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c04",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T20:55:11.614Z",
+    "finishedAt": "2026-10-10T21:02:53.261Z",
+    "costUsd": 0.7226769999999999,
+    "detail": "2 findings"
+  },
+  {
+    "arm": "shadowclone",
+    "caseId": "real-scored-c04",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T20:43:11.540Z",
+    "finishedAt": "2026-10-10T20:46:07.906Z",
+    "costUsd": 0.7787616999999999,
+    "detail": "1 findings"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c22",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:07.825Z",
+    "finishedAt": "2026-10-10T21:15:40.994Z",
+    "costUsd": 0.2664456,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c22",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:31:46.525Z",
+    "finishedAt": "2026-10-10T21:32:14.386Z",
+    "costUsd": 0.2602976,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c22",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:23:21.786Z",
+    "finishedAt": "2026-10-10T21:23:48.803Z",
+    "costUsd": 0.0684064,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c25",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:40.994Z",
+    "finishedAt": "2026-10-10T21:16:17.760Z",
+    "costUsd": 0.2883338,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c25",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:32:14.386Z",
+    "finishedAt": "2026-10-10T21:32:53.143Z",
+    "costUsd": 0.244354,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c25",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:23:48.804Z",
+    "finishedAt": "2026-10-10T21:24:28.980Z",
+    "costUsd": 0.185076,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c13",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:13:44.340Z",
+    "finishedAt": "2026-10-10T21:14:01.322Z",
+    "costUsd": 0.1658952,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 79071); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c13",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:06.485Z",
+    "finishedAt": "2026-10-10T21:30:28.431Z",
+    "costUsd": 0.0324438,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 72218); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c13",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:21:56.873Z",
+    "finishedAt": "2026-10-10T21:22:15.544Z",
+    "costUsd": 0.16876919999999998,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 25729); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c14",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:13:59.361Z",
+    "finishedAt": "2026-10-10T21:14:34.062Z",
+    "costUsd": 0.1698442,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c14",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:17.788Z",
+    "finishedAt": "2026-10-10T21:30:52.972Z",
+    "costUsd": 0.1767552,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c14",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:12.809Z",
+    "finishedAt": "2026-10-10T21:22:59.466Z",
+    "costUsd": 0.1983924,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c40",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:12.738Z",
+    "finishedAt": "2026-10-10T21:19:34.857Z",
+    "costUsd": 0.0846912,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 11352); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c40",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:35:44.148Z",
+    "finishedAt": "2026-10-10T21:36:16.243Z",
+    "costUsd": 0.08257419999999999,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c40",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:27:17.529Z",
+    "finishedAt": "2026-10-10T21:27:41.490Z",
+    "costUsd": 0.0870186,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 56963); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c15",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:01.322Z",
+    "finishedAt": "2026-10-10T21:14:18.863Z",
+    "costUsd": 0.0652242,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 81261); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c15",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:28.431Z",
+    "finishedAt": "2026-10-10T21:30:46.488Z",
+    "costUsd": 0.0687322,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 74446); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c15",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:15.544Z",
+    "finishedAt": "2026-10-10T21:22:34.778Z",
+    "costUsd": 0.04127,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 28857); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c12",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:13:29.586Z",
+    "finishedAt": "2026-10-10T21:14:27.079Z",
+    "costUsd": 0.4339158,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c12",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:29:59.914Z",
+    "finishedAt": "2026-10-10T21:30:50.118Z",
+    "costUsd": 0.40996520000000003,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c12",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:21:29.442Z",
+    "finishedAt": "2026-10-10T21:22:12.809Z",
+    "costUsd": 0.1327146,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c24",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:30.016Z",
+    "finishedAt": "2026-10-10T21:15:50.963Z",
+    "costUsd": 0.11311500000000001,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 91296); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c24",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:32:00.730Z",
+    "finishedAt": "2026-10-10T21:32:24.023Z",
+    "costUsd": 0.13543360000000002,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 84154); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c24",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:23:39.669Z",
+    "finishedAt": "2026-10-10T21:24:01.455Z",
+    "costUsd": 0.07092979999999999,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 37497); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c23",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:27.460Z",
+    "finishedAt": "2026-10-10T21:16:27.559Z",
+    "costUsd": 0.43173360000000005,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c23",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:31:57.580Z",
+    "finishedAt": "2026-10-10T21:33:16.665Z",
+    "costUsd": 0.2906684,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c23",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:23:29.809Z",
+    "finishedAt": "2026-10-10T21:24:37.357Z",
+    "costUsd": 0.4663098,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c01",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:11:27.862Z",
+    "finishedAt": "2026-10-10T21:12:05.169Z",
+    "costUsd": 0.15080439999999998,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c01",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:27:39.509Z",
+    "finishedAt": "2026-10-10T21:28:10.871Z",
+    "costUsd": 0.0918378,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c01",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:16.404Z",
+    "finishedAt": "2026-10-10T21:19:46.758Z",
+    "costUsd": 0.11608160000000001,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c39",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:09.805Z",
+    "finishedAt": "2026-10-10T21:19:45.250Z",
+    "costUsd": 0.2719444,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c39",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:35:30.045Z",
+    "finishedAt": "2026-10-10T21:36:02.437Z",
+    "costUsd": 0.24484499999999998,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c39",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:27:05.175Z",
+    "finishedAt": "2026-10-10T21:27:39.509Z",
+    "costUsd": 0.288052,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c06",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:12:23.161Z",
+    "finishedAt": "2026-10-10T21:12:44.505Z",
+    "costUsd": 0.1203048,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 70394); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c06",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:28:33.155Z",
+    "finishedAt": "2026-10-10T21:28:58.851Z",
+    "costUsd": 0.0782358,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c06",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:20:26.695Z",
+    "finishedAt": "2026-10-10T21:20:59.751Z",
+    "costUsd": 0.156576,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c30",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:17:03.932Z",
+    "finishedAt": "2026-10-10T21:17:23.419Z",
+    "costUsd": 0.1455376,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 99036); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c30",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:35.006Z",
+    "finishedAt": "2026-10-10T21:33:59.523Z",
+    "costUsd": 0.0738228,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c30",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:08.818Z",
+    "finishedAt": "2026-10-10T21:25:33.714Z",
+    "costUsd": 0.06991839999999999,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c08",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:12:44.505Z",
+    "finishedAt": "2026-10-10T21:13:59.361Z",
+    "costUsd": 0.5189982000000001,
+    "detail": "exit 0: Reviewer still working: 60 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c08",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:28:58.851Z",
+    "finishedAt": "2026-10-10T21:29:59.914Z",
+    "costUsd": 0.4844972000000001,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c08",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:20:51.111Z",
+    "finishedAt": "2026-10-10T21:21:56.872Z",
+    "costUsd": 0.4884198,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c37",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:18:45.476Z",
+    "finishedAt": "2026-10-10T21:19:16.403Z",
+    "costUsd": 0.24737779999999998,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c37",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:35:03.293Z",
+    "finishedAt": "2026-10-10T21:35:30.045Z",
+    "costUsd": 0.22719360000000002,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c37",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:26:30.857Z",
+    "finishedAt": "2026-10-10T21:26:59.988Z",
+    "costUsd": 0.07958960000000001,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c09",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:12:45.807Z",
+    "finishedAt": "2026-10-10T21:13:05.040Z",
+    "costUsd": 0.0738402,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 73889); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c09",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:29:13.983Z",
+    "finishedAt": "2026-10-10T21:29:43.917Z",
+    "costUsd": 0.0973238,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c09",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:20:59.752Z",
+    "finishedAt": "2026-10-10T21:21:18.913Z",
+    "costUsd": 0.038489999999999996,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 21367); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c36",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:18:15.245Z",
+    "finishedAt": "2026-10-10T21:18:55.993Z",
+    "costUsd": 0.3035042,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c36",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:34:43.077Z",
+    "finishedAt": "2026-10-10T21:35:22.042Z",
+    "costUsd": 0.3009376,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c36",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:26:24.286Z",
+    "finishedAt": "2026-10-10T21:27:05.174Z",
+    "costUsd": 0.3149944,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c31",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:17:04.457Z",
+    "finishedAt": "2026-10-10T21:17:55.146Z",
+    "costUsd": 0.18983589999999995,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c31",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:56.081Z",
+    "finishedAt": "2026-10-10T21:34:34.650Z",
+    "costUsd": 0.17695340000000004,
+    "detail": "exit 0: Correction round 1 of 2: 2 problems, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c31",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:18.973Z",
+    "finishedAt": "2026-10-10T21:25:45.255Z",
+    "costUsd": 0.0707386,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c38",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:18:55.993Z",
+    "finishedAt": "2026-10-10T21:19:12.737Z",
+    "costUsd": 0.114013,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 8413); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c38",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:35:22.043Z",
+    "finishedAt": "2026-10-10T21:35:44.148Z",
+    "costUsd": 0.12914179999999997,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 1344); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c38",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:26:59.989Z",
+    "finishedAt": "2026-10-10T21:27:17.529Z",
+    "costUsd": 0.032700200000000006,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 55418); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c07",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:12:38.349Z",
+    "finishedAt": "2026-10-10T21:13:01.632Z",
+    "costUsd": 0.09131920000000002,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 71903); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c07",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:28:47.412Z",
+    "finishedAt": "2026-10-10T21:29:13.983Z",
+    "costUsd": 0.05270659999999999,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c07",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:20:41.288Z",
+    "finishedAt": "2026-10-10T21:21:03.303Z",
+    "costUsd": 0.0977262,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 18090); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c26",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:50.964Z",
+    "finishedAt": "2026-10-10T21:16:32.374Z",
+    "costUsd": 0.2462136,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c26",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:32:24.023Z",
+    "finishedAt": "2026-10-10T21:33:04.398Z",
+    "costUsd": 0.1310546,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c26",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:24:01.455Z",
+    "finishedAt": "2026-10-10T21:24:44.344Z",
+    "costUsd": 0.28193559999999995,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c19",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:38.532Z",
+    "finishedAt": "2026-10-10T21:15:07.825Z",
+    "costUsd": 0.1080236,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c19",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:31:13.941Z",
+    "finishedAt": "2026-10-10T21:31:38.736Z",
+    "costUsd": 0.0960084,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c19",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:55.836Z",
+    "finishedAt": "2026-10-10T21:23:21.786Z",
+    "costUsd": 0.06917100000000001,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c21",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:15:07.515Z",
+    "finishedAt": "2026-10-10T21:15:30.015Z",
+    "costUsd": 0.17180020000000001,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 88575); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c21",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:31:38.736Z",
+    "finishedAt": "2026-10-10T21:32:00.730Z",
+    "costUsd": 0.1724844,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 80655); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c21",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:23:19.875Z",
+    "finishedAt": "2026-10-10T21:23:39.669Z",
+    "costUsd": 0.0635984,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 34894); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c17",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:27.080Z",
+    "finishedAt": "2026-10-10T21:14:47.270Z",
+    "costUsd": 0.08920200000000002,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 83707); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c17",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:50.119Z",
+    "finishedAt": "2026-10-10T21:31:21.467Z",
+    "costUsd": 0.1209296,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c17",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:34.778Z",
+    "finishedAt": "2026-10-10T21:22:55.836Z",
+    "costUsd": 0.06082380000000001,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 30867); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c28",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:16:27.560Z",
+    "finishedAt": "2026-10-10T21:17:03.931Z",
+    "costUsd": 0.1615946,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c28",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:04.398Z",
+    "finishedAt": "2026-10-10T21:33:35.006Z",
+    "costUsd": 0.14915060000000002,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c28",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:24:37.357Z",
+    "finishedAt": "2026-10-10T21:25:08.818Z",
+    "costUsd": 0.0785028,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c10",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:13:01.632Z",
+    "finishedAt": "2026-10-10T21:13:29.586Z",
+    "costUsd": 0.1870174,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c10",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:29:28.707Z",
+    "finishedAt": "2026-10-10T21:30:06.485Z",
+    "costUsd": 0.143825,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c10",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:21:03.303Z",
+    "finishedAt": "2026-10-10T21:21:29.442Z",
+    "costUsd": 0.2070094,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c11",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:13:05.040Z",
+    "finishedAt": "2026-10-10T21:13:44.339Z",
+    "costUsd": 0.21678019999999998,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c11",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:29:43.917Z",
+    "finishedAt": "2026-10-10T21:30:17.788Z",
+    "costUsd": 0.0906766,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c11",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:21:18.914Z",
+    "finishedAt": "2026-10-10T21:22:17.001Z",
+    "costUsd": 0.2601956,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c16",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:18.863Z",
+    "finishedAt": "2026-10-10T21:14:38.531Z",
+    "costUsd": 0.0928332,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 82346); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c16",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:46.489Z",
+    "finishedAt": "2026-10-10T21:31:13.940Z",
+    "costUsd": 0.0880558,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c16",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:17.002Z",
+    "finishedAt": "2026-10-10T21:22:37.932Z",
+    "costUsd": 0.10598880000000001,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 28978); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c29",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:16:32.375Z",
+    "finishedAt": "2026-10-10T21:17:04.456Z",
+    "costUsd": 0.17129580000000003,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c29",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:16.666Z",
+    "finishedAt": "2026-10-10T21:33:56.081Z",
+    "costUsd": 0.1046858,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c29",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:24:44.345Z",
+    "finishedAt": "2026-10-10T21:25:18.973Z",
+    "costUsd": 0.0846928,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c20",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:47.271Z",
+    "finishedAt": "2026-10-10T21:15:07.515Z",
+    "costUsd": 0.0827782,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 86257); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c20",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:31:21.468Z",
+    "finishedAt": "2026-10-10T21:31:46.525Z",
+    "costUsd": 0.0714796,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c20",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:59.466Z",
+    "finishedAt": "2026-10-10T21:23:19.875Z",
+    "costUsd": 0.053620600000000004,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 32894); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c27",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:16:17.761Z",
+    "finishedAt": "2026-10-10T21:17:50.798Z",
+    "costUsd": 0.3595224,
+    "detail": "exit 0: Reviewer still working: 75 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c27",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:32:53.143Z",
+    "finishedAt": "2026-10-10T21:33:56.931Z",
+    "costUsd": 0.3733504,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c27",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:24:28.981Z",
+    "finishedAt": "2026-10-10T21:25:32.339Z",
+    "costUsd": 0.2852054,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c18",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:14:34.063Z",
+    "finishedAt": "2026-10-10T21:15:27.459Z",
+    "costUsd": 0.22151500000000002,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c18",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:30:52.973Z",
+    "finishedAt": "2026-10-10T21:31:57.580Z",
+    "costUsd": 0.2583952,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c18",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:22:37.932Z",
+    "finishedAt": "2026-10-10T21:23:29.809Z",
+    "costUsd": 0.2274104,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c05",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:12:05.169Z",
+    "finishedAt": "2026-10-10T21:12:38.348Z",
+    "costUsd": 0.1833124,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c05",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:28:11.448Z",
+    "finishedAt": "2026-10-10T21:28:47.412Z",
+    "costUsd": 0.21269,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c05",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:20:11.242Z",
+    "finishedAt": "2026-10-10T21:20:51.111Z",
+    "costUsd": 0.1478082,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c02",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:11:27.864Z",
+    "finishedAt": "2026-10-10T21:12:23.161Z",
+    "costUsd": 0.3236062,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c02",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:27:41.490Z",
+    "finishedAt": "2026-10-10T21:28:33.154Z",
+    "costUsd": 0.2841496,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c02",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:34.857Z",
+    "finishedAt": "2026-10-10T21:20:26.695Z",
+    "costUsd": 0.30986640000000004,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c34",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:17:55.147Z",
+    "finishedAt": "2026-10-10T21:19:09.804Z",
+    "costUsd": 0.5618620000000001,
+    "detail": "exit 0: Reviewer still working: 60 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c34",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:34:19.413Z",
+    "finishedAt": "2026-10-10T21:36:05.629Z",
+    "costUsd": 0.6669723999999999,
+    "detail": "exit 0: Reviewer still working: 90 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c34",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:45.256Z",
+    "finishedAt": "2026-10-10T21:27:47.991Z",
+    "costUsd": 0.7708932000000001,
+    "detail": "exit 0: Reviewer still working: 105 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c33",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:17:50.799Z",
+    "finishedAt": "2026-10-10T21:18:12.299Z",
+    "costUsd": 0.2788522,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 2333); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c33",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:59.523Z",
+    "finishedAt": "2026-10-10T21:34:19.413Z",
+    "costUsd": 0.0492942,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 94189); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c33",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:33.714Z",
+    "finishedAt": "2026-10-10T21:25:56.018Z",
+    "costUsd": 0.04055,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 47598); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c32",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:17:23.420Z",
+    "finishedAt": "2026-10-10T21:18:15.244Z",
+    "costUsd": 0.2502702,
+    "detail": "exit 0: Correction round 1 of 2: 1 problem, 0 unread changed ranges sent to the reviewer | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c32",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:33:56.932Z",
+    "finishedAt": "2026-10-10T21:34:43.077Z",
+    "costUsd": 0.17637339999999999,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c32",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:32.339Z",
+    "finishedAt": "2026-10-10T21:26:30.857Z",
+    "costUsd": 0.29509460000000004,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c35",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:18:12.299Z",
+    "finishedAt": "2026-10-10T21:18:45.475Z",
+    "costUsd": 0.1829892,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c35",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:34:34.650Z",
+    "finishedAt": "2026-10-10T21:35:03.293Z",
+    "costUsd": 0.1775002,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c35",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:25:56.019Z",
+    "finishedAt": "2026-10-10T21:26:24.286Z",
+    "costUsd": 0.07296419999999999,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c03",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:11:27.865Z",
+    "finishedAt": "2026-10-10T21:11:58.539Z",
+    "costUsd": 0.1277926,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c03",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:27:47.992Z",
+    "finishedAt": "2026-10-10T21:28:11.448Z",
+    "costUsd": 0.0735384,
+    "detail": "exit 0: Reviewer: claude 2.1.296 started (process 60014); this takes one to three minutes | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c03",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:45.251Z",
+    "finishedAt": "2026-10-10T21:20:11.241Z",
+    "costUsd": 0.121921,
+    "detail": "exit 0: Reviewer still working: 15 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c04",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:11:58.541Z",
+    "finishedAt": "2026-10-10T21:12:45.806Z",
+    "costUsd": 0.2636542,
+    "detail": "exit 0: Reviewer still working: 30 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c04",
+    "repeat": 3,
+    "status": "done",
+    "startedAt": "2026-10-10T21:28:10.872Z",
+    "finishedAt": "2026-10-10T21:29:28.706Z",
+    "costUsd": 0.33524900000000013,
+    "detail": "exit 0: Reviewer still working: 60 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "openqodex",
+    "caseId": "real-scored-c04",
+    "repeat": 2,
+    "status": "done",
+    "startedAt": "2026-10-10T21:19:46.758Z",
+    "finishedAt": "2026-10-10T21:20:41.288Z",
+    "costUsd": 0.2690732,
+    "detail": "exit 0: Reviewer still working: 45 s | Report: <local path> | Markdown: <local path>"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c22",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:10:59.307Z",
+    "finishedAt": "2026-10-11T00:13:07Z",
+    "costUsd": null,
+    "detail": "review 5481291263"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c25",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:12:02.273Z",
+    "finishedAt": "2026-10-11T00:14:29Z",
+    "costUsd": null,
+    "detail": "review 5481294640"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c13",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:03:45.748Z",
+    "finishedAt": "2026-10-11T00:06:07Z",
+    "costUsd": null,
+    "detail": "review 5481272734"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c14",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:04:18.416Z",
+    "finishedAt": "2026-10-11T00:08:09Z",
+    "costUsd": null,
+    "detail": "review 5481278513"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c40",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:23:52.195Z",
+    "finishedAt": "2026-10-11T00:26:15Z",
+    "costUsd": null,
+    "detail": "review 5481331408"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c15",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:04:48.774Z",
+    "finishedAt": "2026-10-11T00:07:05Z",
+    "costUsd": null,
+    "detail": "review 5481275266"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c12",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:02:14.985Z",
+    "finishedAt": "2026-10-11T00:05:40Z",
+    "costUsd": null,
+    "detail": "review 5481271663"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c24",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:12:00.084Z",
+    "finishedAt": "2026-10-11T00:14:09Z",
+    "costUsd": null,
+    "detail": "review 5481293730"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c23",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:11:29.150Z",
+    "finishedAt": "2026-10-11T00:15:22Z",
+    "costUsd": null,
+    "detail": "review 5481297726"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c01",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:55:02.195Z",
+    "finishedAt": "2026-10-10T23:57:17Z",
+    "costUsd": null,
+    "detail": "review 5481250132"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c39",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:23:50.957Z",
+    "finishedAt": "2026-10-11T00:26:21Z",
+    "costUsd": null,
+    "detail": "review 5481331752"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c06",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:57:37.080Z",
+    "finishedAt": "2026-10-10T23:59:58Z",
+    "costUsd": null,
+    "detail": "review 5481256411"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c30",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:17:10.489Z",
+    "finishedAt": "2026-10-11T00:19:24Z",
+    "costUsd": null,
+    "detail": "review 5481311601"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c08",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:59:38.981Z",
+    "finishedAt": "2026-10-11T00:03:15Z",
+    "costUsd": null,
+    "detail": "review 5481264726"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c37",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:21:16.513Z",
+    "finishedAt": "2026-10-11T00:23:29Z",
+    "costUsd": null,
+    "detail": "review 5481322248"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c09",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:00:11.653Z",
+    "finishedAt": "2026-10-11T00:02:05Z",
+    "costUsd": null,
+    "detail": "review 5481261692"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c36",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:21:14.791Z",
+    "finishedAt": "2026-10-11T00:24:20Z",
+    "costUsd": null,
+    "detail": "review 5481325059"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c31",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:17:41.158Z",
+    "finishedAt": "2026-10-11T00:20:25Z",
+    "costUsd": null,
+    "detail": "review 5481313927"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c38",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:23:50.559Z",
+    "finishedAt": "2026-10-11T00:26:10Z",
+    "costUsd": null,
+    "detail": "review 5481331196"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c07",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:58:38.239Z",
+    "finishedAt": "2026-10-11T00:00:48Z",
+    "costUsd": null,
+    "detail": "review 5481258321"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c26",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:13:33.173Z",
+    "finishedAt": "2026-10-11T00:17:10Z",
+    "costUsd": null,
+    "detail": "review 5481304226"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c19",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:08:25.557Z",
+    "finishedAt": "2026-10-11T00:10:56Z",
+    "costUsd": null,
+    "detail": "review 5481285995"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c21",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:08:53.965Z",
+    "finishedAt": "2026-10-11T00:11:16Z",
+    "costUsd": null,
+    "detail": "review 5481286747"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c17",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:06:19.611Z",
+    "finishedAt": "2026-10-11T00:08:33Z",
+    "costUsd": null,
+    "detail": "review 5481279771"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c28",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:14:36.657Z",
+    "finishedAt": "2026-10-11T00:17:00Z",
+    "costUsd": null,
+    "detail": "review 5481303663"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c10",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:00:42.167Z",
+    "finishedAt": "2026-10-11T00:04:16Z",
+    "costUsd": null,
+    "detail": "review 5481268250"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c11",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:01:12.909Z",
+    "finishedAt": "2026-10-11T00:04:44Z",
+    "costUsd": null,
+    "detail": "review 5481269350"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c16",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:05:52.023Z",
+    "finishedAt": "2026-10-11T00:08:25Z",
+    "costUsd": null,
+    "detail": "review 5481279346"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c29",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:15:35.910Z",
+    "finishedAt": "2026-10-11T00:18:38Z",
+    "costUsd": null,
+    "detail": "review 5481309093"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c20",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:08:26.375Z",
+    "finishedAt": "2026-10-11T00:11:34Z",
+    "costUsd": null,
+    "detail": "review 5481287481"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c27",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:14:34.549Z",
+    "finishedAt": "2026-10-11T00:18:03Z",
+    "costUsd": null,
+    "detail": "review 5481307266"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c18",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:07:22.816Z",
+    "finishedAt": "2026-10-11T00:11:45Z",
+    "costUsd": null,
+    "detail": "review 5481287924"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c05",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:57:36.572Z",
+    "finishedAt": "2026-10-11T00:00:20Z",
+    "costUsd": null,
+    "detail": "review 5481257243"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c02",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:55:02.196Z",
+    "finishedAt": "2026-10-10T23:58:19Z",
+    "costUsd": null,
+    "detail": "review 5481252575"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c34",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:19:44.846Z",
+    "finishedAt": "2026-10-11T00:23:48Z",
+    "costUsd": null,
+    "detail": "review 5481323274"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c33",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:18:40.984Z",
+    "finishedAt": "2026-10-11T00:20:44Z",
+    "costUsd": null,
+    "detail": "review 5481314614"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c32",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:18:10.923Z",
+    "finishedAt": "2026-10-11T00:20:55Z",
+    "costUsd": null,
+    "detail": "review 5481315043"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c35",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-11T00:20:46.016Z",
+    "finishedAt": "2026-10-11T00:23:31Z",
+    "costUsd": null,
+    "detail": "review 5481322478"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c03",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:55:02.196Z",
+    "finishedAt": "2026-10-10T23:57:33Z",
+    "costUsd": null,
+    "detail": "review 5481250744"
+  },
+  {
+    "arm": "shadowclone-cloud",
+    "caseId": "real-scored-c04",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:55:02.196Z",
+    "finishedAt": "2026-10-10T23:59:37Z",
+    "costUsd": null,
+    "detail": "review 5481255556"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c22",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:18:19Z",
+    "finishedAt": "2026-10-10T23:22:16Z",
+    "costUsd": null,
+    "detail": "review 6103271162"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c25",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:23:24.308Z",
+    "finishedAt": "2026-10-10T23:27:05Z",
+    "costUsd": null,
+    "detail": "review 5481181291"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c13",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:28:48Z",
+    "finishedAt": "2026-10-10T22:32:07Z",
+    "costUsd": null,
+    "detail": "review 6102885506"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c14",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:28:49.967Z",
+    "finishedAt": "2026-10-10T22:32:30Z",
+    "costUsd": null,
+    "detail": "review 5481046615"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c40",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:47:47.726Z",
+    "finishedAt": "2026-10-10T23:50:07Z",
+    "costUsd": null,
+    "detail": "review 6103472616"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c15",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:29:51Z",
+    "finishedAt": "2026-10-10T22:32:58Z",
+    "costUsd": null,
+    "detail": "review 6102892424"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c12",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:25:44.247Z",
+    "finishedAt": "2026-10-10T22:30:20Z",
+    "costUsd": null,
+    "detail": "review 5481037981"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c24",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:20:50.503Z",
+    "finishedAt": "2026-10-10T23:23:17Z",
+    "costUsd": null,
+    "detail": "review 5481172284"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c23",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:18:47.377Z",
+    "finishedAt": "2026-10-10T23:24:46Z",
+    "costUsd": null,
+    "detail": "review 5481175804"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c01",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:36:16Z",
+    "finishedAt": "2026-10-10T21:38:42Z",
+    "costUsd": null,
+    "detail": "review 6102449083"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c39",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:47:17.866Z",
+    "finishedAt": "2026-10-10T23:50:10Z",
+    "costUsd": null,
+    "detail": "review 5481233956"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c06",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:40:21.929Z",
+    "finishedAt": "2026-10-10T21:42:59Z",
+    "costUsd": null,
+    "detail": "review 5480905312"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c30",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:35:59.779Z",
+    "finishedAt": "2026-10-10T23:38:58Z",
+    "costUsd": null,
+    "detail": "review 5481208611"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c08",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:43:26Z",
+    "finishedAt": "2026-10-10T21:48:02Z",
+    "costUsd": null,
+    "detail": "review 6102526100"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c37",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:44:42.503Z",
+    "finishedAt": "2026-10-10T23:47:42Z",
+    "costUsd": null,
+    "detail": "review 6103455617"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c09",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:43:28Z",
+    "finishedAt": "2026-10-10T21:45:48Z",
+    "costUsd": null,
+    "detail": "review 6102507554"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c36",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:43:10.932Z",
+    "finishedAt": "2026-10-10T23:46:57Z",
+    "costUsd": null,
+    "detail": "review 5481226974"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c31",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:35:59.779Z",
+    "finishedAt": "2026-10-10T23:39:08Z",
+    "costUsd": null,
+    "detail": "review 5481208969"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c38",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:45:13.807Z",
+    "finishedAt": "2026-10-10T23:47:40Z",
+    "costUsd": null,
+    "detail": "review 5481228434"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c07",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:40:22Z",
+    "finishedAt": "2026-10-10T21:42:51Z",
+    "costUsd": null,
+    "detail": "review 6102482745"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c26",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:24:55.988Z",
+    "finishedAt": "2026-10-10T23:29:04Z",
+    "costUsd": null,
+    "detail": "review 5481185968"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c19",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:15:13Z",
+    "finishedAt": "2026-10-10T23:17:25Z",
+    "costUsd": null,
+    "detail": "review 6103234830"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c21",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:17:15.132Z",
+    "finishedAt": "2026-10-10T23:20:21Z",
+    "costUsd": null,
+    "detail": "review 5481165175"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c17",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:32:56Z",
+    "finishedAt": "2026-10-10T22:34:57Z",
+    "costUsd": null,
+    "detail": "review 6102908586"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c28",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:29:33Z",
+    "finishedAt": "2026-10-10T23:32:22Z",
+    "costUsd": null,
+    "detail": "review 6103346038"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c10",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:21:39.003Z",
+    "finishedAt": "2026-10-10T22:25:08Z",
+    "costUsd": null,
+    "detail": "review 5481022339"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c11",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:25:14.174Z",
+    "finishedAt": "2026-10-10T22:29:31Z",
+    "costUsd": null,
+    "detail": "review 5481034923"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c16",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T22:30:51Z",
+    "finishedAt": "2026-10-10T22:33:06Z",
+    "costUsd": null,
+    "detail": "review 6102893540"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c29",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:32:07Z",
+    "finishedAt": "2026-10-10T23:35:56Z",
+    "costUsd": null,
+    "detail": "review 5481201520"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c20",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:16:13.228Z",
+    "finishedAt": "2026-10-10T23:18:40Z",
+    "costUsd": null,
+    "detail": "review 5481161129"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c27",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:27:30.243Z",
+    "finishedAt": "2026-10-10T23:31:54Z",
+    "costUsd": null,
+    "detail": "review 5481192333"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c18",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:14:10.704Z",
+    "finishedAt": "2026-10-10T23:16:55Z",
+    "costUsd": null,
+    "detail": "review 5481156927"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c05",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:39:21.116Z",
+    "finishedAt": "2026-10-10T21:43:18Z",
+    "costUsd": null,
+    "detail": "review 5480906117"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c02",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:36:16.405Z",
+    "finishedAt": "2026-10-10T21:40:00Z",
+    "costUsd": null,
+    "detail": "review 5480897687"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c34",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:39:35.109Z",
+    "finishedAt": "2026-10-10T23:45:05Z",
+    "costUsd": null,
+    "detail": "review 5481222753"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c33",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:39:04.358Z",
+    "finishedAt": "2026-10-10T23:42:23Z",
+    "costUsd": null,
+    "detail": "review 6103418148"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c32",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:35:59.780Z",
+    "finishedAt": "2026-10-10T23:40:10Z",
+    "costUsd": null,
+    "detail": "review 5481211246"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c35",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T23:40:36.675Z",
+    "finishedAt": "2026-10-10T23:44:30Z",
+    "costUsd": null,
+    "detail": "review 5481221406"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c03",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:36:16.405Z",
+    "finishedAt": "2026-10-10T21:38:52Z",
+    "costUsd": null,
+    "detail": "review 5480894964"
+  },
+  {
+    "arm": "greptile",
+    "caseId": "real-scored-c04",
+    "repeat": 1,
+    "status": "done",
+    "startedAt": "2026-10-10T21:36:16.406Z",
+    "finishedAt": "2026-10-10T21:39:59Z",
+    "costUsd": null,
+    "detail": "review 5480897647"
+  }
+]
