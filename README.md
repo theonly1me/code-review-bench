@@ -13,6 +13,35 @@ It runs each reviewer through its public CLI or its pull request bot. It has no 
 
 [`docs/method.md`](docs/method.md) explains the case format, the arms, the graders, and the rules that keep the comparison fair.
 
+[`results/2026-10-vite`](results/2026-10-vite/README.md) has the first published run.
+
+## Quick start
+
+Use your own accounts. Nothing in this repository points at another person's bot or repository.
+
+1. Install Bun 1.4.2, Node.js, Git, and the GitHub CLI. Sign in to Claude Code and Codex. Install the review linters that [Requirements](#requirements) lists.
+2. Install the reviewers that you want to compare:
+   - Shadowclone: `npm install --global @shadowclone/cli`.
+   - OpenQodex: `npx -y openqodex@0.11.0 doctor --install --all-scanners`.
+3. Run the local reviewers, the judges, and the report:
+
+   ```bash
+   bun install
+   WORK=~/review-bench RUN=my-run scripts/run-vite.sh
+   ```
+
+4. To add the pull request bots, create an empty public repository for the case copies, then:
+   1. Copy the cases to it: `bun src/cli.ts copy --work ~/review-bench --suite real --split scored --eval-repo <owner/name>`. This pushes `main` and opens 40 draft pull requests.
+   2. Install Greptile on it from your Greptile account, and turn on reviews for it in the Greptile dashboard.
+   3. Run `shadowclone bot setup --app --repo <owner/name>`. It registers a GitHub App that you own. Add your Claude token to the `shadowclone` environment, and merge the setup pull request.
+   4. Run the script again with the repository and your App login:
+
+      ```bash
+      WORK=~/review-bench RUN=my-run EVAL_REPO=<owner/name> SHADOWCLONE_BOT=<app login> scripts/run-vite.sh
+      ```
+
+The script resumes a run, so a second call skips the reviews that are done. `LOCAL_ARMS` and `REPEATS` change the local reviewers and the runs for each case.
+
 ## Arms
 
 - `shadowclone`: `shadowclone review --base main --model <model> --output review.json`, with checks and network on.
